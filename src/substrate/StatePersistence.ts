@@ -36,11 +36,31 @@ export function defaultState(): CosmosPersistedState {
   };
 }
 
+/** Wave 28 — the ONE live state object (the loader's). Room memory helpers
+ *  below read/write its `memory` blob so a room's writes are never clobbered
+ *  by the loader's own pagehide/travel saves of a stale copy. */
+let live: CosmosPersistedState | null = null;
+
+/** Read a namespaced room/cosmo memory (e.g. 'forest.clearing.counts'). */
+export function readMemory<T>(key: string, fallback: T): T {
+  const st = live ?? (live = loadState());
+  const v = st.memory[key];
+  return v === undefined ? fallback : (v as T);
+}
+
+/** Write a namespaced memory and persist. Cheap enough to call per event. */
+export function writeMemory(key: string, value: unknown): void {
+  const st = live ?? (live = loadState());
+  st.memory[key] = value;
+  saveState(st);
+}
+
 export function loadState(): CosmosPersistedState {
-  if (typeof window === 'undefined' || !window.localStorage) return defaultState();
+  if (live) return live;
+  if (typeof window === 'undefined' || !window.localStorage) return (live = defaultState());
   try {
     const raw = window.localStorage.getItem(KEY);
-    if (!raw) return defaultState();
+    if (!raw) return (live = defaultState());
     const parsed = JSON.parse(raw) as Partial<CosmosPersistedState>;
     if (parsed.version !== 1) {
       // eslint-disable-next-line no-console
@@ -48,11 +68,11 @@ export function loadState(): CosmosPersistedState {
       return defaultState();
     }
     // Spread on top of defaults so missing fields backfill cleanly.
-    return { ...defaultState(), ...parsed, version: 1 };
+    return (live = { ...defaultState(), ...parsed, version: 1 });
   } catch (err) {
     // eslint-disable-next-line no-console
     console.warn('[substrate/state] localStorage read failed — using defaults', err);
-    return defaultState();
+    return (live = defaultState());
   }
 }
 

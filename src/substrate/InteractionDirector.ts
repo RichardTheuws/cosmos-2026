@@ -28,6 +28,16 @@ import {
   choose, createInnerState, idleWaitFor, onPet, onVisit, paceFor, tickInner, wantsSleep,
   type InnerState,
 } from './innerLife';
+import { restoredEnergy, restoredZin } from './clock';
+import { readMemory, writeMemory } from './StatePersistence';
+
+/** Persisted shape of the inner life (Wave 28 system 3). */
+interface SavedInner {
+  energy: number;
+  zin: number;
+  affection: number;
+  savedAt: number;
+}
 
 /** Minimum gap between two self-initiated visits. */
 export const CURIOSITY_COOLDOWN_S = 9;
@@ -59,8 +69,27 @@ export class InteractionDirector {
   private lastUsedId: string | null = null;
   private readonly api: UseApi;
   /** Wave 28 — system 2. What he wants; read him from what he does. */
-  readonly inner: InnerState = createInnerState();
+  readonly inner: InnerState = InteractionDirector.restoreInner();
   private sleepingInPlace = false;
+  private saveAccS = 0;
+
+  /** He is the same Cosmo you left: energy and appetite come back with the
+   *  hours you were away (never lowered), affection is remembered as-is. */
+  private static restoreInner(): InnerState {
+    const s = createInnerState();
+    const saved = readMemory<SavedInner | null>('cosmo.inner', null);
+    if (!saved) return s;
+    const away = Date.now() - (saved.savedAt || Date.now());
+    s.energy = restoredEnergy(saved.energy, away);
+    s.zin = restoredZin(saved.zin, away);
+    s.affection = saved.affection;
+    return s;
+  }
+
+  private saveInner(): void {
+    const { energy, zin, affection } = this.inner;
+    writeMemory('cosmo.inner', { energy, zin, affection, savedAt: Date.now() } as SavedInner);
+  }
 
   constructor(deps: InteractionDirectorDeps) {
     this.deps = deps;
@@ -112,6 +141,7 @@ export class InteractionDirector {
     this.t += dt;
     const agent = this.deps.cosmoAgent;
     tickInner(this.inner, dt, agent.isBusy);
+    if ((this.saveAccS += dt) > 10) { this.saveAccS = 0; this.saveInner(); }
     if (this.sleepingInPlace && !agent.isBusy) {
       // He woke up from a sleep-in-place: rested, but not as well as a nap-cap.
       this.sleepingInPlace = false;
@@ -179,6 +209,7 @@ export class InteractionDirector {
       // Still mounted? (room may have switched while walking)
       if (!this.deps.interactables().includes(handle)) return;
       onVisit(this.inner, handle.id, nature, askedByYou);
+      this.saveInner();
       handle.onUse(agent.rig, this.api);
     });
   }

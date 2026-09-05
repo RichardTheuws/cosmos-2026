@@ -116,6 +116,8 @@ export interface InteractableHandle {
 
 Cosmo has an inner life (`src/substrate/innerLife.ts`): energy, appetite for something new, and how he feels about you. Wild play tires him; tired he trudges; sleepy he goes to the room's `rest` interactable (or sleeps where he stands if there is none) and wakes rested. Give every room one `rest` and one `calm` thing, or he has nowhere to come down.
 
+A room can remember. `readMemory(key, fallback)` / `writeMemory(key, value)` from `src/substrate/StatePersistence.ts` give you a namespaced slot in the visitor's persisted state (`'forest.clearing.counts'`, `'forest.clearing.garden'`). Use it for what should still be true tomorrow — what they raised, what grew. `src/substrate/clock.ts` gives you the local hour (`currentHour()`, `?hour=` override), a dawn/day/dusk/night blend (`phaseFor`), and a calendar day-key, so a room can wash with real time and notice a new day.
+
 Authored via `behavior.interactables(ctx)` returning an `InteractableHandle[]`. Default: empty array. A complete interaction is two lines: `api.playClip('stretch', { holdS: 4 }); api.sfx('cling');`. The Clearing (`universes/forest/behavior.ts`) is the reference: trampoline, spore-puddle, sunbeam-patch, nap-cap — from wild to slow.
 
 The distinction matters because the companion-AI treats them differently. Inhabitants are *seen*; Interactables are *targeted*. A trampoline is an Interactable. The eyeball-sentry watching Cosmo bounce is an Inhabitant.

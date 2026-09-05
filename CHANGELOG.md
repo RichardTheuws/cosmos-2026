@@ -4,6 +4,15 @@ Alle wijzigingen volgen [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 De `/updates/` pagina wordt automatisch uit dit bestand gegenereerd via `npm run updates:build`.
 
+## [2.9.0] — 2026-09-05 — Wave 28 · system 3: the clearing's clock
+
+The third Wave-28 system: **return-factor** — tomorrow is not today.
+
+### Added
+- **Real time over the room.** The clearing follows your local clock: night (23–05) dims the world by half and brings the stars out; dusk (17–22) is a rose wash the canopy catches; dawn a pale lift. Eased, so a phone locked mid-transition never snaps. `?hour=22` overrides it for authoring. (`src/substrate/clock.ts`, pure + tested.)
+- **The garden.** A small arc of glow-caps beside the spore-puddle. One more sprouts for every calendar day you come (up to seven) and it is still there tomorrow. On the day it grows, the new cap rises out of the moss with a soft bloom — something that only happens because you came back.
+- **Memory.** What you did here is still true tomorrow: the tier counts persist (raise the spores three times and the haze is hanging when you return). Cosmo's inner life persists too — his energy and appetite come back with the hours you were away, his affection is remembered. `readMemory` / `writeMemory` in `StatePersistence` are the authoring surface (documented in `ROOM-AUTHORING.md`).
+
 ## [2.8.0] — 2026-09-05 — Wave 28 · system 2: Cosmo's inner life
 
 The second of the three Wave-28 systems: **stickiness** — something that keeps going while you watch. Cosmo wants things now.

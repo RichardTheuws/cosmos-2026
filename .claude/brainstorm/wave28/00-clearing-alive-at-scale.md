@@ -11,7 +11,7 @@ Three systems, one room, each mapped to one of those words:
 |---|--------|-----------------|--------|
 | 1 | **The world answers in layers** — every clearing interactable has tiers; the room itself changes (canopy, stars, haze, dusk, dream) | amazement | v2.7.0 |
 | 2 | **Cosmo's inner life** — energy / zin / affection drive what he chooses, how fast he goes, when he sleeps | stickiness | v2.8.0 |
-| 3 | **The clearing's clock** — real-time day/night + one thing that grows per visit (persisted) | return-factor | next |
+| 3 | **The clearing's clock** — real-time day/night + one thing that grows per visit (persisted) | return-factor | v2.9.0 |
 
 ## System 1 — design (v2.7.0)
 
@@ -54,3 +54,20 @@ sleeps where he stands for 14 s if the room has none. Eager (zin > 0.8, energy >
 Contract: `InteractableHandle.nature?: 'wild' | 'play' | 'calm' | 'rest'` (default play).
 Clearing: trampoline wild · puddle play · sunbeam calm · nap-cap rest. Deep grove:
 echo-cap + portal-greeting calm (no rest → he sleeps in place there).
+
+## System 3 — design (v2.9.0)
+
+`src/substrate/clock.ts` (pure, tested) + `readMemory`/`writeMemory` on the persisted state.
+
+- **The clock.** `phaseFor(localHour)` → night (23–05, fades 20→23 and 05→07) · dusk (17–22, rose) ·
+  dawn (05–09, pale). ClearingResponse eases a veil to 50 % at night (stars out, bloom −0.15),
+  28 % rose at dusk (the canopy catches the evening), 12 % at dawn. The nap's dusk/dream and the
+  clock's veil combine as "whichever is deeper". `?hour=22` overrides for authoring/UAT.
+- **The garden.** `SporeGarden`: an arc of glow-caps beside the puddle, one more for every
+  calendar day you come (cap 7), persisted. On the day it grows, the new cap rises out of the
+  moss over 4 s with a bloom.
+- **Memory.** Tier counts persist (`forest.clearing.counts`) — the spores you raised are still
+  hanging tomorrow (sticky haze restores on enter). Cosmo's inner life persists (`cosmo.inner`);
+  energy comes back +0.15/h away, zin +0.1/h, affection is remembered.
+
+Gate: come back tomorrow and name what is different.

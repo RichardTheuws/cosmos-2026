@@ -28,6 +28,8 @@ import { assetPath } from '../../src/core/assetPath';
 import { COSMO_COO_POOL } from '../../src/audio/sfxBus';
 import { HALLUCINATION_PEAKS } from '../../src/audio/audioFFTBridge';
 import { envelope, tierFor } from '../../src/substrate/escalation';
+import { currentHour, dayKey, gardenOnArrival, phaseFor } from '../../src/substrate/clock';
+import { readMemory, writeMemory } from '../../src/substrate/StatePersistence';
 import type { GlobalUniforms } from '../../src/core/globalUniforms';
 import type { CosmoV2Rig } from '../../src/three/cosmoV2';
 import type { UseApi } from '../../src/substrate/contracts/BehaviorContract';
@@ -384,8 +386,15 @@ class ClearingResponse implements InhabitantHandle {
   private group = new THREE.Group();
   private timeS = 0;
 
-  // counts (per session)
-  private counts = { trampoline: 0, puddle: 0, sunbeam: 0, nap: 0 };
+  // counts — persisted (Wave 28 system 3): what you did here is still true tomorrow.
+  private counts = readMemory('forest.clearing.counts', { trampoline: 0, puddle: 0, sunbeam: 0, nap: 0 });
+  private saveCounts(): void { writeMemory('forest.clearing.counts', this.counts); }
+  // ── the clock (system 3): real-time dawn / day / dusk / night over the room
+  private clockVeil = 0;
+  private clockColor = new THREE.Color(0x1d1426);
+  private static readonly NIGHT = new THREE.Color(0x1d1426);
+  private static readonly DUSK = new THREE.Color(0x4a2438);
+  private static readonly DAWN = new THREE.Color(0x3b3556);
 
   // ── canopy glow (tier 2 trampoline)
   private canopy: THREE.Mesh;
@@ -471,6 +480,9 @@ class ClearingResponse implements InhabitantHandle {
     this.group.add(this.veil);
 
     ctx.scene.add(this.group);
+
+    // What you did here before is still true: the spores you raised stay.
+    if (this.counts.puddle >= 3) { this.hazeSticky = true; this.hazeFx = { t: 0, total: Infinity }; }
   }
 
   private static makeSoftTexture(): THREE.Texture {
@@ -493,6 +505,7 @@ class ClearingResponse implements InhabitantHandle {
   /** Trampoline visit. Returns the tier that fired (for the interactable's SFX). */
   trampolineVisit(): 1 | 2 | 3 {
     const tier = tierFor(++this.counts.trampoline, { tier2At: 3, tier3At: 5, every: 5 });
+    this.saveCounts();
     if (tier === 2) {
       this.canopyFx = { t: 0, total: 8 };
       this.ctx.globalUniforms.kaleidoTrigger = Math.max(this.ctx.globalUniforms.kaleidoTrigger, 0.8);
@@ -507,6 +520,7 @@ class ClearingResponse implements InhabitantHandle {
 
   puddleVisit(): 1 | 2 | 3 {
     const tier = tierFor(++this.counts.puddle, { tier2At: 2, tier3At: 3 });
+    this.saveCounts();
     if (tier === 2) this.hazeFx = { t: 0, total: 60 };
     else if (tier === 3) { this.hazeSticky = true; this.hazeFx = { t: 0, total: Infinity }; }
     else if (this.hazeFx && this.hazeFx.total !== Infinity) this.hazeFx.t = Math.min(this.hazeFx.t, 4); // re-brighten
@@ -516,6 +530,7 @@ class ClearingResponse implements InhabitantHandle {
   /** Sunbeam visit at (x,z). Tier 3 = the beam widens, a dust column rises. */
   sunbeamVisit(x: number, z: number): 1 | 2 | 3 {
     const tier = tierFor(++this.counts.sunbeam, { tier2At: 0, tier3At: 3, every: 3 });
+    this.saveCounts();
     if (tier === 3) { this.dustFx = { t: 0, total: 20 }; this.dustAt = { x, z }; }
     return tier;
   }
@@ -524,6 +539,7 @@ class ClearingResponse implements InhabitantHandle {
    *  rest). Returns the tier; the caller holds Cosmo for `holdFor(tier)`. */
   napRest(holdS: { rest: number; dream: number }): 1 | 2 | 3 {
     const tier = tierFor(++this.counts.nap, { tier2At: 1, tier3At: 2, every: 1 });
+    this.saveCounts();
     this.dreaming = tier === 3;
     this.duskDepth = this.dreaming ? 0.7 : 0.45;
     const hold = this.dreaming ? holdS.dream : holdS.rest;
@@ -544,14 +560,17 @@ class ClearingResponse implements InhabitantHandle {
     let chroma = 0;
     let fluid = 0;
 
-    // Canopy glow
+    // Canopy glow (tier 2/3) — plus a soft evening catch from the clock.
+    let canopyE = 0;
     if (this.canopyFx) {
       this.canopyFx.t += dt;
-      const e = envelope(this.canopyFx.t, this.canopyFx.total, 1.2, 3.5);
-      (this.canopy.material as THREE.MeshBasicMaterial).opacity = 0.55 * e * (1 + 0.06 * Math.sin(this.timeS * 2.1));
-      bloom += 0.25 * e;
+      canopyE = envelope(this.canopyFx.t, this.canopyFx.total, 1.2, 3.5);
+      bloom += 0.25 * canopyE;
       if (this.canopyFx.t >= this.canopyFx.total) this.canopyFx = null;
     }
+    const evening = phaseFor(currentHour()).dusk * 0.18;
+    (this.canopy.material as THREE.MeshBasicMaterial).opacity =
+      Math.max(0.55 * canopyE * (1 + 0.06 * Math.sin(this.timeS * 2.1)), evening);
 
     // Stars: shower (falling) or dusk sky (twinkle), else hidden.
     let shower = 0;
@@ -560,6 +579,26 @@ class ClearingResponse implements InhabitantHandle {
       shower = envelope(this.showerFx.t, this.showerFx.total, 1.5, 3);
     }
     const duskE = this.duskFx ? envelope(this.duskFx.t, this.duskFx.total, 3, 4) : 0;
+
+    // The clock — real time over the room. Night dims 50 % and brings the
+    // stars out; dusk is a rose wash; dawn a pale lift. Eased so a phone
+    // that was locked mid-transition doesn't snap.
+    const ph = phaseFor(currentHour());
+    const clockTarget = 0.5 * ph.night + 0.28 * ph.dusk + 0.12 * ph.dawn;
+    this.clockVeil += (clockTarget - this.clockVeil) * Math.min(1, dt * 0.5);
+    const wSum = ph.night + ph.dusk + ph.dawn || 1;
+    this.clockColor.copy(ClearingResponse.NIGHT).multiplyScalar(ph.night / wSum)
+      .add(ClearingResponse.DUSK.clone().multiplyScalar(ph.dusk / wSum))
+      .add(ClearingResponse.DAWN.clone().multiplyScalar(ph.dawn / wSum));
+    if (wSum < 0.001) this.clockColor.copy(ClearingResponse.NIGHT);
+    const nightStars = ph.night * 0.8;
+    bloom -= 0.15 * ph.night;
+    if (ph.dusk > 0) { // the canopy catches the evening
+      (this.canopy.material as THREE.MeshBasicMaterial).color.setHex(0xf08a6a);
+    } else {
+      (this.canopy.material as THREE.MeshBasicMaterial).color.setHex(0xf4c46a);
+    }
+
     if (this.showerFx && shower > 0) {
       const st = this.showerFx.t;
       for (let i = 0; i < this.stars.length; i++) {
@@ -571,12 +610,13 @@ class ClearingResponse implements InhabitantHandle {
       }
       kaleido += 0.4 * shower;
       fluid += 0.25 * shower;
-    } else if (duskE > 0) {
+    } else if (duskE > 0 || nightStars > 0) {
+      const sky = Math.max(duskE * (this.dreaming ? 1 : 0.7), nightStars);
       for (let i = 0; i < this.stars.length; i++) {
         const sp = this.stars[i];
         sp.position.set(-3.6 + ((i * 0.37) % 7.2), 2.2 + ((i * 0.53) % 1.6), -4.6);
         const tw = 0.5 + 0.5 * Math.sin(this.timeS * (0.8 + (i % 4) * 0.3) + i);
-        (sp.material as THREE.SpriteMaterial).opacity = duskE * (0.35 + 0.5 * tw) * (this.dreaming ? 1 : 0.7);
+        (sp.material as THREE.SpriteMaterial).opacity = sky * (0.35 + 0.5 * tw);
         sp.visible = true;
       }
     } else {
@@ -599,8 +639,8 @@ class ClearingResponse implements InhabitantHandle {
         (sp.material as THREE.SpriteMaterial).opacity = 0.7 * e * (0.5 + 0.5 * Math.sin(this.timeS * 1.3 + i * 0.9));
         sp.visible = true;
       }
-      bloom += (this.hazeSticky ? 0.3 : 0.15) * e;
-      chroma += (this.hazeSticky ? 0.2 : 0.05) * e;
+      bloom += (this.hazeSticky ? 0.2 : 0.12) * e;
+      chroma += (this.hazeSticky ? 0.15 : 0.05) * e;
       if (!this.hazeSticky && this.hazeFx.t >= this.hazeFx.total) {
         this.hazeFx = null;
         for (const sp of this.hazeMotes) sp.visible = false;
@@ -608,10 +648,12 @@ class ClearingResponse implements InhabitantHandle {
       }
     }
 
-    // Dusk / dream
+    // Dusk / dream (nap) + the clock's own veil: whichever is deeper.
+    const veilMat = this.veil.material as THREE.MeshBasicMaterial;
+    veilMat.color.copy(this.clockColor);
+    veilMat.opacity = Math.max(this.clockVeil, this.duskFx ? this.duskDepth * duskE : 0);
     if (this.duskFx) {
       this.duskFx.t += dt;
-      (this.veil.material as THREE.MeshBasicMaterial).opacity = this.duskDepth * duskE;
       bloom -= 0.2 * duskE;
       if (this.dreaming) {
         kaleido += 0.3 * duskE;
@@ -670,6 +712,90 @@ class ClearingResponse implements InhabitantHandle {
   }
 }
 
+/* ── SporeGarden (NEW, Wave 28 — system 3: one thing that grows per visit) ─────
+ *
+ * A small arc of glow-caps beside the spore-puddle. One more sprouts for every
+ * calendar day you come (capped at seven), and it is STILL THERE tomorrow —
+ * `forest.clearing.garden` in the persisted state. On the day it grows, the
+ * new cap rises out of the moss over four seconds with a soft bloom, so a
+ * returning visitor sees something happen that only happens because they
+ * came back. Calm baseline: the caps breathe on offset sines.
+ */
+class SporeGarden implements InhabitantHandle {
+  readonly id = 'spore-garden';
+  private group = new THREE.Group();
+  private tex: THREE.Texture;
+  private caps: THREE.Mesh[] = [];
+  private sprouts: number;
+  private growing: { idx: number; t: number } | null = null;
+  private timeS = 0;
+
+  private static readonly SLOTS: ReadonlyArray<{ x: number; z: number; s: number }> = [
+    { x: -1.35, z: -1.9, s: 0.55 }, { x: -1.05, z: -2.25, s: 0.5 }, { x: -1.6, z: -2.3, s: 0.45 },
+    { x: -0.75, z: -2.55, s: 0.5 }, { x: -1.9, z: -1.85, s: 0.4 }, { x: -1.3, z: -2.7, s: 0.45 },
+    { x: -0.5, z: -2.0, s: 0.35 },
+  ];
+
+  constructor(private ctx: SubstrateCtx) {
+    const loader = new THREE.TextureLoader();
+    this.tex = loader.load(assetPath('assets/objects/glow-cap-cluster.webp'));
+    this.tex.colorSpace = THREE.SRGBColorSpace;
+
+    const saved = readMemory<{ sprouts: number; lastDay: string | null }>('forest.clearing.garden', { sprouts: 0, lastDay: null });
+    const today = dayKey(new Date());
+    const next = gardenOnArrival(saved.sprouts, saved.lastDay, today);
+    this.sprouts = next.sprouts;
+    writeMemory('forest.clearing.garden', { sprouts: next.sprouts, lastDay: today });
+
+    for (let i = 0; i < SporeGarden.SLOTS.length; i++) {
+      const sl = SporeGarden.SLOTS[i];
+      const mesh = new THREE.Mesh(
+        new THREE.PlaneGeometry(sl.s, sl.s),
+        new THREE.MeshBasicMaterial({
+          map: this.tex, transparent: true, depthWrite: false, side: THREE.DoubleSide,
+          blending: THREE.AdditiveBlending, opacity: 0,
+        }),
+      );
+      mesh.position.set(sl.x, sl.s * 0.3, sl.z);
+      mesh.visible = i < this.sprouts;
+      this.group.add(mesh);
+      this.caps.push(mesh);
+    }
+    if (next.grew) this.growing = { idx: this.sprouts - 1, t: 0 };
+    ctx.scene.add(this.group);
+  }
+
+  get count(): number { return this.sprouts; }
+
+  update(dt: number, _u: GlobalUniforms): void {
+    this.timeS += dt;
+    for (let i = 0; i < this.caps.length; i++) {
+      const cap = this.caps[i];
+      if (!cap.visible) continue;
+      const pulse = 0.4 + 0.12 * Math.sin((this.timeS * Math.PI * 2) / 7 + i * 0.9);
+      let scale = 1;
+      let op = pulse;
+      if (this.growing && this.growing.idx === i) {
+        // Rise out of the moss over 4 s, with a bloom that settles.
+        const g = Math.min(1, (this.growing.t += dt) / 4);
+        const ease = 1 - Math.pow(1 - g, 3);
+        scale = 0.15 + 0.85 * ease;
+        op = pulse + Math.sin(g * Math.PI) * 0.5;
+        if (g >= 1) this.growing = null;
+      }
+      cap.scale.setScalar(scale);
+      (cap.material as THREE.MeshBasicMaterial).opacity = op;
+    }
+  }
+
+  dispose(): void {
+    if (this.group.parent) this.group.parent.remove(this.group);
+    for (const c of this.caps) { c.geometry.dispose(); (c.material as THREE.Material).dispose(); }
+    this.tex.dispose();
+    void this.ctx;
+  }
+}
+
 /** Module-level handle shared between the clearing's inhabitants (which own
  *  and tick it) and its interactables (which report to it). Created lazily by
  *  whichever driver RoomHost constructs first; cleared on dispose. */
@@ -687,8 +813,9 @@ function forestInhabitants(ctx: SubstrateCtx): InhabitantHandle[] {
   const list: InhabitantHandle[] = FOREST_INHABITANTS.filter((spec) => spec.room === activeRoom).map(
     (spec) => new ForestInhabitant(ctx.scene, spec),
   );
-  // Wave 28 — the clearing's room-level response rides along as an inhabitant.
-  if (activeRoom === 'clearing') list.push(getClearingResponse(ctx));
+  // Wave 28 — the clearing's room-level response rides along as an inhabitant,
+  // and the garden that grows one cap per day you come.
+  if (activeRoom === 'clearing') list.push(getClearingResponse(ctx), new SporeGarden(ctx));
   return list;
 }
 
@@ -1119,7 +1246,7 @@ class SporePuddle implements InteractableHandle {
       depthWrite: false,
       side: THREE.DoubleSide,
       blending: THREE.AdditiveBlending,
-      opacity: 0.92,
+      opacity: 0.7,
     });
     this.pool = new THREE.Mesh(geo, mat);
     // Tilted ~35° toward the camera (cam sits at y=1.4 looking down the z
@@ -1172,7 +1299,7 @@ class SporePuddle implements InteractableHandle {
     const mat = this.pool.material as THREE.MeshBasicMaterial;
     // Calm baseline: shimmer ±5% on ~6s, surface drifts very slowly.
     const shimmer = 1 + 0.05 * Math.sin((this.timeS * Math.PI * 2) / 6);
-    mat.opacity = Math.min(1, 0.92 * shimmer + this.splash * 0.1);
+    mat.opacity = Math.min(1, 0.7 * shimmer + this.splash * 0.15);
     this.tex.offset.x = 0.01 * Math.sin(this.timeS * 0.25);
     this.tex.offset.y = 0.01 * Math.cos(this.timeS * 0.2);
 
