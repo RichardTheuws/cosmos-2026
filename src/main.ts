@@ -40,10 +40,12 @@ import { Progression } from './core/progression';
 import { isTouchDevice } from './core/deviceDetect';
 import { BiomeManager } from './three/biomeManager';
 import { announceVisit } from './share/dailyStreak';
+import { sfx } from './audio/sfxBus';
+import { InteractionDirector } from './substrate/InteractionDirector';
 import { SubstrateLoader } from './substrate/SubstrateLoader';
 import { TravelVeil, type CosmosNavigateDetail } from './substrate/drivers/TravelVeil';
 
-const VERSION = '2.5.1';
+const VERSION = '2.6.0';
 
 /** Wave 26 — substrate is now the DEFAULT `/play/` experience (the cutover).
  *  The Universe→Area→Room contract boots unless `?legacy=1` is present, which
@@ -152,6 +154,7 @@ async function boot(): Promise<void> {
   const agentEventShim: {
     onBounce?: (info: { rollHallucination: boolean }) => void;
     onPet?: () => void;
+    onTap?: (ndcX: number, ndcY: number) => boolean;
   } = {};
   const cosmoAgent = new CosmoAgent(cosmoStage.group, {
     onBounce: (info) => {
@@ -374,6 +377,31 @@ async function boot(): Promise<void> {
     });
   }
 
+  // Wave 27 — Chapter 1. The InteractionDirector closes the loop the Wave-21
+  // contract left open: taps (and Cosmo's own curiosity) walk him to a room's
+  // interactables and call their onUse with a UseApi (named painted clip +
+  // SFX). It claims taps ahead of the legacy trampoline raycast via the shim.
+  let interactionDirector: InteractionDirector | null = null;
+  if (substrateLoader) {
+    const loader = substrateLoader;
+    interactionDirector = new InteractionDirector({
+      cosmoAgent,
+      camera: cosmoStage.camera,
+      interactables: () => loader.getInteractables(),
+      playSfx: (name) => sfx.play(name),
+      viewportW: () => window.innerWidth,
+      viewportH: () => window.innerHeight,
+      onPicked: () => {
+        uniforms.kaleidoTrigger = Math.min(1, uniforms.kaleidoTrigger + 0.1);
+      },
+    });
+    const director = interactionDirector;
+    agentEventShim.onTap = (x, y) => director.onTap(x, y);
+    // UAT hook (scripts/uat): drive visits without guessing screen positions.
+    (window as unknown as { __cosmosDirector?: InteractionDirector }).__cosmosDirector = director;
+    window.addEventListener('pointerdown', () => director.noteInput(), { passive: true });
+  }
+
   // Per-frame ticks. Order matters: audio first (so FFT is fresh for the
   // event-director and Cosmo's mixer), then post-FX-driving systems, then
   // gameplay (CosmoAgent), then renderers.
@@ -405,6 +433,8 @@ async function boot(): Promise<void> {
     // Sprint 17E — AI ticks BEFORE the agent so its directive is fresh by
     // the time applyAI() reads it.
     cosmoAI.tick(dt);
+    // Wave 27 — curiosity clock (walks Cosmo to interactables when quiet).
+    interactionDirector?.tick(dt);
     cosmoAgent.update(u, dt);
     // Sprint 17D — fixed trampoline-spots hover-bob (no spawn-loop).
     trampolineSpots.update(dt);
@@ -432,10 +462,13 @@ async function boot(): Promise<void> {
   // 'walking-to'/'bouncing' (CosmoAgent.applyAI ownedByOtherSprint), so this
   // never fights companion-mode. First demo ~3s after the user wakes Cosmo
   // (so it isn't hidden behind the boot overlay); repeats every ~16s while idle.
+  // Wave 27 — on the substrate path the InteractionDirector's curiosity owns
+  // this beat (it knows every interactable, not just the trampoline).
   let awoke = false;
   window.addEventListener('pointerdown', () => { awoke = true; }, { once: true });
   let nextTrampolineDemoAt = Infinity;
   manager.register((u) => {
+    if (interactionDirector) return;
     if (!awoke) return;
     if (nextTrampolineDemoAt === Infinity) nextTrampolineDemoAt = u.time + 3;
     if (u.time < nextTrampolineDemoAt) return;

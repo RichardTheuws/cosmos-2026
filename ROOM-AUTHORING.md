@@ -89,20 +89,28 @@ export interface InhabitantHandle {
 
 Authored via `behavior.inhabitants(ctx)` returning an `InhabitantHandle[]`. Default: empty array.
 
-**Interactables** are things Cosmo walks to and uses. The trampoline. A fruit. A door. A button. They have an `anchor` (where Cosmo walks to), a `range` (how close his AI considers him "at" them), and an `onUse(cosmo)` hook the substrate's InteractionManager fires when he reaches the anchor.
+**Interactables** are things Cosmo walks to and uses. The trampoline. A fruit. A door. A button. They have an `anchor` (where Cosmo walks to, in absolute stage space — Cosmo's home is the origin), a `range` (how close his AI considers him "at" them), and an `onUse(cosmo, api)` hook the substrate's InteractionDirector fires when he reaches the anchor. He gets there two ways: the visitor taps the interactable, or — after ~14 s without input — Cosmo picks one himself and wanders over. He stays for the clip's hold, then walks home.
 
 ```ts
+export interface UseApi {
+  /** A shipped painted clip: idle · walk · bounce · jump · duck · dance · wave · wink · stretch · fall · petted · look */
+  playClip(name: string, opts?: { loop?: boolean; holdS?: number }): void;
+  /** One-shot from public/assets/audio/sfx/<name>.mp3 */
+  sfx(name: string): void;
+}
 export interface InteractableHandle {
   id: string;
   anchor: { x: number; y: number; z: number };
   range: number;
+  /** 'bounce' runs the trampoline combo on arrival; default 'use'. */
+  arrival?: 'use' | 'bounce';
   update(dt: number, u: GlobalUniforms): void;
-  onUse(cosmo: CosmoV2Rig): void;
+  onUse(cosmo: CosmoV2Rig, api?: UseApi): void;
   dispose(): void;
 }
 ```
 
-Authored via `behavior.interactables(ctx)` returning an `InteractableHandle[]`. Default: empty array.
+Authored via `behavior.interactables(ctx)` returning an `InteractableHandle[]`. Default: empty array. A complete interaction is two lines: `api.playClip('stretch', { holdS: 4 }); api.sfx('cling');`. The Clearing (`universes/forest/behavior.ts`) is the reference: trampoline, spore-puddle, sunbeam-patch, nap-cap — from wild to slow.
 
 The distinction matters because the companion-AI treats them differently. Inhabitants are *seen*; Interactables are *targeted*. A trampoline is an Interactable. The eyeball-sentry watching Cosmo bounce is an Inhabitant.
 

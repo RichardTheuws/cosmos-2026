@@ -10,6 +10,7 @@ import type { GlobalUniforms } from '../core/globalUniforms';
 import type { ParallaxScene } from '../three/parallaxScene';
 import type {
   AreasManifest,
+  InteractableHandle,
   Manifest,
   ResolvedMood,
   RoomsManifest,
@@ -92,6 +93,11 @@ export class UniverseHost {
 
   tick(dt: number, u: GlobalUniforms): void {
     this.areaHost?.tick(dt, u);
+  }
+
+  /** Wave 27 — live handles of the current room (InteractionDirector). */
+  getInteractables(): readonly InteractableHandle[] {
+    return this.areaHost?.getCurrentRoomHost()?.getInteractables() ?? [];
   }
 
   getCurrentArea(): string | null {

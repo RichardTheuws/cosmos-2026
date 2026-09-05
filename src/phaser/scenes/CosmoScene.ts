@@ -62,6 +62,8 @@ interface SceneInitData {
   agentEventShim: {
     onBounce?: (info: { rollHallucination: boolean }) => void;
     onPet?: () => void;
+    /** Wave 27 — substrate InteractionDirector tap claim (see InteractionManagerHooks). */
+    onTap?: (ndcX: number, ndcY: number) => boolean;
   };
   version: string;
 }
@@ -141,6 +143,9 @@ export class CosmoScene extends Phaser.Scene {
           // Cosmo even finishes walking to the spot.
           this.uniforms.kaleidoTrigger = Math.min(1, this.uniforms.kaleidoTrigger + 0.1);
         },
+        // Wave 27 — the shim is filled in by main.ts once the substrate
+        // director exists; read it late so the wiring order doesn't matter.
+        tapInterceptor: (x, y) => this.agentEventShim.onTap?.(x, y) ?? false,
       },
     );
     this.deepTrip = new DeepTripMode(

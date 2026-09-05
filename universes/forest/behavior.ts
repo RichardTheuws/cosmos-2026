@@ -24,10 +24,12 @@
 import * as THREE from 'three';
 import { ParallaxScene } from '../../src/three/parallaxScene';
 import { BIOMES } from '../../src/data/biomePresets';
-import { TrampolineSpots } from '../../src/phaser/entities/TrampolineSpots';
 import { assetPath } from '../../src/core/assetPath';
+import { COSMO_COO_POOL } from '../../src/audio/sfxBus';
 import type { GlobalUniforms } from '../../src/core/globalUniforms';
 import type { CosmoV2Rig } from '../../src/three/cosmoV2';
+import type { UseApi } from '../../src/substrate/contracts/BehaviorContract';
+import { DEFAULT_TRAMPOLINE_SPOTS } from '../../src/phaser/entities/TrampolineSpots';
 
 /* ── Local copies of the substrate contract ──────────────────────────────────
  *
@@ -87,8 +89,9 @@ interface InteractableHandle {
   id: string;
   anchor: { x: number; y: number; z: number };
   range: number;
+  arrival?: 'use' | 'bounce';
   update(dt: number, u: GlobalUniforms): void;
-  onUse(cosmo: CosmoV2Rig): void;
+  onUse(cosmo: CosmoV2Rig, api?: UseApi): void;
   dispose(): void;
 }
 
@@ -376,43 +379,30 @@ class ForestTrampoline implements InteractableHandle {
   readonly id = 'trampoline';
   readonly anchor: { x: number; y: number; z: number };
   readonly range = 2.0;
+  /** Wave 27 — arrival runs CosmoAgent's bounce-combo (the Wave-22 "go wild"
+   *  loop), not a plain use. */
+  readonly arrival = 'bounce' as const;
 
-  private spots: TrampolineSpots;
-  private timeS = 0;
-
-  constructor(private scene: THREE.Scene, room: SubstrateCtx['room']) {
-    // Place at room anchor. The TrampolineSpots class handles the texture +
-    // hover-bob; we use it as-is so the rendering matches the rest of the codebase.
-    this.anchor = { x: room.anchor.x, y: room.anchor.y, z: room.anchor.z - 2.0 };
-    this.spots = new TrampolineSpots([
-      { x: this.anchor.x, y: this.anchor.y, z: this.anchor.z },
-    ]);
-    this.spots.attach(scene);
-    void this.timeS; // reserved
+  constructor() {
+    // Wave 27 — main.ts already renders the hero trampoline in the forest
+    // (`TrampolineSpots`, gated to this universe). This handle owns NO second
+    // mesh (the pre-27 code built a duplicate at the same spot); it only
+    // declares the anchor so the InteractionDirector can pick + route it.
+    const spot = DEFAULT_TRAMPOLINE_SPOTS[0];
+    this.anchor = { x: spot.x, y: spot.y, z: spot.z };
   }
 
-  update(dt: number, _u: GlobalUniforms): void {
-    this.timeS += dt;
-    this.spots.update(dt);
+  update(_dt: number, _u: GlobalUniforms): void {
+    /* mesh + hover-bob live on main.ts's TrampolineSpots */
   }
 
-  /**
-   * Triggered by the substrate's InteractionManager when Cosmo reaches the
-   * anchor. Jumps Cosmo's root using a 3-phase arc (anticipation → launch →
-   * settle) — the canonical jump-arc from cosmo-animation-spec.json.
-   */
-  onUse(cosmo: CosmoV2Rig): void {
-    // Jump-arc — the substrate proper (CosmoAnimDirector) will own this.
-    // For the reference implementation, we push a brief vertical impulse on
-    // Cosmo's root.position.y; CosmoAnimDirector picks it up and finishes
-    // the settle. This is the bridge until CosmoAnimDirector lands as a
-    // first-class scheduler.
-    cosmo.root.position.y += 0.05;
+  /** Arrival = bounce-combo (see `arrival`). We only add the sound. */
+  onUse(_cosmo: CosmoV2Rig, api?: UseApi): void {
+    api?.sfx('jump');
   }
 
   dispose(): void {
-    this.spots.dispose();
-    void this.scene; // ref kept for symmetry with other handles
+    /* owns nothing */
   }
 }
 
@@ -456,7 +446,12 @@ class SunbeamPatch implements InteractableHandle {
     room: SubstrateCtx['room'],
   ) {
     // ~x+2.5 of the room anchor, on the ground, mid-depth near the trampoline.
-    this.anchor = { x: room.anchor.x + 2.5, y: room.anchor.y, z: room.anchor.z - 1.6 };
+    // Absolute stage space (Wave 27 — like every inhabitant; room.anchor is
+    // metadata, Cosmo's home is the stage origin).
+    // Phone-portrait first (Wave 27 measurement, FOV 35 / cam z=6): at
+    // z=−3 only |x| ≤ 1.3 is on screen. Left-back of the trampoline.
+    this.anchor = { x: -1.0, y: 0, z: -3.1 };
+    void room;
 
     const loader = new THREE.TextureLoader();
     this.poolTex = loader.load(assetPath('assets/objects/sunbeam-patch.webp'));
@@ -513,15 +508,15 @@ class SunbeamPatch implements InteractableHandle {
    * re-use → `look` (up at the canopy gap). CosmoAnimDirector will own the named
    * clip drive; until then we bridge through the rig's procedural channels.
    */
-  onUse(cosmo: CosmoV2Rig): void {
+  onUse(_cosmo: CosmoV2Rig, api?: UseApi): void {
     this.useCount += 1;
     if (this.useCount % 2 === 1) {
-      // `stretch` bridge — a gentle upward limber + a soft roll-sway.
-      cosmo.root.position.y += 0.04;
-      cosmo.rollZ = 0.06;
+      // Wave 27 — the real clip: limber up in the warmth, settle to idle in-beam.
+      api?.playClip('stretch', { holdS: 4.2 });
+      api?.sfx(COSMO_COO_POOL[Math.floor(Math.random() * COSMO_COO_POOL.length)]);
     } else {
-      // `look` bridge — a small upward tilt toward the canopy gap.
-      cosmo.pitchX = 0.05;
+      // Re-use: look up at the canopy gap.
+      api?.playClip('look', { holdS: 3.4 });
     }
   }
 
@@ -575,7 +570,10 @@ class EchoCap implements InteractableHandle {
     room: SubstrateCtx['room'],
   ) {
     // ~x-1.0 relative to room anchor (in front of the breathing-portal at x-1.4).
-    this.anchor = { x: room.anchor.x - 1.0, y: room.anchor.y, z: room.anchor.z - 1.5 };
+    // Absolute stage space (Wave 27 bug fix: room.anchor.x is −12 for the
+    // deep grove, which used to put the caps off-screen at x ≈ −13).
+    this.anchor = { x: -1.0, y: 0, z: -1.5 };
+    void room;
 
     const loader = new THREE.TextureLoader();
     this.tex = loader.load(assetPath('assets/objects/glow-cap-cluster.webp'));
@@ -634,9 +632,11 @@ class EchoCap implements InteractableHandle {
    * CosmoV2Rig clip scheduler lands later (see trampoline note); bridge through
    * the procedural channels for now.
    */
-  onUse(cosmo: CosmoV2Rig): void {
-    // `duck` bridge — a brief crouch via a small downward root dip.
-    cosmo.root.position.y -= 0.03;
+  onUse(_cosmo: CosmoV2Rig, api?: UseApi): void {
+    // Wave 27 — crouch + press the hand-disc to the cap (real `duck` clip),
+    // the caps answer in cascade, a soft cling rings.
+    api?.playClip('duck', { holdS: 3.6 });
+    api?.sfx('cling');
     // Light the touched cap hard, then cascade down the line with a staggered
     // ramp so the neighbours answer in sequence (settles via update's decay).
     for (let i = 0; i < this.caps.length; i++) {
@@ -721,9 +721,10 @@ class BreathingPortalGreeting implements InteractableHandle {
    * Event-peak. Intended clip: `wave`. The portal's inhale-apex syncs a single
    * pop-cyan glint (gated in update via the shared-pulse read). No traversal.
    */
-  onUse(cosmo: CosmoV2Rig): void {
-    // `wave` bridge — a friendly roll-sway greeting (the rig's available channel).
-    cosmo.rollZ = 0.1;
+  onUse(_cosmo: CosmoV2Rig, api?: UseApi): void {
+    // Wave 27 — the real `wave` clip + a coo; the portal answers on its apex.
+    api?.playClip('wave', { holdS: 3.0 });
+    api?.sfx(COSMO_COO_POOL[Math.floor(Math.random() * COSMO_COO_POOL.length)]);
     this.greetActiveFor = 1.4; // hold the greeting window for ~one breath
   }
 
@@ -733,13 +734,230 @@ class BreathingPortalGreeting implements InteractableHandle {
   }
 }
 
+/* ── SporePuddle (NEW, Wave 27 — Chapter 1) ────────────────────────────────────
+ *
+ * A shallow pool of luminous spore-water on the clearing's moss, left of the
+ * trampoline. Calm baseline = a slow shimmer (opacity sine, ~6s) and a lazy
+ * drift of the painted surface (texture offset). Event-peak = Cosmo steps in
+ * and `dance`s — the spores lift with him: the pool brightens and a ring of
+ * small spore-motes (additive sprites) rises and fades over ~3s. No score, no
+ * combo — a puddle you can't not splash in.
+ */
+class SporePuddle implements InteractableHandle {
+  readonly id = 'spore-puddle';
+  readonly anchor = { x: -0.55, y: 0, z: -1.1 }; // front-left; stays in frame through the ±1.6 camera pan
+  readonly range = 1.6;
+
+  private group = new THREE.Group();
+  private tex: THREE.Texture;
+  private pool: THREE.Mesh;
+  private motes: THREE.Sprite[] = [];
+  private moteTex: THREE.Texture;
+  private timeS = 0;
+  private splash = 0; // 0..1 event-peak, decays over ~3s
+
+  constructor(private scene: THREE.Scene) {
+    const loader = new THREE.TextureLoader();
+    this.tex = loader.load(assetPath('assets/objects/spore-puddle.webp'));
+    this.tex.colorSpace = THREE.SRGBColorSpace;
+
+    // Additive-on-black like the sunbeam (BiRefNet blanks soft glows — the
+    // Wave-24 matte lesson): black reads transparent under additive blend.
+    const geo = new THREE.PlaneGeometry(1.8, 0.9); // 2:1 painted crop
+    const mat = new THREE.MeshBasicMaterial({
+      map: this.tex,
+      transparent: true,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      opacity: 0.92,
+    });
+    this.pool = new THREE.Mesh(geo, mat);
+    // Tilted ~35° toward the camera (cam sits at y=1.4 looking down the z
+    // axis): dead-flat it foreshortens to a glowing sliver; tilted it reads
+    // as a pool, and the painted moss ring sells the "seen from above" angle.
+    this.pool.rotation.x = -Math.PI / 2 + 0.6;
+    this.pool.position.set(0, 0.2, 0);
+    this.group.add(this.pool);
+
+    // Spore-motes: a small radial-gradient sprite (canvas-drawn, no emoji, no
+    // placeholder) reused 10×, hidden until a splash.
+    this.moteTex = SporePuddle.makeMoteTexture();
+    for (let i = 0; i < 10; i++) {
+      const sm = new THREE.SpriteMaterial({
+        map: this.moteTex,
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        opacity: 0,
+        color: 0xf4d58d, // saffron-glow
+      });
+      const sp = new THREE.Sprite(sm);
+      sp.scale.setScalar(0.18);
+      sp.visible = false;
+      this.group.add(sp);
+      this.motes.push(sp);
+    }
+
+    this.group.position.set(this.anchor.x, this.anchor.y, this.anchor.z);
+    this.scene.add(this.group);
+  }
+
+  private static makeMoteTexture(): THREE.Texture {
+    const c = document.createElement('canvas');
+    c.width = c.height = 64;
+    const g = c.getContext('2d')!;
+    const grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+    grad.addColorStop(0, 'rgba(255,255,255,1)');
+    grad.addColorStop(0.35, 'rgba(255,240,200,0.8)');
+    grad.addColorStop(1, 'rgba(255,240,200,0)');
+    g.fillStyle = grad;
+    g.fillRect(0, 0, 64, 64);
+    const t = new THREE.CanvasTexture(c);
+    t.colorSpace = THREE.SRGBColorSpace;
+    return t;
+  }
+
+  update(dt: number, _u: GlobalUniforms): void {
+    this.timeS += dt;
+    const mat = this.pool.material as THREE.MeshBasicMaterial;
+    // Calm baseline: shimmer ±5% on ~6s, surface drifts very slowly.
+    const shimmer = 1 + 0.05 * Math.sin((this.timeS * Math.PI * 2) / 6);
+    mat.opacity = Math.min(1, 0.92 * shimmer + this.splash * 0.1);
+    this.tex.offset.x = 0.01 * Math.sin(this.timeS * 0.25);
+    this.tex.offset.y = 0.01 * Math.cos(this.timeS * 0.2);
+
+    if (this.splash > 0) {
+      this.splash = Math.max(0, this.splash - dt / 3);
+      const lift = 1 - this.splash; // 0 → 1 over the decay
+      for (let i = 0; i < this.motes.length; i++) {
+        const sp = this.motes[i];
+        const a = (i / this.motes.length) * Math.PI * 2 + this.timeS * 0.4;
+        const r = 0.35 + lift * 0.6;
+        sp.position.set(Math.cos(a) * r, 0.1 + lift * 1.4 + Math.sin(this.timeS * 3 + i) * 0.05, Math.sin(a) * r * 0.5);
+        (sp.material as THREE.SpriteMaterial).opacity = Math.sin(lift * Math.PI) * 0.9;
+        sp.visible = true;
+      }
+    } else {
+      for (const sp of this.motes) sp.visible = false;
+    }
+  }
+
+  onUse(_cosmo: CosmoV2Rig, api?: UseApi): void {
+    api?.playClip('dance', { loop: true, holdS: 4.6 });
+    api?.sfx('cosmo-coo-2');
+    this.splash = 1;
+  }
+
+  dispose(): void {
+    if (this.group.parent) this.group.parent.remove(this.group);
+    this.pool.geometry.dispose();
+    (this.pool.material as THREE.Material).dispose();
+    for (const sp of this.motes) (sp.material as THREE.Material).dispose();
+    this.tex.dispose();
+    this.moteTex.dispose();
+  }
+}
+
+/* ── NapCap (NEW, Wave 27 — Chapter 1) ─────────────────────────────────────────
+ *
+ * An oversized, soft mushroom cap on a short stalk at the clearing's right
+ * edge, its underside a warm mushroom-cream glow. Calm baseline = the cap
+ * breathes (scale ±2% on ~8s) like everything else here. Event-peak = Cosmo
+ * `duck`s under it and rests in `petted` (curled, cozy — the shipped clip that
+ * reads as contentment) for a few breaths; the underglow warms while he rests.
+ * The slowest thing in the room — the pocket-escape's own resting place.
+ */
+class NapCap implements InteractableHandle {
+  readonly id = 'nap-cap';
+  readonly anchor = { x: 1.05, y: 0, z: -3.3 }; // right-back, on a phone too
+  readonly range = 1.5;
+
+  private group = new THREE.Group();
+  private tex: THREE.Texture;
+  private cap: THREE.Mesh;
+  private glow: THREE.Mesh;
+  private timeS = 0;
+  private resting = 0; // seconds of rest remaining (drives the underglow)
+
+  constructor(private scene: THREE.Scene) {
+    const loader = new THREE.TextureLoader();
+    this.tex = loader.load(assetPath('assets/objects/nap-cap.webp'));
+    this.tex.colorSpace = THREE.SRGBColorSpace;
+
+    const geo = new THREE.PlaneGeometry(2.0, 2.0);
+    const mat = new THREE.MeshBasicMaterial({
+      map: this.tex,
+      transparent: true,
+      alphaTest: 0.08,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+    });
+    this.cap = new THREE.Mesh(geo, mat);
+    this.cap.position.set(0, 1.0, -0.4);
+    this.cap.renderOrder = 5;
+    this.group.add(this.cap);
+
+    // Underglow — a flat warm pool where Cosmo curls up (additive, breathes).
+    const glowGeo = new THREE.PlaneGeometry(1.8, 1.0);
+    const glowMat = new THREE.MeshBasicMaterial({
+      color: 0xf4d58d,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      opacity: 0.12,
+    });
+    this.glow = new THREE.Mesh(glowGeo, glowMat);
+    this.glow.rotation.x = -Math.PI / 2;
+    this.glow.position.y = 0.011;
+    this.group.add(this.glow);
+
+    this.group.position.set(this.anchor.x, this.anchor.y, this.anchor.z);
+    this.scene.add(this.group);
+  }
+
+  update(dt: number, _u: GlobalUniforms): void {
+    this.timeS += dt;
+    const breathe = 1 + 0.02 * Math.sin((this.timeS * Math.PI * 2) / 8);
+    this.cap.scale.set(breathe, breathe, 1);
+    if (this.resting > 0) this.resting = Math.max(0, this.resting - dt);
+    const warm = this.resting > 0 ? 0.32 : 0.12;
+    const gm = this.glow.material as THREE.MeshBasicMaterial;
+    gm.opacity += (warm - gm.opacity) * Math.min(1, dt * 1.5);
+  }
+
+  onUse(_cosmo: CosmoV2Rig, api?: UseApi): void {
+    // Duck under, then curl up. The `petted` clip is the cozy loop; the hold
+    // is the longest in the room on purpose.
+    api?.playClip('petted', { loop: true, holdS: 6.5 });
+    api?.sfx('cosmo-coo-3');
+    this.resting = 6.5;
+  }
+
+  dispose(): void {
+    if (this.group.parent) this.group.parent.remove(this.group);
+    this.cap.geometry.dispose();
+    this.glow.geometry.dispose();
+    (this.cap.material as THREE.Material).dispose();
+    (this.glow.material as THREE.Material).dispose();
+    this.tex.dispose();
+  }
+}
+
 function forestInteractables(ctx: SubstrateCtx): InteractableHandle[] {
   // Spawn-gated by room anchor, mirroring how the trampoline is gated to the
   // Clearing. Each room returns only the interactables that live there; other
   // rooms fall through to the substrate's default (none).
   switch (ctx.room.id) {
     case 'clearing':
-      return [new ForestTrampoline(ctx.scene, ctx.room), new SunbeamPatch(ctx.scene, ctx.room)];
+      // Chapter 1 (Wave 27): four things to do, from wild to slow —
+      // trampoline (bounce) · spore-puddle (dance) · sunbeam (stretch/look) · nap-cap (rest).
+      return [
+        new ForestTrampoline(),
+        new SporePuddle(ctx.scene),
+        new SunbeamPatch(ctx.scene, ctx.room),
+        new NapCap(ctx.scene),
+      ];
     case 'deep-grove':
       return [new EchoCap(ctx.scene, ctx.room), new BreathingPortalGreeting(ctx.scene)];
     default:

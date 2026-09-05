@@ -206,6 +206,43 @@
     <article class="update" data-reveal>
       <div class="update__card">
         <div class="update__header">
+          <span class="update__version">v2.6.0</span>
+          <span class="update__date">2026-09-05</span>
+          <h2 class="update__title">09-05 — Chapter 1: the clearing comes alive</h2>
+        </div>
+        <div class="update__body">
+          <div class="update__tags">
+          <span class="tag tag--feat">Feature</span>
+          <span class="tag tag--change">Wijziging</span>
+          <span class="tag tag--fix">Fix</span>
+          </div>
+        <div class="update__lead">
+          <p class="update__lead-line">The first room that keeps the dweller promise. You visit, and there are things here — for Cosmo, and so for you.</p>
+        </div>
+        <h3>ADDED</h3>
+        <ul class="update__highlights">
+          <li><strong>The interaction loop, closed (shared-substrate S3 + S5).</strong> <code>src/substrate/InteractionDirector.ts</code>: a tap on an interactable walks Cosmo there and calls its <code>onUse</code> — the hook the Wave-21 contract declared, the forest authored, and nothing ever called. Picking is screen-space (<code>pickOnScreen</code>, pure + unit-tested) so items without a pickable mesh work too. The legacy trampoline raycast yields when the director takes the tap, so one tap never fires two walks.</li>
+          <li><strong><code>UseApi</code> on the contract.</strong> <code>onUse(cosmo, api)</code> — <code>api.playClip(name, { loop, holdS })</code> drives one of the twelve painted clips while Cosmo stays put (new <code>using</code> state), then he walks home; <code>api.sfx(name)</code> fires a one-shot from the shared bus. Two lines are a complete interaction. <code>arrival: &#039;bounce&#039;</code> keeps the trampoline&#039;s combo path.</li>
+          <li><strong>Curiosity.</strong> After ~14 s without input Cosmo picks something in the room himself and goes to use it (never the same thing twice in a row). Cosmo lives whether or not you watch (NORTH-STAR §1). Replaces the trampoline-only &quot;show, don&#039;t tell&quot; loop on the substrate path.</li>
+          <li><strong>Two new clearing interactables.</strong> The <strong>spore-puddle</strong> (Cosmo steps in and dances; spores lift with him) and the <strong>nap-cap</strong> (he ducks under and rests, curled, while the underglow warms — the slowest thing in the room). Assets: fal Ultra + BiRefNet, house watercolor. The clearing now holds four things, from wild to slow: trampoline · spore-puddle · sunbeam · nap-cap.</li>
+        </ul>
+<h3>CHANGED</h3>
+        <ul class="update__highlights">
+          <li><strong>Forest interactables are real now.</strong> Sunbeam → <code>stretch</code>, then <code>look</code> on re-use, with a coo; echo-cap → <code>duck</code> + <code>cling</code> + the cascade; portal-greeting → <code>wave</code> + coo; trampoline → walk + bounce-combo + <code>jump</code>. The old <code>root.position.y += 0.05</code> bridges are gone.</li>
+          <li><code>ROOM-AUTHORING.md</code> / <code>UNIVERSE-AUTHORING.md</code> carry the <code>UseApi</code> and the two ways Cosmo reaches an interactable.</li>
+        </ul>
+<h3>FIXED</h3>
+        <ul class="update__highlights">
+          <li><strong>Deep-grove interactables were off-screen.</strong> They added <code>room.anchor</code> (x = −12) to their positions while inhabitants use absolute stage space, so the echo-cap and the portal-greeting rendered at x ≈ −13. All anchors are absolute now; the substrate parks Cosmo at the stage origin per room (<code>setHome</code>).</li>
+          <li>The forest&#039;s trampoline handle built a second trampoline mesh on top of the one main.ts already renders. It owns no mesh now.</li>
+        </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="update" data-reveal>
+      <div class="update__card">
+        <div class="update__header">
           <span class="update__version">v2.5.1</span>
           <span class="update__date">2026-06-15</span>
           <h2 class="update__title">06-15 — Cutover follow-up: the trampoline hint stops leaking</h2>
@@ -217,6 +254,7 @@
         <h3>FIXED</h3>
         <ul class="update__highlights">
           <li><strong>The &quot;tap the trampoline&quot; hint no longer shows in the default dweller experience.</strong> An inline guard in <code>play/index.html</code> early-returned only when <code>?substrate=v2</code> was present — but post-cutover substrate is the default (no param), so the legacy forest-runner&#039;s trampoline hint leaked into every bare <code>/play/</code> visit (dunes, ink-ocean, chart — worlds with no trampoline). The guard now keys off <code>?legacy=1</code>, so the hint runs only in the legacy path. (Live-verified the cutover itself works: the app chunk gates on <code>?legacy=1</code>, bare <code>/play/</code> boots substrate.)</li>
+          <li><strong><code>package.json</code> version synced to 2.5.1</strong> (was stuck at 2.4.10 while <code>VERSION</code> advanced; lockfile updated too). Post-release housekeeping, 2026-09-05.</li>
         </ul>
         </div>
       </div>

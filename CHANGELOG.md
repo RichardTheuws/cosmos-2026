@@ -4,6 +4,24 @@ Alle wijzigingen volgen [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 De `/updates/` pagina wordt automatisch uit dit bestand gegenereerd via `npm run updates:build`.
 
+## [2.6.0] — 2026-09-05 — Chapter 1: the clearing comes alive
+
+The first room that keeps the dweller promise. You visit, and there are things here — for Cosmo, and so for you.
+
+### Added
+- **The interaction loop, closed (shared-substrate S3 + S5).** `src/substrate/InteractionDirector.ts`: a tap on an interactable walks Cosmo there and calls its `onUse` — the hook the Wave-21 contract declared, the forest authored, and nothing ever called. Picking is screen-space (`pickOnScreen`, pure + unit-tested) so items without a pickable mesh work too. The legacy trampoline raycast yields when the director takes the tap, so one tap never fires two walks.
+- **`UseApi` on the contract.** `onUse(cosmo, api)` — `api.playClip(name, { loop, holdS })` drives one of the twelve painted clips while Cosmo stays put (new `using` state), then he walks home; `api.sfx(name)` fires a one-shot from the shared bus. Two lines are a complete interaction. `arrival: 'bounce'` keeps the trampoline's combo path.
+- **Curiosity.** After ~14 s without input Cosmo picks something in the room himself and goes to use it (never the same thing twice in a row). Cosmo lives whether or not you watch (NORTH-STAR §1). Replaces the trampoline-only "show, don't tell" loop on the substrate path.
+- **Two new clearing interactables.** The **spore-puddle** (Cosmo steps in and dances; spores lift with him) and the **nap-cap** (he ducks under and rests, curled, while the underglow warms — the slowest thing in the room). Assets: fal Ultra + BiRefNet, house watercolor. The clearing now holds four things, from wild to slow: trampoline · spore-puddle · sunbeam · nap-cap.
+
+### Changed
+- **Forest interactables are real now.** Sunbeam → `stretch`, then `look` on re-use, with a coo; echo-cap → `duck` + `cling` + the cascade; portal-greeting → `wave` + coo; trampoline → walk + bounce-combo + `jump`. The old `root.position.y += 0.05` bridges are gone.
+- `ROOM-AUTHORING.md` / `UNIVERSE-AUTHORING.md` carry the `UseApi` and the two ways Cosmo reaches an interactable.
+
+### Fixed
+- **Deep-grove interactables were off-screen.** They added `room.anchor` (x = −12) to their positions while inhabitants use absolute stage space, so the echo-cap and the portal-greeting rendered at x ≈ −13. All anchors are absolute now; the substrate parks Cosmo at the stage origin per room (`setHome`).
+- The forest's trampoline handle built a second trampoline mesh on top of the one main.ts already renders. It owns no mesh now.
+
 ## [2.5.1] — 2026-06-15 — Cutover follow-up: the trampoline hint stops leaking
 
 ### Fixed

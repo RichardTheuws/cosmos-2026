@@ -128,7 +128,7 @@ The substrate ships a **declarative spine** (the four files above) and an **opti
 - **Background**: composition-spec parallax wrapped by `DefaultBackground`.
 - **Arrival**: 1.4s portal, hue derived from `manifest.post.preset`.
 - **Inhabitants**: empty (a Room with no inhabitants is valid; the world still breathes).
-- **Interactables**: empty (your reviewers will ask about delight-loops at PR time, but the substrate doesn't enforce).
+- **Interactables**: empty (your reviewers will ask about delight-loops at PR time, but the substrate doesn't enforce). When you do author them, the substrate's InteractionDirector walks Cosmo there on a tap — and on his own when the visitor goes quiet — and calls `onUse(cosmo, api)`; `api.playClip('stretch')` + `api.sfx('cling')` is a complete interaction.
 - **Transitions**: biome-blend (Room↔Room) / gradient-cut (Area↔Area) / portal (Universe↔Universe).
 - **Audio**: silence, unless `manifest.assets[]` declares an audio entry with `preload: true`, in which case it loops at 0.45 volume.
 
@@ -167,12 +167,17 @@ export type ArrivalAnimation =
   | { kind: 'custom'; run: (dt: number) => boolean };
 export interface ArrivalCtx extends SubstrateCtx { cosmo: CosmoV2Rig; state: CosmoState; }
 export interface InhabitantHandle { id: string; update(dt: number, u: GlobalUniforms): void; dispose(): void; }
+export interface UseApi {
+  playClip(name: string, opts?: { loop?: boolean; holdS?: number }): void; // idle/walk/bounce/jump/duck/dance/wave/wink/stretch/fall/petted/look
+  sfx(name: string): void;                                                 // public/assets/audio/sfx/<name>.mp3
+}
 export interface InteractableHandle {
   id: string;
-  anchor: { x: number; y: number; z: number };
+  anchor: { x: number; y: number; z: number }; // absolute stage space (Cosmo's home is the origin)
   range: number;
+  arrival?: 'use' | 'bounce';                  // default 'use'
   update(dt: number, u: GlobalUniforms): void;
-  onUse(cosmo: CosmoV2Rig): void;
+  onUse(cosmo: CosmoV2Rig, api?: UseApi): void; // tap or curiosity walks Cosmo here, then this fires
   dispose(): void;
 }
 export interface AudioHandle { enter(): void; exit(fadeMs: number): void; update(dt: number): void; dispose(): void; }

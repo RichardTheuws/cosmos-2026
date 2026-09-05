@@ -8,7 +8,7 @@
       "area": "the-mushroom-stand",
       "displayName": "The Clearing",
       "displayNameEn": "The Clearing",
-      "description": "A soft mushroom-cream open space where Cosmo arrives. The trampoline lives here.",
+      "description": "A soft mushroom-cream open space where Cosmo arrives. The trampoline lives here, next to a spore-puddle, a sunbeam on the moss, and a nap-cap to rest under.",
       "anchor": { "x": 0, "y": 0, "z": 0 },
       "cameraBounds": { "panRangeX": 1.6, "panRangeY": 0.6 },
       "biomeKey": "slow-bloom",

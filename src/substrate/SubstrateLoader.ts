@@ -30,6 +30,7 @@ import {
 import { validateRoomsManifest } from './contracts/RoomsSchema';
 import type {
   AreasManifest,
+  InteractableHandle,
   Manifest,
   RoomsManifest,
   SubstrateCtx,
@@ -236,8 +237,12 @@ export class SubstrateLoader {
       this.bootCtx.cosmoStage.setCameraBounds(room.cameraBounds);
     }
     // Place Cosmo at the room anchor.
+    // NOTE (Wave 27): CosmoAgent re-writes root.position from worldX/Z every
+    // frame, and every author positions content in absolute stage space (the
+    // forest inhabitants, the chart blooms), so "home" is the stage origin —
+    // NOT the manifest anchor. Anchors stay meaningful as room metadata only.
     if (room) {
-      this.bootCtx.cosmoAgent.root.position.set(room.anchor.x, room.anchor.y, room.anchor.z);
+      this.bootCtx.cosmoAgent.setHome(0, 0);
     }
 
     // Wave 24 (S1) — mount the FREE "Look up." way-mote so no universe can trap
@@ -275,6 +280,12 @@ export class SubstrateLoader {
   }
 
   /** Per-frame tick — fans into UniverseHost. Called from main.ts CanvasManager.register. */
+  /** Wave 27 — live handles of the current room (InteractionDirector reads
+   *  these every tick, so a room switch never strands a stale handle). */
+  getInteractables(): readonly InteractableHandle[] {
+    return this.host?.getInteractables() ?? [];
+  }
+
   tick(dt: number, u: GlobalUniforms): void {
     this.host?.tick(dt, u);
   }

@@ -98,15 +98,35 @@ export interface InhabitantHandle {
   dispose(): void;
 }
 
+/**
+ * Wave 27 — what an interactable may ask of Cosmo when he arrives. Handed to
+ * `onUse` by the substrate's InteractionDirector. Authors never reach into
+ * CosmoAgent; they name a painted clip and a sound, the substrate does the rest.
+ */
+export interface UseApi {
+  /** Play a named painted-frames clip (idle/walk/bounce/jump/duck/dance/wave/
+   *  wink/stretch/fall/petted/look). Cosmo stays at the interactable for
+   *  `holdS` seconds (default 2.4), then walks home. Missing clips degrade to
+   *  the static hero — never throws. */
+  playClip(name: string, opts?: { loop?: boolean; holdS?: number }): void;
+  /** Fire a one-shot from the shared SFX bus (`public/assets/audio/sfx/<name>.mp3`). */
+  sfx(name: string): void;
+}
+
 export interface InteractableHandle {
   id: string;
   /** World-space position Cosmo can walk to. */
   anchor: { x: number; y: number; z: number };
   /** Range in world-units within which Cosmo's AI may target this. */
   range: number;
+  /** Wave 27 — what happens when Cosmo reaches the anchor. `use` (default)
+   *  calls `onUse`; `bounce` runs the trampoline bounce-combo instead (the
+   *  handle's `onUse` is still called at arrival for its own visuals). */
+  arrival?: 'use' | 'bounce';
   update(dt: number, u: GlobalUniforms): void;
-  /** Called by InteractionManager when Cosmo reaches the anchor. */
-  onUse(cosmo: CosmoV2Rig): void;
+  /** Called by the InteractionDirector when Cosmo reaches the anchor. The
+   *  second argument (Wave 27) lets the handle drive a named clip + a sound. */
+  onUse(cosmo: CosmoV2Rig, api?: UseApi): void;
   dispose(): void;
 }
 

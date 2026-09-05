@@ -78,6 +78,10 @@ export interface InteractionManagerHooks {
   onPetEngaged?: () => void;
   /** Called when a tap hits a trampoline-spot — host may flash material. */
   onSpotTapped?: (spotIndex: number) => void;
+  /** Wave 27 — substrate InteractionDirector gets first claim on every tap
+   *  (NDC). Returns true when an interactable took it; we then skip the
+   *  legacy trampoline raycast so one tap never fires two walk-tos. */
+  tapInterceptor?: (ndcX: number, ndcY: number) => boolean;
 }
 
 export class InteractionManager {
@@ -215,6 +219,7 @@ export class InteractionManager {
   private handleTap(clientX: number, clientY: number): void {
     const ndcX = (clientX / Math.max(1, this.hooks.viewportW())) * 2 - 1;
     const ndcY = -(clientY / Math.max(1, this.hooks.viewportH())) * 2 + 1;
+    if (this.hooks.tapInterceptor?.(ndcX, ndcY)) return;
     const pick = this.hooks.spots.pickAtNDC(this.hooks.camera, ndcX, ndcY);
     if (!pick) return; // miss — no penalty per 17D brief
     this.hooks.onSpotTapped?.(pick.index);

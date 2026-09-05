@@ -164,7 +164,8 @@ export type CosmoState =
   | 'dancing'
   | 'looking'
   | 'bouncing'
-  | 'petted';
+  | 'petted'
+  | 'using';
 
 export type ActionKind = 'jump' | 'duck' | 'ignore';
 
@@ -266,8 +267,17 @@ export class CosmoAgent {
   /** Target for the walking-to interpolation. */
   private walkTargetX = 0;
   private walkTargetZ = 0;
-  /** What to do once we arrive. 'bounce' = trigger bounce. 'idle' = settle. */
-  private walkArrivalAction: 'bounce' | 'idle' = 'idle';
+  /** What to do once we arrive. 'bounce' = trigger bounce. 'idle' = settle.
+   *  'use' (Wave 27) = hold position and hand over to `walkArrivalCallback`. */
+  private walkArrivalAction: 'bounce' | 'idle' | 'use' = 'idle';
+  /** Wave 27 — fired once on arrival for 'use' (and 'bounce') walks. */
+  private walkArrivalCallback: (() => void) | null = null;
+  /** Wave 27 — end of the current `using` hold; then Cosmo walks home. */
+  private usingUntil = 0;
+  /** Wave 27 — where "home" is: the spot the substrate parks Cosmo at when he
+   *  is not visiting an interactable (the room's stage origin). */
+  private homeX = 0;
+  private homeZ = 0;
   /** World-Z (depth) — separate from worldY which is jump-height. Defaults 0. */
   worldZ = 0;
   /** True while a bounce is in progress. */
@@ -519,14 +529,23 @@ export class CosmoAgent {
    * Cosmo refuses new walk-to calls during 'falling' / 'dancing' / 'petted'
    * so onboarding/dance/pet state stays uninterrupted.
    */
-  walkTo(targetX: number, targetZ: number, action: 'bounce' | 'idle' = 'bounce'): void {
+  walkTo(
+    targetX: number,
+    targetZ: number,
+    action: 'bounce' | 'idle' | 'use' = 'bounce',
+    onArrive?: () => void,
+  ): void {
     if (this.state === 'falling' || this.state === 'dancing' || this.state === 'petted') return;
     this.walkFromX = this.worldX;
     this.walkFromZ = this.worldZ;
     this.walkTargetX = targetX;
     this.walkTargetZ = targetZ;
-    this.walkToUntil = this.t + WALK_TO_DURATION_S;
+    // Wave 27 — walk time scales with distance (min 0.6s) so a short hop
+    // doesn't crawl and a cross-room walk doesn't teleport.
+    const dist = Math.hypot(targetX - this.worldX, targetZ - this.worldZ);
+    this.walkToUntil = this.t + Math.max(0.6, Math.min(WALK_TO_DURATION_S * 1.6, dist * 0.55));
     this.walkArrivalAction = action;
+    this.walkArrivalCallback = onArrive ?? null;
     this.setState('walking-to');
     // Prefer 'walk' clip when available (Wave 23 frame-player or the legacy
     // mixer); fall back to looping 'idle'.
@@ -558,8 +577,37 @@ export class CosmoAgent {
       this.state === 'bouncing' ||
       this.state === 'petted' ||
       this.state === 'falling' ||
-      this.state === 'dancing'
+      this.state === 'dancing' ||
+      this.state === 'using'
     );
+  }
+
+  // ── Wave 27 — interactable use (InteractionDirector API) ─────────────────
+
+  /** The billboard rig, for `InteractableHandle.onUse(cosmo)`. */
+  get rig(): CosmoV2Rig {
+    return this.v2Rig;
+  }
+
+  /**
+   * Play a named painted clip while Cosmo stays where he is (state `using`),
+   * for `holdS` seconds; then he walks home. Called from an interactable's
+   * `onUse` via the UseApi. Safe outside `using` too: it enters the state in
+   * place (curiosity + tests). Missing clips degrade to the static hero.
+   */
+  useClip(name: string, opts: { loop?: boolean; holdS?: number } = {}): void {
+    if (this.state === 'falling' || this.state === 'dancing' || this.state === 'petted') return;
+    if (this.state === 'bouncing') return; // the trampoline owns this window
+    const holdS = opts.holdS ?? 2.4;
+    this.setState('using');
+    this.usingUntil = this.t + holdS;
+    this.playClip(name, opts.loop ?? false);
+  }
+
+  /** Where Cosmo returns to after a visit. The substrate sets this per room. */
+  setHome(x: number, z: number): void {
+    this.homeX = x;
+    this.homeZ = z;
   }
 
   /**
@@ -773,15 +821,38 @@ export class CosmoAgent {
         if (phase >= 1) {
           this.worldX = this.walkTargetX;
           this.worldZ = this.walkTargetZ;
+          const cb = this.walkArrivalCallback;
+          this.walkArrivalCallback = null;
           if (this.walkArrivalAction === 'bounce') {
             this.bounceCombo = BOUNCE_COMBO_EXTRA; // Wave 22 — go wild
             this.startBounce();
+            cb?.();
+          } else if (this.walkArrivalAction === 'use') {
+            // Wave 27 — hold here; the callback (InteractionDirector →
+            // handle.onUse → useClip) sets the clip + hold. If it doesn't,
+            // a short idle beat keeps him from snapping home.
+            this.setState('using');
+            this.usingUntil = this.t + 0.8;
+            this.playClip('idle', true);
+            cb?.();
           } else {
             this.setState('walking');
           }
         }
         break;
       }
+      case 'using':
+        // Wave 27 — Cosmo stays at the interactable for the clip's hold, then
+        // walks home. worldX/Z are NOT reset (see the anchored-X block below).
+        this.worldY = this.groundY;
+        if (this.t >= this.usingUntil) {
+          if (Math.hypot(this.worldX - this.homeX, this.worldZ - this.homeZ) > 0.05) {
+            this.walkTo(this.homeX, this.homeZ, 'idle');
+          } else {
+            this.setState('walking');
+          }
+        }
+        break;
       case 'bouncing': {
         // Sprint 17D — sin-arc parabola 0 → BOUNCE_HEIGHT → 0 over BOUNCE_DURATION_S.
         // worldX / worldZ stay locked at the trampoline-spot during the bounce.
@@ -835,10 +906,11 @@ export class CosmoAgent {
     if (
       this.state !== 'walking-to' &&
       this.state !== 'bouncing' &&
-      this.state !== 'petted'
+      this.state !== 'petted' &&
+      this.state !== 'using'
     ) {
-      this.worldX = 0;
-      this.worldZ = 0;
+      this.worldX = this.homeX;
+      this.worldZ = this.homeZ;
     }
 
     // Respawn after fall delay.
