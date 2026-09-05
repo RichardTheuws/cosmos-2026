@@ -206,6 +206,25 @@
     <article class="update" data-reveal>
       <div class="update__card">
         <div class="update__header">
+          <span class="update__version">v2.6.1</span>
+          <span class="update__date">2026-09-05</span>
+          <h2 class="update__title">09-05 — The bed comes back after an interruption</h2>
+        </div>
+        <div class="update__body">
+          <div class="update__tags">
+          <span class="tag tag--fix">Fix</span>
+          </div>
+        <h3>FIXED</h3>
+        <ul class="update__highlights">
+          <li><strong>Music stopped for good after any iOS interruption (AirPods out/in, screen lock, a notification, Siri) while SFX kept playing.</strong> iOS reports the AudioContext as <code>interrupted</code>, not <code>suspended</code>; the bridge&#039;s gesture-resume only handled <code>suspended</code>, so no tap could bring the bed back. Howler (SFX) checks both states, which is why effects survived. <code>ensureRunning</code> now resumes on either, and the page also tries to resume on <code>visibilitychange</code> / <code>pageshow</code> / <code>focus</code>. (Richard, phone UAT of v2.6.0.)</li>
+        </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="update" data-reveal>
+      <div class="update__card">
+        <div class="update__header">
           <span class="update__version">v2.6.0</span>
           <span class="update__date">2026-09-05</span>
           <h2 class="update__title">09-05 — Chapter 1: the clearing comes alive</h2>

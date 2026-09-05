@@ -4,6 +4,11 @@ Alle wijzigingen volgen [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 De `/updates/` pagina wordt automatisch uit dit bestand gegenereerd via `npm run updates:build`.
 
+## [2.6.1] — 2026-09-05 — The bed comes back after an interruption
+
+### Fixed
+- **Music stopped for good after any iOS interruption (AirPods out/in, screen lock, a notification, Siri) while SFX kept playing.** iOS reports the AudioContext as `interrupted`, not `suspended`; the bridge's gesture-resume only handled `suspended`, so no tap could bring the bed back. Howler (SFX) checks both states, which is why effects survived. `ensureRunning` now resumes on either, and the page also tries to resume on `visibilitychange` / `pageshow` / `focus`. (Richard, phone UAT of v2.6.0.)
+
 ## [2.6.0] — 2026-09-05 — Chapter 1: the clearing comes alive
 
 The first room that keeps the dweller promise. You visit, and there are things here — for Cosmo, and so for you.

@@ -219,7 +219,12 @@ export class AudioFFTBridge {
    */
   ensureRunning(): void {
     if (!this.initialised) this.init();
-    if (this.ctx && this.ctx.state === 'suspended') {
+    // v2.6.1 — iOS reports `interrupted` (not `suspended`) after AirPods
+    // out/in, screen lock, a notification, Siri. We only resumed on
+    // `suspended`, so after any interruption the bed stayed dead while Howler
+    // SFX (which checks both states) kept playing. Live report 2026-09-05.
+    const state = this.ctx?.state as string | undefined;
+    if (this.ctx && (state === 'suspended' || state === 'interrupted')) {
       void this.ctx.resume();
     }
     // Sprint 11D fix — autoplay-policy rejects the initial `<audio>.play()` call

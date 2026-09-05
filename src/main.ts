@@ -45,7 +45,7 @@ import { InteractionDirector } from './substrate/InteractionDirector';
 import { SubstrateLoader } from './substrate/SubstrateLoader';
 import { TravelVeil, type CosmosNavigateDetail } from './substrate/drivers/TravelVeil';
 
-const VERSION = '2.6.0';
+const VERSION = '2.6.1';
 
 /** Wave 26 — substrate is now the DEFAULT `/play/` experience (the cutover).
  *  The Universe→Area→Room contract boots unless `?legacy=1` is present, which
@@ -277,6 +277,14 @@ async function boot(): Promise<void> {
   window.addEventListener('click', unlockAudio, { once: false, passive: true });
   window.addEventListener('keydown', unlockAudio, { once: false, passive: true });
   window.addEventListener('touchstart', unlockAudio, { once: false, passive: true });
+  // v2.6.1 — coming back to the tab / unlocking the phone: try to resume the
+  // bed right away (a blessed element may resume without a gesture; if the
+  // browser refuses, the next tap's unlockAudio does it).
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') audioBridge.ensureRunning();
+  });
+  window.addEventListener('pageshow', unlockAudio);
+  window.addEventListener('focus', unlockAudio);
 
   // Debug + control hotkeys: M = toggle music mute, F = log FFT snapshot.
   window.addEventListener('keydown', (e: KeyboardEvent) => {
