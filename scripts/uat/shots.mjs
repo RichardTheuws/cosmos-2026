@@ -66,11 +66,17 @@ for (const vp of [
   const ids = await page.evaluate(() => window.__cosmosDirector.deps.interactables().map((h) => h.id));
   console.log(vp.tag, 'interactables:', ids.join(', ') || '(none)');
   for (const id of ids) {
-    await until((a) => !a.busy);
     const pt = await screenOf(id);
     const onScreen = pt.x >= 0 && pt.x <= vp.width && pt.y >= 0 && pt.y <= vp.height;
-    await page.mouse.click(Math.round(Math.min(vp.width - 1, Math.max(0, pt.x))), Math.round(Math.min(vp.height - 1, Math.max(0, pt.y))));
-    const a = await until((s) => s.state === 'bouncing' || s.state === 'using', 40);
+    // A tap while Cosmo is mid-moment is ignored by design (curiosity may
+    // have just started a visit between our poll and the click) — retry.
+    let a = null;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      await until((s) => !s.busy);
+      await page.mouse.click(Math.round(Math.min(vp.width - 1, Math.max(0, pt.x))), Math.round(Math.min(vp.height - 1, Math.max(0, pt.y))));
+      a = await until((s) => s.state === 'bouncing' || s.state === 'using', 24);
+      if (a && (a.state === 'bouncing' || a.state === 'using')) break;
+    }
     await page.waitForTimeout(400);
     await page.screenshot({ path: `${OUT}/${vp.tag}-${id}.png` });
     const ok = a && (a.state === 'bouncing' || a.state === 'using');
