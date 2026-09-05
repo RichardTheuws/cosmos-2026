@@ -4,6 +4,12 @@ Alle wijzigingen volgen [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 De `/updates/` pagina wordt automatisch uit dit bestand gegenereerd via `npm run updates:build`.
 
+## [2.10.0] — 2026-09-05 — Wave 28.1: affection shows, and the dunes get a place to come down
+
+### Added
+- **Affection, made visible.** A Cosmo who likes you turns and waves on the first free moment after you wake him; while you stay he looks over every minute or so and winks or waves, more often the more he likes you. Never a meter — you read it from him. (Affection rises when you send him somewhere he liked, send a tired Cosmo to rest, or pet him; it is remembered across visits.)
+- **The dunes have things now — as objects, with clips.** The Wave-25.5 soul pass removed the dunes' decal interactables because they were floating rectangles; the "properly-arted layer" it reserved exists since Wave 27/28, so what reads as an object comes back on the same contract. *The Long Dune*: the **updraft** (play — he jumps into a column of rising light; the light quickens) and the **wind-bowl** (calm — he stretches, then listens as the sand sings). *The Windless Hollow*: a **warm-stone** (rest — a sun-warmed stone he curls up against, new asset, fal Ultra + BiRefNet) and the **glass-bead-bloom** (calm — he ducks to look, the bead glints). Every dunes room now has a rest or a calm thing, so his inner life works there. The slide-crest stays out (it is a landscape, not an object).
+
 ## [2.9.0] — 2026-09-05 — Wave 28 · system 3: the clearing's clock
 
 The third Wave-28 system: **return-factor** — tomorrow is not today.

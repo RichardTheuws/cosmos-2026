@@ -37,6 +37,9 @@ import type {
   TransitionDriver,
 } from '../../src/substrate/contracts/BehaviorContract';
 import { AmbientField } from '../../src/substrate/drivers/AmbientField';
+import type { InteractableHandle, UseApi } from '../../src/substrate/contracts/BehaviorContract';
+import type { CosmoV2Rig } from '../../src/three/cosmoV2';
+import type { GlobalUniforms } from '../../src/core/globalUniforms';
 import type { Biome, BiomeId } from '../../src/data/biomePresets';
 import type { GlobalUniforms } from '../../src/core/globalUniforms';
 
@@ -165,7 +168,245 @@ function dunesBackground(ctx: SubstrateCtx): BackgroundHandle {
  * director should play, and any animation-request the design raised.
  */
 
-/* (decal-plane interactable classes removed — see note above) */
+/* ── interactables — BACK (Wave 28.1, 2026-09-05) ──────────────────────────────
+ *
+ * The "later, properly-arted layer" the Wave-25.5 note reserved exists now:
+ * UseApi (named painted clips + SFX), tiers, and Cosmo's inner life, which
+ * needs every room to have one `rest` and one `calm` thing or he has nowhere
+ * to come down. What comes back is only what reads as an OBJECT in the room:
+ *
+ *   long-dune           updraft-current (play)  — an additive column of rising
+ *                                                 light; Cosmo jumps into it
+ *                       wind-bowl (calm)        — the bowl where the sand sings;
+ *                                                 he stretches, then listens
+ *   the-windless-hollow warm-stone (rest)       — a sun-warmed stone he curls
+ *                                                 up against (NEW asset)
+ *                       glass-bead-bloom (calm) — he ducks to look, the bead
+ *                                                 glints
+ *
+ * slide-crest.png stays out (it is a landscape, not an object — the very thing
+ * the soul pass removed). Phone-portrait rule: |x| ≤ ~1.1 at z ≈ −3.
+ */
+class DuneUpdraft implements InteractableHandle {
+  readonly id = 'updraft-current';
+  readonly anchor = { x: 0.9, y: 0, z: -3.1 };
+  readonly range = 1.4;
+  readonly nature = 'play' as const;
+  private group = new THREE.Group();
+  private tex: THREE.Texture;
+  private column: THREE.Mesh;
+  private timeS = 0;
+  private lift = 0; // event-peak 0..1
+
+  constructor(private scene: THREE.Scene) {
+    const loader = new THREE.TextureLoader();
+    this.tex = loader.load(assetPath('assets/objects/updraft-current.webp'));
+    this.tex.colorSpace = THREE.SRGBColorSpace;
+    this.column = new THREE.Mesh(
+      new THREE.PlaneGeometry(1.8, 2.7),
+      new THREE.MeshBasicMaterial({
+        map: this.tex, transparent: true, depthWrite: false, side: THREE.DoubleSide,
+        blending: THREE.AdditiveBlending, opacity: 0.8,
+      }),
+    );
+    this.column.position.set(0, 1.3, 0);
+    this.group.add(this.column);
+    this.group.position.set(this.anchor.x, this.anchor.y, this.anchor.z);
+    scene.add(this.group);
+  }
+
+  update(dt: number, _u: GlobalUniforms): void {
+    this.timeS += dt;
+    if (this.lift > 0) this.lift = Math.max(0, this.lift - dt / 3.5);
+    const mat = this.column.material as THREE.MeshBasicMaterial;
+    mat.opacity = Math.min(1, 0.8 * (1 + 0.06 * Math.sin(this.timeS * 1.7)) + 0.3 * this.lift);
+    // the column's light drifts upward (texture scroll) — faster when he's in it
+    this.tex.offset.y -= dt * (0.04 + 0.12 * this.lift);
+  }
+
+  onUse(_cosmo: CosmoV2Rig, api?: UseApi): void {
+    api?.playClip('jump', { holdS: 3.2 });
+    api?.sfx('jump');
+    this.lift = 1;
+  }
+
+  dispose(): void {
+    if (this.group.parent) this.group.parent.remove(this.group);
+    this.column.geometry.dispose();
+    (this.column.material as THREE.Material).dispose();
+    this.tex.dispose();
+    void this.scene;
+  }
+}
+
+class WindBowl implements InteractableHandle {
+  readonly id = 'wind-bowl';
+  readonly anchor = { x: -0.9, y: 0, z: -3.1 };
+  readonly range = 1.4;
+  readonly nature = 'calm' as const;
+  private group = new THREE.Group();
+  private tex: THREE.Texture;
+  private bowl: THREE.Mesh;
+  private timeS = 0;
+  private sing = 0;
+  private useCount = 0;
+
+  constructor(private scene: THREE.Scene) {
+    const loader = new THREE.TextureLoader();
+    this.tex = loader.load(assetPath('assets/objects/wind-bowl.webp'));
+    this.tex.colorSpace = THREE.SRGBColorSpace;
+    this.bowl = new THREE.Mesh(
+      new THREE.PlaneGeometry(1.6, 0.8),
+      new THREE.MeshBasicMaterial({ map: this.tex, transparent: true, alphaTest: 0.08, depthWrite: false, side: THREE.DoubleSide }),
+    );
+    this.bowl.position.set(0, 0.4, 0);
+    this.group.add(this.bowl);
+    this.group.position.set(this.anchor.x, this.anchor.y, this.anchor.z);
+    scene.add(this.group);
+  }
+
+  update(dt: number, _u: GlobalUniforms): void {
+    this.timeS += dt;
+    if (this.sing > 0) this.sing = Math.max(0, this.sing - dt / 4);
+    // the bowl hums: a barely-there scale breath, stronger while it sings
+    const b = 1 + (0.01 + 0.03 * this.sing) * Math.sin(this.timeS * 5.2);
+    this.bowl.scale.set(b, 1 / b, 1);
+  }
+
+  onUse(_cosmo: CosmoV2Rig, api?: UseApi): void {
+    this.useCount += 1;
+    if (this.useCount % 2 === 1) api?.playClip('stretch', { holdS: 3.8 });
+    else api?.playClip('look', { holdS: 3.4 });
+    api?.sfx('cling');
+    this.sing = 1;
+  }
+
+  dispose(): void {
+    if (this.group.parent) this.group.parent.remove(this.group);
+    this.bowl.geometry.dispose();
+    (this.bowl.material as THREE.Material).dispose();
+    this.tex.dispose();
+    void this.scene;
+  }
+}
+
+class WarmStone implements InteractableHandle {
+  readonly id = 'warm-stone';
+  readonly anchor = { x: 0.9, y: 0, z: -3.0 };
+  readonly range = 1.3;
+  readonly nature = 'rest' as const;
+  private group = new THREE.Group();
+  private tex: THREE.Texture;
+  private stone: THREE.Mesh;
+  private glow: THREE.Mesh;
+  private timeS = 0;
+  private resting = 0;
+
+  constructor(private scene: THREE.Scene) {
+    const loader = new THREE.TextureLoader();
+    this.tex = loader.load(assetPath('assets/objects/warm-stone.webp'));
+    this.tex.colorSpace = THREE.SRGBColorSpace;
+    this.stone = new THREE.Mesh(
+      new THREE.PlaneGeometry(1.5, 1.5),
+      new THREE.MeshBasicMaterial({ map: this.tex, transparent: true, alphaTest: 0.08, depthWrite: false, side: THREE.DoubleSide }),
+    );
+    this.stone.position.set(0, 0.7, -0.3);
+    this.group.add(this.stone);
+    this.glow = new THREE.Mesh(
+      new THREE.PlaneGeometry(1.6, 0.9),
+      new THREE.MeshBasicMaterial({ color: 0xf2c879, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.1 }),
+    );
+    this.glow.rotation.x = -Math.PI / 2;
+    this.glow.position.y = 0.011;
+    this.group.add(this.glow);
+    this.group.position.set(this.anchor.x, this.anchor.y, this.anchor.z);
+    scene.add(this.group);
+  }
+
+  update(dt: number, _u: GlobalUniforms): void {
+    this.timeS += dt;
+    if (this.resting > 0) this.resting = Math.max(0, this.resting - dt);
+    const warm = this.resting > 0 ? 0.3 : 0.1;
+    const gm = this.glow.material as THREE.MeshBasicMaterial;
+    gm.opacity += (warm - gm.opacity) * Math.min(1, dt * 1.5);
+  }
+
+  onUse(_cosmo: CosmoV2Rig, api?: UseApi): void {
+    api?.playClip('petted', { loop: true, holdS: 6.5 });
+    api?.sfx('cosmo-coo-1');
+    this.resting = 6.5;
+  }
+
+  dispose(): void {
+    if (this.group.parent) this.group.parent.remove(this.group);
+    this.stone.geometry.dispose();
+    this.glow.geometry.dispose();
+    (this.stone.material as THREE.Material).dispose();
+    (this.glow.material as THREE.Material).dispose();
+    this.tex.dispose();
+    void this.scene;
+  }
+}
+
+class GlassBeadBloom implements InteractableHandle {
+  readonly id = 'glass-bead-bloom';
+  readonly anchor = { x: -0.6, y: 0, z: -1.4 };
+  readonly range = 1.2;
+  readonly nature = 'calm' as const;
+  private group = new THREE.Group();
+  private tex: THREE.Texture;
+  private bloom: THREE.Mesh;
+  private timeS = 0;
+  private glint = 0;
+
+  constructor(private scene: THREE.Scene) {
+    const loader = new THREE.TextureLoader();
+    this.tex = loader.load(assetPath('assets/objects/glass-bead-bloom.webp'));
+    this.tex.colorSpace = THREE.SRGBColorSpace;
+    this.bloom = new THREE.Mesh(
+      new THREE.PlaneGeometry(0.6, 0.45),
+      new THREE.MeshBasicMaterial({ map: this.tex, transparent: true, alphaTest: 0.08, depthWrite: false, side: THREE.DoubleSide }),
+    );
+    this.bloom.position.set(0, 0.22, 0);
+    this.group.add(this.bloom);
+    this.group.position.set(this.anchor.x, this.anchor.y, this.anchor.z);
+    scene.add(this.group);
+  }
+
+  update(dt: number, _u: GlobalUniforms): void {
+    this.timeS += dt;
+    if (this.glint > 0) this.glint = Math.max(0, this.glint - dt / 2.5);
+    // a slow glint-cycle: brightness breathes; the touch flares it
+    const mat = this.bloom.material as THREE.MeshBasicMaterial;
+    const v = 0.85 + 0.15 * Math.sin(this.timeS * 0.9) + this.glint * 0.6;
+    mat.color.setScalar(Math.min(1.6, v));
+  }
+
+  onUse(_cosmo: CosmoV2Rig, api?: UseApi): void {
+    api?.playClip('duck', { holdS: 3.2 });
+    api?.sfx('starPickup');
+    this.glint = 1;
+  }
+
+  dispose(): void {
+    if (this.group.parent) this.group.parent.remove(this.group);
+    this.bloom.geometry.dispose();
+    (this.bloom.material as THREE.Material).dispose();
+    this.tex.dispose();
+    void this.scene;
+  }
+}
+
+function dunesInteractables(ctx: SubstrateCtx): InteractableHandle[] {
+  switch (ctx.room.id) {
+    case 'long-dune':
+      return [new DuneUpdraft(ctx.scene), new WindBowl(ctx.scene)];
+    case 'the-windless-hollow':
+      return [new WarmStone(ctx.scene), new GlassBeadBloom(ctx.scene)];
+    default:
+      return [];
+  }
+}
 
 /* ── inhabitants ──────────────────────────────────────────────────────────────
  *
@@ -335,7 +576,8 @@ const dunesBehavior: UniverseBehavior = {
   background: dunesBackground, // REQUIRED — biomeKey:null everywhere (Fork 3(a))
   arrival: dunesArrival,
   inhabitants: dunesInhabitants,
-  // interactables — OMITTED (Wave 25.5): the decal-plane interactables were
+  interactables: dunesInteractables, // Wave 28.1 — back, as objects with clips (see note)
+  // (Wave 25.5 note, historical): the decal-plane interactables were
   // removed (the landscape-rectangle "rare misser" + magenta "useless item").
   // The dune breathes via its AmbientField + parallax; arted interaction later.
   // audio omitted — fall back to the substrate's DefaultAudio, which actually

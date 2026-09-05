@@ -89,7 +89,9 @@ for (const vp of [
     const a = await until(() => false, 8); // let curiosity clock tick
     void a;
     let moved = false;
-    for (let i = 0; i < 120 && !moved; i++) {
+    // His idle wait scales with zin (up to ~26 s after a few visits) plus a
+    // greeting beat may come first — allow a full minute.
+    for (let i = 0; i < 240 && !moved; i++) {
       await page.waitForTimeout(250);
       moved = await page.evaluate((b) => window.__cosmosDirector.lastUsedId !== b || window.__cosmosDirector.deps.cosmoAgent.state === 'walking-to', before);
     }

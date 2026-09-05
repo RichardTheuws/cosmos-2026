@@ -72,6 +72,9 @@ export class InteractionDirector {
   readonly inner: InnerState = InteractionDirector.restoreInner();
   private sleepingInPlace = false;
   private saveAccS = 0;
+  /** Wave 28.1 — when he next turns to you (affection made visible). */
+  private nextGreetAt = Infinity;
+  private greetedOnWake = false;
 
   /** He is the same Cosmo you left: energy and appetite come back with the
    *  hours you were away (never lowered), affection is remembered as-is. */
@@ -159,6 +162,33 @@ export class InteractionDirector {
       this.nextCuriosityAt = this.t + 2;
       return;
     }
+
+    // Affection, made visible (Wave 28.1). He remembers you: on the first
+    // free moment after waking, a Cosmo who likes you turns and waves; while
+    // you stay, every ~40–70 s he looks over and winks or waves — more often
+    // the more he likes you. Never a number, never a meter.
+    if (!this.greetedOnWake) {
+      this.greetedOnWake = true;
+      if (this.inner.affection > 0.65) {
+        agent.useClip('wave', { holdS: 2.2 });
+        this.deps.playSfx('cosmo-coo-1');
+        this.nextGreetAt = this.t + 40;
+        this.nextCuriosityAt = this.t + 4;
+        return;
+      }
+      this.nextGreetAt = this.t + 60;
+    } else if (this.t >= this.nextGreetAt) {
+      const a = this.inner.affection;
+      if (a > 0.6 && this.t - this.lastInputT < 45) {
+        agent.useClip(a > 0.8 ? 'wave' : 'wink', { holdS: a > 0.8 ? 2.2 : 1.4 });
+        if (a > 0.8) this.deps.playSfx(['cosmo-coo-1', 'cosmo-coo-2', 'cosmo-coo-3'][Math.floor(Math.random() * 3)]);
+        this.nextGreetAt = this.t + 70 - 30 * Math.min(1, (a - 0.6) / 0.4);
+        this.nextCuriosityAt = this.t + 4;
+        return;
+      }
+      this.nextGreetAt = this.t + 30;
+    }
+
     const handles = this.deps.interactables();
     const candidates = handles.map((h) => ({ id: h.id, nature: h.nature ?? ('play' as const) }));
 
