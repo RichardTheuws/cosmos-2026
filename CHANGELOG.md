@@ -4,6 +4,12 @@ Alle wijzigingen volgen [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 De `/updates/` pagina wordt automatisch uit dit bestand gegenereerd via `npm run updates:build`.
 
+## [2.10.1] — 2026-09-05 — Front-left things pulled into the phone frame
+
+### Fixed
+- The glass-bead-bloom (Hollow) and the spore-puddle (Clearing) sat at the very edge of a phone-portrait frame, where a tap could miss. Both moved a little toward centre. The UAT script now wakes Cosmo with a top-centre tap so the camera stays centred.
+- **A visit started in Cosmo's first second was silently cancelled.** The intro hand-over (1.2 s of looking, then walking) overwrote whatever state he was in — including a walk to something you had just tapped — and he drifted home. It now only hands over from its own states.
+
 ## [2.10.0] — 2026-09-05 — Wave 28.1: affection shows, and the dunes get a place to come down
 
 ### Added

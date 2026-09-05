@@ -59,7 +59,9 @@ for (const vp of [
   await page.goto(URL, { waitUntil: 'networkidle' });
   await page.waitForTimeout(2500);
   if (!(await agent())) { console.log(vp.tag, 'FAIL: substrate director not mounted (legacy path or boot failure)'); failures++; await page.close(); continue; }
-  await page.mouse.click(20, 20); // wake, far from any interactable
+  // Wake with a tap at top-centre: nothing lives there, and (unlike a corner)
+  // it doesn't pan the camera off-centre, which would push edge items out.
+  await page.mouse.click(Math.round(vp.width / 2), 120);
   await until((a) => !a.paused);
   await page.screenshot({ path: `${OUT}/${vp.tag}-00-awake.png` });
 

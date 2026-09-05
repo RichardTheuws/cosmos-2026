@@ -418,7 +418,10 @@ export class CosmoAgent {
     if (!this.introFinished) {
       if (this.t >= this.introCompleteAt) {
         this.introFinished = true;
-        this.setState('walking');
+        // v2.10.1 — only hand over from the intro's own states. A visit that
+        // started inside the first 1.2 s (walking-to / using) must not be
+        // clobbered back to 'walking' (live UAT: the Hollow's first tap died).
+        if (this.state === 'idle' || this.state === 'looking') this.setState('walking');
       }
     }
 

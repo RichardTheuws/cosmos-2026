@@ -350,7 +350,7 @@ class WarmStone implements InteractableHandle {
 
 class GlassBeadBloom implements InteractableHandle {
   readonly id = 'glass-bead-bloom';
-  readonly anchor = { x: -0.6, y: 0, z: -1.4 };
+  readonly anchor = { x: -0.35, y: 0, z: -1.7 }; // front-left items sit at the phone's edge past |x|≈0.5
   readonly range = 1.2;
   readonly nature = 'calm' as const;
   private group = new THREE.Group();

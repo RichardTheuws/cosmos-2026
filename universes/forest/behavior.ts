@@ -1221,7 +1221,7 @@ class BreathingPortalGreeting implements InteractableHandle {
 class SporePuddle implements InteractableHandle {
   readonly id = 'spore-puddle';
   readonly nature = 'play' as const;
-  readonly anchor = { x: -0.55, y: 0, z: -1.1 }; // front-left; stays in frame through the ±1.6 camera pan
+  readonly anchor = { x: -0.45, y: 0, z: -1.25 }; // front-left; phone edge is ≈|x| 0.5 at this depth
   readonly range = 1.6;
 
   private group = new THREE.Group();
