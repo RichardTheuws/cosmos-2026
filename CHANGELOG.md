@@ -8,6 +8,7 @@ De `/updates/` pagina wordt automatisch uit dit bestand gegenereerd via `npm run
 
 ### Fixed
 - **The "tap the trampoline" hint no longer shows in the default dweller experience.** An inline guard in `play/index.html` early-returned only when `?substrate=v2` was present — but post-cutover substrate is the default (no param), so the legacy forest-runner's trampoline hint leaked into every bare `/play/` visit (dunes, ink-ocean, chart — worlds with no trampoline). The guard now keys off `?legacy=1`, so the hint runs only in the legacy path. (Live-verified the cutover itself works: the app chunk gates on `?legacy=1`, bare `/play/` boots substrate.)
+- **`package.json` version synced to 2.5.1** (was stuck at 2.4.10 while `VERSION` advanced; lockfile updated too). Post-release housekeeping, 2026-09-05.
 
 ## [2.5.0] — 2026-06-15 — The cutover: the daydream is the default now
 
