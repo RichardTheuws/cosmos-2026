@@ -157,21 +157,9 @@ export class InteractionDirector {
       this.inner.asleep = false;
       this.inner.energy = Math.max(this.inner.energy, 0.6);
     }
-    if (!this.awake || this.t < this.nextCuriosityAt) return;
-    if (agent.paused) {
-      // Onboarding still owns Cosmo (it resets his state when it hands over);
-      // the first "show, don't tell" beat waits until he is really ours.
-      this.nextCuriosityAt = this.t + 1;
-      return;
-    }
-    if (agent.isBusy && !(this.pending && agent.isWalkingHome)) {
-      this.nextCuriosityAt = this.t + 2;
-      return;
-    }
-
-    // A tap kept from while he was busy: yours comes first (fresh ones only).
-    // If he is merely walking home, it takes over from where he is.
-    if (this.pending) {
+    // A tap kept from while he was busy: yours comes first, ahead of every
+    // clock below. If he is merely walking home, it takes over from where he is.
+    if (this.pending && !agent.paused && (!agent.isBusy || agent.isWalkingHome)) {
       const { handle, at } = this.pending;
       this.pending = null;
       if (this.t - at < 12 && this.deps.interactables().includes(handle)) {
@@ -179,6 +167,17 @@ export class InteractionDirector {
         this.nextCuriosityAt = this.t + 4;
         return;
       }
+    }
+    if (!this.awake || this.t < this.nextCuriosityAt) return;
+    if (agent.paused) {
+      // Onboarding still owns Cosmo (it resets his state when it hands over);
+      // the first "show, don't tell" beat waits until he is really ours.
+      this.nextCuriosityAt = this.t + 1;
+      return;
+    }
+    if (agent.isBusy) {
+      this.nextCuriosityAt = this.t + 2;
+      return;
     }
 
     // Affection, made visible (Wave 28.1). He remembers you: on the first
