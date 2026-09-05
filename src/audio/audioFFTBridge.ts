@@ -236,12 +236,38 @@ export class AudioFFTBridge {
       void audioEl.play().catch((err) => {
         // eslint-disable-next-line no-console
         console.warn(`[audioFFTBridge] music play() retry rejected: ${err.name} ${err.message}`);
+        this.debugNote(`play() rejected: ${err.name}`);
       });
     }
+    this.debugNote();
+  }
+
+  /** `?audiodebug=1` — a tiny on-screen readout for phones (no devtools):
+   *  context state · bed paused/playing · last play() rejection. */
+  private debugEl: HTMLDivElement | null = null;
+  private debugLast = '';
+  private debugNote(note?: string): void {
+    if (typeof window === 'undefined' || !/[?&]audiodebug=1/.test(window.location.search)) return;
+    if (note) this.debugLast = note;
+    if (!this.debugEl) {
+      const el = document.createElement('div');
+      Object.assign(el.style, {
+        position: 'fixed', left: '8px', bottom: '8px', zIndex: '999', font: '11px/1.3 monospace',
+        color: '#fff', background: 'rgba(0,0,0,0.55)', padding: '4px 6px', borderRadius: '6px', pointerEvents: 'none',
+      } as Partial<CSSStyleDeclaration>);
+      document.body.appendChild(el);
+      this.debugEl = el;
+    }
+    const a = this.source?.audioEl;
+    this.debugEl.textContent =
+      `ctx ${this.ctx?.state ?? '-'} · bed ${a ? (a.paused ? 'paused' : 'playing') : 'none'}` +
+      ` · t ${a ? a.currentTime.toFixed(1) : '-'} · ${(this.currentTrackUrl ?? '').split('/').pop() ?? ''}` +
+      (this.debugLast ? ` · ${this.debugLast}` : '');
   }
 
   /** Per-frame: pull byte FFT, aggregate to 8 bands, lerp into uniforms. */
   update(): void {
+    if (this.debugEl) this.debugNote();
     if (!this.analyser || !this.freqData) return;
     if (this.ctx?.state !== 'running') return; // pre-gesture: bands stay 0
 
@@ -427,9 +453,8 @@ export class AudioFFTBridge {
     // boot source was the silent fallback).
     const existing = this.source?.audioEl;
     if (existing) {
-      existing.src = url;
-      existing.loop = true;
-      existing.load();
+      existing.src = url; // setting src loads; an explicit load() can drop
+      existing.loop = true; // the iOS gesture-blessing of the element
       this.currentTrackUrl = url;
       void existing.play().catch(() => {
         /* gesture still pending; ensureRunning() retries play() on next gesture */

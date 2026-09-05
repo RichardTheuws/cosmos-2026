@@ -206,6 +206,26 @@
     <article class="update" data-reveal>
       <div class="update__card">
         <div class="update__header">
+          <span class="update__version">v2.10.3</span>
+          <span class="update__date">2026-09-05</span>
+          <h2 class="update__title">09-05 — No music on iPhone (the real cause), and the follow-pill recedes</h2>
+        </div>
+        <div class="update__body">
+          <div class="update__tags">
+          <span class="tag tag--fix">Fix</span>
+          </div>
+        <h3>FIXED</h3>
+        <ul class="update__highlights">
+          <li><strong>No music on iPhone while SFX played.</strong> iOS Safari does not count <code>touchstart</code> as a user activation for media playback, and a tap our pointer handling consumes may never become a <code>click</code> — so the bed&#039;s <code>play()</code> was never blessed. Howler unlocks on <code>touchend</code>, which is why effects worked. The bed now unlocks on <code>touchend</code> / <code>pointerup</code> too, and the blessed element no longer gets an explicit <code>load()</code> on a room swap (that can drop the blessing). <code>?audiodebug=1</code> shows a small on-screen readout (context state, bed playing/paused, last rejection) for reports from a phone.</li>
+          <li><strong>The &quot;follow Cosmo&quot; pill sat in the frame permanently, with a glyph.</strong> The arrow is gone (no emoji, no symbols). The pill shows for six seconds on arrival, then recedes to a small breathing mote at the same spot; tap the mote to bring the pill back, tap the pill to travel. The hud link&#039;s arrow glyph is gone too.</li>
+        </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="update" data-reveal>
+      <div class="update__card">
+        <div class="update__header">
           <span class="update__version">v2.10.2</span>
           <span class="update__date">2026-09-05</span>
           <h2 class="update__title">09-05 — Final check before the phone: four small things that would have got in the way</h2>

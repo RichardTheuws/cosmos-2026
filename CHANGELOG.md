@@ -4,6 +4,12 @@ Alle wijzigingen volgen [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 De `/updates/` pagina wordt automatisch uit dit bestand gegenereerd via `npm run updates:build`.
 
+## [2.10.3] — 2026-09-05 — No music on iPhone (the real cause), and the follow-pill recedes
+
+### Fixed
+- **No music on iPhone while SFX played.** iOS Safari does not count `touchstart` as a user activation for media playback, and a tap our pointer handling consumes may never become a `click` — so the bed's `play()` was never blessed. Howler unlocks on `touchend`, which is why effects worked. The bed now unlocks on `touchend` / `pointerup` too, and the blessed element no longer gets an explicit `load()` on a room swap (that can drop the blessing). `?audiodebug=1` shows a small on-screen readout (context state, bed playing/paused, last rejection) for reports from a phone.
+- **The "follow Cosmo" pill sat in the frame permanently, with a glyph.** The arrow is gone (no emoji, no symbols). The pill shows for six seconds on arrival, then recedes to a small breathing mote at the same spot; tap the mote to bring the pill back, tap the pill to travel. The hud link's arrow glyph is gone too.
+
 ## [2.10.2] — 2026-09-05 — Final check before the phone: four small things that would have got in the way
 
 ### Fixed

@@ -63,7 +63,7 @@ export class RoomOnwardOverlay {
       borderRadius: '14px',
       textShadow: '0 1px 6px rgba(0,0,0,0.5)',
     } as Partial<CSSStyleDeclaration>);
-    el.textContent = `follow Cosmo  ·  ${this.opts.label}  ↪`;
+    el.textContent = `follow Cosmo to ${this.opts.label}`;
 
     // Breathe (the world breathes, it does not shake): a slow opacity sine.
     if (!document.getElementById('room-onward-style')) {
@@ -71,12 +71,24 @@ export class RoomOnwardOverlay {
       style.id = 'room-onward-style';
       style.textContent =
         '@keyframes roomOnwardBreathe{0%,100%{opacity:0.5}50%{opacity:0.85}}' +
-        '#room-onward{animation:roomOnwardBreathe 6.5s ease-in-out infinite}' +
-        '#room-onward:hover,#room-onward:focus-visible{opacity:1!important;outline:none}';
+        '#room-onward{animation:roomOnwardBreathe 6.5s ease-in-out infinite;transition:opacity .9s ease,transform .9s ease}' +
+        '#room-onward:hover,#room-onward:focus-visible{opacity:1!important;outline:none}' +
+        // v2.10.3 — after a few seconds the pill recedes to a mote (Richard:
+        // "staat altijd heel storend in beeld"). A tap on the mote brings the
+        // pill back for a few seconds; a tap on the pill travels.
+        '#room-onward.is-mote{opacity:0.45!important;transform:translateX(-50%) scale(0.28);' +
+        'color:transparent;text-shadow:none;background:rgba(245,237,216,0.7);border-radius:999px;' +
+        'animation:roomOnwardBreathe 6.5s ease-in-out infinite;padding:0.5rem 0.5rem;width:1.1rem;height:1.1rem}';
       document.head.appendChild(style);
     }
 
-    el.addEventListener('click', () => this.activate());
+    el.addEventListener('click', () => {
+      if (el.classList.contains('is-mote')) {
+        this.expand();
+        return;
+      }
+      this.activate();
+    });
     el.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
@@ -86,6 +98,22 @@ export class RoomOnwardOverlay {
 
     document.body.appendChild(el);
     this.el = el;
+    this.expand();
+  }
+
+  private recedeTimer: number | null = null;
+
+  /** Show the full pill for a few seconds, then recede to a mote. */
+  private expand(): void {
+    const el = this.el;
+    if (!el) return;
+    el.classList.remove('is-mote');
+    el.setAttribute('aria-label', `Follow Cosmo onward to ${this.opts.label}`);
+    if (this.recedeTimer !== null) window.clearTimeout(this.recedeTimer);
+    this.recedeTimer = window.setTimeout(() => {
+      el.classList.add('is-mote');
+      el.setAttribute('aria-label', `Show the way onward to ${this.opts.label}`);
+    }, 6000);
   }
 
   private activate(): void {
@@ -95,6 +123,7 @@ export class RoomOnwardOverlay {
   }
 
   dispose(): void {
+    if (this.recedeTimer !== null) window.clearTimeout(this.recedeTimer);
     this.el?.remove();
     this.el = null;
   }

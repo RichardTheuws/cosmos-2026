@@ -45,7 +45,7 @@ import { InteractionDirector } from './substrate/InteractionDirector';
 import { SubstrateLoader } from './substrate/SubstrateLoader';
 import { TravelVeil, type CosmosNavigateDetail } from './substrate/drivers/TravelVeil';
 
-const VERSION = '2.10.2';
+const VERSION = '2.10.3';
 
 /** Wave 26 — substrate is now the DEFAULT `/play/` experience (the cutover).
  *  The Universe→Area→Room contract boots unless `?legacy=1` is present, which
@@ -278,6 +278,13 @@ async function boot(): Promise<void> {
   window.addEventListener('click', unlockAudio, { once: false, passive: true });
   window.addEventListener('keydown', unlockAudio, { once: false, passive: true });
   window.addEventListener('touchstart', unlockAudio, { once: false, passive: true });
+  // v2.10.3 — iOS Safari does NOT count `touchstart` as a user activation for
+  // media playback, and a tap that our pointer-handling consumes may never
+  // become a `click`. `touchend` / `pointerup` are the activations iOS honours
+  // (it is what Howler unlocks on — which is why SFX played and the bed did
+  // not). Live report, Richard's iPhone, 2026-09-05.
+  window.addEventListener('touchend', unlockAudio, { once: false, passive: true });
+  window.addEventListener('pointerup', unlockAudio, { once: false, passive: true });
   // v2.6.1 — coming back to the tab / unlocking the phone: try to resume the
   // bed right away (a blessed element may resume without a gesture; if the
   // browser refuses, the next tap's unlockAudio does it).
