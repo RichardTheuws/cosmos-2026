@@ -183,6 +183,14 @@ export class AudioFFTBridge {
       console.warn('[audioFFTBridge] Web Audio unavailable; FFT disabled.');
       return;
     }
+    // v2.10.5 — THE iPhone "no music, SFX fine" root cause. On the first
+    // `new Howl` Howler runs `_unlockAudio()`, and if the context's sampleRate
+    // is not 44100 (48000 on every iPhone and Mac) it CLOSES the context and
+    // creates a new one (Howler.unload). Our graph — captured below — then
+    // hangs on a closed context forever while SFX use the new one. Trigger
+    // that one-time swap now, before we capture the context.
+    (Howler as unknown as { _unlockAudio?: () => void })._unlockAudio?.();
+    if (!Howler.ctx || !Howler.masterGain) return;
     this.ctx = Howler.ctx;
 
     this.analyser = this.ctx.createAnalyser();
@@ -225,6 +233,17 @@ export class AudioFFTBridge {
    */
   ensureRunning(): void {
     if (!this.initialised) this.init();
+    // v2.10.5 — belt and braces: if Howler ever swaps its context under us
+    // (unload → close → new), rebuild our graph on the new one, keeping the
+    // current bed. We are inside a gesture here, so the fresh element's
+    // play() is blessed.
+    if (this.initialised && this.ctx && (this.ctx !== Howler.ctx || (this.ctx.state as string) === 'closed')) {
+      const keep = this.currentTrackUrl;
+      this.dispose();
+      this.pendingTrackUrl = keep;
+      this.init();
+      this.debugNote('graph rebuilt on new ctx');
+    }
     // v2.6.1 — iOS reports `interrupted` (not `suspended`) after AirPods
     // out/in, screen lock, a notification, Siri. We only resumed on
     // `suspended`, so after any interruption the bed stayed dead while Howler

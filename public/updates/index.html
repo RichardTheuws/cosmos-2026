@@ -206,6 +206,25 @@
     <article class="update" data-reveal>
       <div class="update__card">
         <div class="update__header">
+          <span class="update__version">v2.10.5</span>
+          <span class="update__date">2026-09-05</span>
+          <h2 class="update__title">09-05 — No music on iPhone: the root cause, found and fixed</h2>
+        </div>
+        <div class="update__body">
+          <div class="update__tags">
+          <span class="tag tag--fix">Fix</span>
+          </div>
+        <h3>FIXED</h3>
+        <ul class="update__highlights">
+          <li><strong>Music never played on iPhone while SFX did — deterministic, not intermittent.</strong> The bridge shares Howler&#039;s AudioContext. On the first <code>new Howl</code> (the first sound effect) Howler checks the context&#039;s sampleRate and, when it is not 44100 — it is 48000 on every iPhone and Mac — <em>closes</em> the context and creates a new one. Our music graph, captured at boot, stayed on the closed context forever; effects used the new one. Traced on production with a <code>close()</code> hook: <code>Howler.unload ← _unlockAudio ← new Howl</code>. The bridge now triggers that one-time swap <em>before</em> capturing the context, and rebuilds its graph on the fly if the context ever changes again.</li>
+        </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="update" data-reveal>
+      <div class="update__card">
+        <div class="update__header">
           <span class="update__version">v2.10.4</span>
           <span class="update__date">2026-09-05</span>
           <h2 class="update__title">09-05 — The music really stops sometimes: Howler was suspending the shared context</h2>

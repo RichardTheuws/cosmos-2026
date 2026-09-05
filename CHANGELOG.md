@@ -4,6 +4,11 @@ Alle wijzigingen volgen [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 De `/updates/` pagina wordt automatisch uit dit bestand gegenereerd via `npm run updates:build`.
 
+## [2.10.5] — 2026-09-05 — No music on iPhone: the root cause, found and fixed
+
+### Fixed
+- **Music never played on iPhone while SFX did — deterministic, not intermittent.** The bridge shares Howler's AudioContext. On the first `new Howl` (the first sound effect) Howler checks the context's sampleRate and, when it is not 44100 — it is 48000 on every iPhone and Mac — *closes* the context and creates a new one. Our music graph, captured at boot, stayed on the closed context forever; effects used the new one. Traced on production with a `close()` hook: `Howler.unload ← _unlockAudio ← new Howl`. The bridge now triggers that one-time swap *before* capturing the context, and rebuilds its graph on the fly if the context ever changes again.
+
 ## [2.10.4] — 2026-09-05 — The music really stops sometimes: Howler was suspending the shared context
 
 ### Fixed
