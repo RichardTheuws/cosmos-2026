@@ -45,7 +45,7 @@ import { InteractionDirector } from './substrate/InteractionDirector';
 import { SubstrateLoader } from './substrate/SubstrateLoader';
 import { TravelVeil, type CosmosNavigateDetail } from './substrate/drivers/TravelVeil';
 
-const VERSION = '2.10.3';
+const VERSION = '2.10.4';
 
 /** Wave 26 — substrate is now the DEFAULT `/play/` experience (the cutover).
  *  The Universe→Area→Room contract boots unless `?legacy=1` is present, which

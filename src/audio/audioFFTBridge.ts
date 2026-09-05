@@ -172,6 +172,12 @@ export class AudioFFTBridge {
     // .volume() with the current value is a side-effect-free way to trigger
     // setupAudioContext() without altering global state.
     Howler.volume(Howler.volume());
+    // v2.10.4 — THE "music stops sometimes, SFX still play" bug. We share
+    // Howler's AudioContext, and Howler suspends that context 30 s after its
+    // own last sound (autoSuspend) — taking our music bed down with it until
+    // the next SFX resumes it. Howler's timer callback checks this flag, so
+    // setting it here also defuses a timer that is already running.
+    Howler.autoSuspend = false;
     if (!Howler.ctx || !Howler.masterGain || !Howler.usingWebAudio) {
       // eslint-disable-next-line no-console
       console.warn('[audioFFTBridge] Web Audio unavailable; FFT disabled.');
@@ -227,6 +233,7 @@ export class AudioFFTBridge {
     if (this.ctx && (state === 'suspended' || state === 'interrupted')) {
       void this.ctx.resume();
     }
+    if (state === 'closed') this.debugNote('ctx closed (Howler unload?)');
     // Sprint 11D fix — autoplay-policy rejects the initial `<audio>.play()` call
     // before user-gesture, leaving the music track paused even after the
     // AudioContext resumes. Retry play() on every gesture; idempotent if

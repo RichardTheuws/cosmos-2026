@@ -4,6 +4,12 @@ Alle wijzigingen volgen [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 De `/updates/` pagina wordt automatisch uit dit bestand gegenereerd via `npm run updates:build`.
 
+## [2.10.4] — 2026-09-05 — The music really stops sometimes: Howler was suspending the shared context
+
+### Fixed
+- **Music dropped out after ~30 s of no sound effects, and came back with the next effect.** The bridge shares Howler's AudioContext, and Howler's `autoSuspend` suspends that context 30 s after its own last sound — the music bed, routed through the same context, went silent with it until an SFX resumed it. `autoSuspend` is now off. Together with v2.6.1 (`interrupted`) and v2.10.3 (`touchend` unlock) this closes the three separate ways the bed could be silent on an iPhone.
+- The "follow Cosmo" pill's six seconds now start at your first touch, not during boot behind the wake screen.
+
 ## [2.10.3] — 2026-09-05 — No music on iPhone (the real cause), and the follow-pill recedes
 
 ### Fixed

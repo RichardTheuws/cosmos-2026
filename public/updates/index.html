@@ -206,6 +206,26 @@
     <article class="update" data-reveal>
       <div class="update__card">
         <div class="update__header">
+          <span class="update__version">v2.10.4</span>
+          <span class="update__date">2026-09-05</span>
+          <h2 class="update__title">09-05 — The music really stops sometimes: Howler was suspending the shared context</h2>
+        </div>
+        <div class="update__body">
+          <div class="update__tags">
+          <span class="tag tag--fix">Fix</span>
+          </div>
+        <h3>FIXED</h3>
+        <ul class="update__highlights">
+          <li><strong>Music dropped out after ~30 s of no sound effects, and came back with the next effect.</strong> The bridge shares Howler&#039;s AudioContext, and Howler&#039;s <code>autoSuspend</code> suspends that context 30 s after its own last sound — the music bed, routed through the same context, went silent with it until an SFX resumed it. <code>autoSuspend</code> is now off. Together with v2.6.1 (<code>interrupted</code>) and v2.10.3 (<code>touchend</code> unlock) this closes the three separate ways the bed could be silent on an iPhone.</li>
+          <li>The &quot;follow Cosmo&quot; pill&#039;s six seconds now start at your first touch, not during boot behind the wake screen.</li>
+        </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="update" data-reveal>
+      <div class="update__card">
+        <div class="update__header">
           <span class="update__version">v2.10.3</span>
           <span class="update__date">2026-09-05</span>
           <h2 class="update__title">09-05 — No music on iPhone (the real cause), and the follow-pill recedes</h2>

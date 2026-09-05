@@ -99,6 +99,9 @@ export class RoomOnwardOverlay {
     document.body.appendChild(el);
     this.el = el;
     this.expand();
+    // The overlay mounts during boot, behind the wake screen; restart the
+    // six seconds on the visitor's first touch so the pill is actually seen.
+    window.addEventListener('pointerdown', () => this.expand(), { once: true, passive: true });
   }
 
   private recedeTimer: number | null = null;
