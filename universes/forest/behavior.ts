@@ -26,6 +26,8 @@ import { ParallaxScene } from '../../src/three/parallaxScene';
 import { BIOMES } from '../../src/data/biomePresets';
 import { assetPath } from '../../src/core/assetPath';
 import { COSMO_COO_POOL } from '../../src/audio/sfxBus';
+import { HALLUCINATION_PEAKS } from '../../src/audio/audioFFTBridge';
+import { envelope, tierFor } from '../../src/substrate/escalation';
 import type { GlobalUniforms } from '../../src/core/globalUniforms';
 import type { CosmoV2Rig } from '../../src/three/cosmoV2';
 import type { UseApi } from '../../src/substrate/contracts/BehaviorContract';
@@ -356,14 +358,337 @@ class ForestInhabitant implements InhabitantHandle {
   }
 }
 
+/* ── ClearingResponse (NEW, Wave 28 — system 1: the world answers in layers) ──
+ *
+ * The room-level answer to what Cosmo does. Interactables report each use;
+ * this handle decides the tier (src/substrate/escalation.ts) and makes the
+ * ROOM change — not Cosmo: the canopy lights up, a star shower drifts down,
+ * spore haze lingers and tints the light, the world dusks while he rests and
+ * deepens into a dream. Counts are per session (system 3 persists them).
+ *
+ * Ownership: an InhabitantHandle the forest authors — RoomHost ticks and
+ * disposes it like any inhabitant. It paints on the SHARED scene (no second
+ * ParallaxScene — the v2.2.4 scar) and writes post-FX as base + offset onto
+ * `u.biomeIntensity` (base captured at room enter, after applyUniverseDefaults),
+ * so every tier decays back to the calm baseline on its own. Nothing is
+ * scored, nothing is shown as a counter.
+ */
+interface Effect {
+  t: number; // elapsed seconds
+  total: number;
+}
+
+class ClearingResponse implements InhabitantHandle {
+  readonly id = 'clearing-response';
+  private group = new THREE.Group();
+  private timeS = 0;
+
+  // counts (per session)
+  private counts = { trampoline: 0, puddle: 0, sunbeam: 0, nap: 0 };
+
+  // ── canopy glow (tier 2 trampoline)
+  private canopy: THREE.Mesh;
+  private canopyFx: Effect | null = null;
+  // ── star shower (tier 3 trampoline) + dusk stars
+  private stars: THREE.Sprite[] = [];
+  private showerFx: Effect | null = null;
+  // ── spore haze (puddle tiers)
+  private haze: THREE.Mesh;
+  private hazeMotes: THREE.Sprite[] = [];
+  private hazeFx: Effect | null = null;
+  private hazeSticky = false;
+  // ── dusk / dream (nap)
+  private veil: THREE.Mesh;
+  private duskFx: Effect | null = null;
+  private duskDepth = 0.45;
+  private dreaming = false;
+  // ── sunbeam dust column (tier 3 sunbeam)
+  private dustFx: Effect | null = null;
+  private dustAt = { x: 0, z: 0 };
+
+  private readonly base: { bloom: number; kaleido: number; fluid: number; chroma: number };
+  private softTex: THREE.Texture;
+
+  constructor(private ctx: SubstrateCtx) {
+    const bi = ctx.globalUniforms.biomeIntensity;
+    this.base = { bloom: bi.bloom, kaleido: bi.kaleido, fluid: bi.fluid, chroma: bi.chroma };
+    this.softTex = ClearingResponse.makeSoftTexture();
+
+    // Canopy glow — a wide warm band across the top of the room, additive.
+    this.canopy = new THREE.Mesh(
+      new THREE.PlaneGeometry(9, 3.2),
+      new THREE.MeshBasicMaterial({
+        map: this.softTex, color: 0xf4c46a, transparent: true, depthWrite: false,
+        blending: THREE.AdditiveBlending, opacity: 0,
+      }),
+    );
+    this.canopy.position.set(0, 3.3, -3.4);
+    this.group.add(this.canopy);
+
+    // Spore haze — a soft saffron sheet at mid-depth (additive) + slow motes.
+    this.haze = new THREE.Mesh(
+      new THREE.PlaneGeometry(7, 3.4),
+      new THREE.MeshBasicMaterial({
+        map: this.softTex, color: 0xf4d58d, transparent: true, depthWrite: false,
+        blending: THREE.AdditiveBlending, opacity: 0,
+      }),
+    );
+    this.haze.position.set(0, 1.2, -2.2);
+    this.group.add(this.haze);
+    for (let i = 0; i < 16; i++) {
+      const sp = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: this.softTex, color: 0xf4d58d, transparent: true, depthWrite: false,
+        blending: THREE.AdditiveBlending, opacity: 0,
+      }));
+      sp.scale.setScalar(0.12 + Math.random() * 0.1);
+      sp.position.set((Math.random() - 0.5) * 3.2, 0.3 + Math.random() * 2.2, -1 - Math.random() * 2.5);
+      sp.visible = false;
+      this.group.add(sp);
+      this.hazeMotes.push(sp);
+    }
+
+    // Stars — shared pool: shower (tier 3 trampoline) and dusk sky.
+    for (let i = 0; i < 28; i++) {
+      const sp = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: this.softTex, color: i % 3 === 0 ? 0x9fe8ff : 0xfff4d6, transparent: true,
+        depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0,
+      }));
+      sp.scale.setScalar(0.06 + Math.random() * 0.08);
+      sp.visible = false;
+      this.group.add(sp);
+      this.stars.push(sp);
+    }
+
+    // Dusk veil — a dark ink-aubergine sheet far behind the room content; it
+    // dims the painted world, the inhabitants stay lit (they glow in the dusk).
+    this.veil = new THREE.Mesh(
+      new THREE.PlaneGeometry(24, 12),
+      new THREE.MeshBasicMaterial({ color: 0x1d1426, transparent: true, depthWrite: false, opacity: 0 }),
+    );
+    this.veil.position.set(0, 1.4, -5.2);
+    this.veil.renderOrder = -10;
+    this.group.add(this.veil);
+
+    ctx.scene.add(this.group);
+  }
+
+  private static makeSoftTexture(): THREE.Texture {
+    const c = document.createElement('canvas');
+    c.width = c.height = 128;
+    const g = c.getContext('2d')!;
+    const grad = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+    grad.addColorStop(0, 'rgba(255,255,255,1)');
+    grad.addColorStop(0.45, 'rgba(255,255,255,0.55)');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = grad;
+    g.fillRect(0, 0, 128, 128);
+    const t = new THREE.CanvasTexture(c);
+    t.colorSpace = THREE.SRGBColorSpace;
+    return t;
+  }
+
+  /* ── reports from interactables ─────────────────────────────────────── */
+
+  /** Trampoline visit. Returns the tier that fired (for the interactable's SFX). */
+  trampolineVisit(): 1 | 2 | 3 {
+    const tier = tierFor(++this.counts.trampoline, { tier2At: 3, tier3At: 5, every: 5 });
+    if (tier === 2) {
+      this.canopyFx = { t: 0, total: 8 };
+      this.ctx.globalUniforms.kaleidoTrigger = Math.max(this.ctx.globalUniforms.kaleidoTrigger, 0.8);
+    } else if (tier === 3) {
+      this.canopyFx = { t: 0, total: 10 };
+      this.showerFx = { t: 0, total: 10 };
+      this.ctx.globalUniforms.kaleidoTrigger = 1;
+      this.ctx.audioBridge.startHallucination(HALLUCINATION_PEAKS);
+    }
+    return tier;
+  }
+
+  puddleVisit(): 1 | 2 | 3 {
+    const tier = tierFor(++this.counts.puddle, { tier2At: 2, tier3At: 3 });
+    if (tier === 2) this.hazeFx = { t: 0, total: 60 };
+    else if (tier === 3) { this.hazeSticky = true; this.hazeFx = { t: 0, total: Infinity }; }
+    else if (this.hazeFx && this.hazeFx.total !== Infinity) this.hazeFx.t = Math.min(this.hazeFx.t, 4); // re-brighten
+    return tier;
+  }
+
+  /** Sunbeam visit at (x,z). Tier 3 = the beam widens, a dust column rises. */
+  sunbeamVisit(x: number, z: number): 1 | 2 | 3 {
+    const tier = tierFor(++this.counts.sunbeam, { tier2At: 0, tier3At: 3, every: 3 });
+    if (tier === 3) { this.dustFx = { t: 0, total: 20 }; this.dustAt = { x, z }; }
+    return tier;
+  }
+
+  /** Nap rest. Every rest dusks the room; the 2nd+ is a dream (and a longer
+   *  rest). Returns the tier; the caller holds Cosmo for `holdFor(tier)`. */
+  napRest(holdS: { rest: number; dream: number }): 1 | 2 | 3 {
+    const tier = tierFor(++this.counts.nap, { tier2At: 1, tier3At: 2, every: 1 });
+    this.dreaming = tier === 3;
+    this.duskDepth = this.dreaming ? 0.7 : 0.45;
+    const hold = this.dreaming ? holdS.dream : holdS.rest;
+    this.duskFx = { t: 0, total: hold + 4 }; // 3s in, hold, 4s lift
+    if (this.dreaming) {
+      this.ctx.globalUniforms.kaleidoTrigger = Math.max(this.ctx.globalUniforms.kaleidoTrigger, 0.6);
+      this.ctx.audioBridge.startHallucination(HALLUCINATION_PEAKS);
+    }
+    return tier;
+  }
+
+  /* ── per frame ──────────────────────────────────────────────────────── */
+
+  update(dt: number, u: GlobalUniforms): void {
+    this.timeS += dt;
+    let bloom = 0;
+    let kaleido = 0;
+    let chroma = 0;
+    let fluid = 0;
+
+    // Canopy glow
+    if (this.canopyFx) {
+      this.canopyFx.t += dt;
+      const e = envelope(this.canopyFx.t, this.canopyFx.total, 1.2, 3.5);
+      (this.canopy.material as THREE.MeshBasicMaterial).opacity = 0.55 * e * (1 + 0.06 * Math.sin(this.timeS * 2.1));
+      bloom += 0.25 * e;
+      if (this.canopyFx.t >= this.canopyFx.total) this.canopyFx = null;
+    }
+
+    // Stars: shower (falling) or dusk sky (twinkle), else hidden.
+    let shower = 0;
+    if (this.showerFx) {
+      this.showerFx.t += dt;
+      shower = envelope(this.showerFx.t, this.showerFx.total, 1.5, 3);
+    }
+    const duskE = this.duskFx ? envelope(this.duskFx.t, this.duskFx.total, 3, 4) : 0;
+    if (this.showerFx && shower > 0) {
+      const st = this.showerFx.t;
+      for (let i = 0; i < this.stars.length; i++) {
+        const sp = this.stars[i];
+        const life = (st * 0.22 + i * 0.618) % 1; // 0..1 falling phase
+        sp.position.set(-2.4 + (i / this.stars.length) * 4.8 + Math.sin(this.timeS + i) * 0.15, 3.4 - life * 3.6, -0.8 - (i % 5) * 0.6);
+        (sp.material as THREE.SpriteMaterial).opacity = shower * Math.sin(life * Math.PI) * 0.95;
+        sp.visible = true;
+      }
+      kaleido += 0.4 * shower;
+      fluid += 0.25 * shower;
+    } else if (duskE > 0) {
+      for (let i = 0; i < this.stars.length; i++) {
+        const sp = this.stars[i];
+        sp.position.set(-3.6 + ((i * 0.37) % 7.2), 2.2 + ((i * 0.53) % 1.6), -4.6);
+        const tw = 0.5 + 0.5 * Math.sin(this.timeS * (0.8 + (i % 4) * 0.3) + i);
+        (sp.material as THREE.SpriteMaterial).opacity = duskE * (0.35 + 0.5 * tw) * (this.dreaming ? 1 : 0.7);
+        sp.visible = true;
+      }
+    } else {
+      for (const sp of this.stars) sp.visible = false;
+    }
+    if (this.showerFx && this.showerFx.t >= this.showerFx.total) this.showerFx = null;
+
+    // Spore haze
+    if (this.hazeFx) {
+      this.hazeFx.t += dt;
+      const e = this.hazeSticky
+        ? Math.min(1, this.hazeFx.t / 4)
+        : envelope(this.hazeFx.t, this.hazeFx.total, 4, 12);
+      (this.haze.material as THREE.MeshBasicMaterial).opacity = (this.hazeSticky ? 0.22 : 0.16) * e * (1 + 0.08 * Math.sin(this.timeS * 0.7));
+      for (let i = 0; i < this.hazeMotes.length; i++) {
+        const sp = this.hazeMotes[i];
+        sp.position.y += dt * (0.04 + (i % 3) * 0.02);
+        sp.position.x += Math.sin(this.timeS * 0.5 + i) * dt * 0.05;
+        if (sp.position.y > 2.6) sp.position.y = 0.2;
+        (sp.material as THREE.SpriteMaterial).opacity = 0.7 * e * (0.5 + 0.5 * Math.sin(this.timeS * 1.3 + i * 0.9));
+        sp.visible = true;
+      }
+      bloom += (this.hazeSticky ? 0.3 : 0.15) * e;
+      chroma += (this.hazeSticky ? 0.2 : 0.05) * e;
+      if (!this.hazeSticky && this.hazeFx.t >= this.hazeFx.total) {
+        this.hazeFx = null;
+        for (const sp of this.hazeMotes) sp.visible = false;
+        (this.haze.material as THREE.MeshBasicMaterial).opacity = 0;
+      }
+    }
+
+    // Dusk / dream
+    if (this.duskFx) {
+      this.duskFx.t += dt;
+      (this.veil.material as THREE.MeshBasicMaterial).opacity = this.duskDepth * duskE;
+      bloom -= 0.2 * duskE;
+      if (this.dreaming) {
+        kaleido += 0.3 * duskE;
+        fluid += 0.2 * duskE;
+      }
+      if (this.duskFx.t >= this.duskFx.total) {
+        this.duskFx = null;
+        this.dreaming = false;
+      }
+    }
+
+    // Sunbeam dust column — borrow the haze motes, rising inside the beam.
+    if (this.dustFx) {
+      this.dustFx.t += dt;
+      const e = envelope(this.dustFx.t, this.dustFx.total, 2, 5);
+      if (!this.hazeFx) {
+        for (let i = 0; i < this.hazeMotes.length; i++) {
+          const sp = this.hazeMotes[i];
+          const r = 0.45 * ((i % 4) / 4 + 0.25);
+          const a = this.timeS * 0.6 + i;
+          sp.position.set(this.dustAt.x + Math.cos(a) * r, 0.2 + ((this.timeS * 0.25 + i * 0.19) % 1) * 2.6, this.dustAt.z + Math.sin(a) * r * 0.4);
+          (sp.material as THREE.SpriteMaterial).opacity = 0.8 * e;
+          sp.visible = true;
+        }
+      }
+      bloom += 0.12 * e;
+      if (this.dustFx.t >= this.dustFx.total) {
+        this.dustFx = null;
+        if (!this.hazeFx) for (const sp of this.hazeMotes) sp.visible = false;
+      }
+    }
+
+    // Post-FX: base + offsets, every frame, so it always decays home.
+    const bi = u.biomeIntensity;
+    bi.bloom = Math.max(0, this.base.bloom + bloom);
+    bi.kaleido = Math.max(0, this.base.kaleido + kaleido);
+    bi.chroma = Math.max(0, this.base.chroma + chroma);
+    bi.fluid = Math.max(0, this.base.fluid + fluid);
+  }
+
+  dispose(): void {
+    if (this.group.parent) this.group.parent.remove(this.group);
+    this.group.traverse((o) => {
+      const m = (o as THREE.Mesh).material as THREE.Material | undefined;
+      if (m) m.dispose();
+      const g = (o as THREE.Mesh).geometry as THREE.BufferGeometry | undefined;
+      if (g) g.dispose();
+    });
+    this.softTex.dispose();
+    const bi = this.ctx.globalUniforms.biomeIntensity;
+    bi.bloom = this.base.bloom;
+    bi.kaleido = this.base.kaleido;
+    bi.chroma = this.base.chroma;
+    bi.fluid = this.base.fluid;
+    if (clearingResponse === this) clearingResponse = null;
+  }
+}
+
+/** Module-level handle shared between the clearing's inhabitants (which own
+ *  and tick it) and its interactables (which report to it). Created lazily by
+ *  whichever driver RoomHost constructs first; cleared on dispose. */
+let clearingResponse: ClearingResponse | null = null;
+function getClearingResponse(ctx: SubstrateCtx): ClearingResponse {
+  if (!clearingResponse) clearingResponse = new ClearingResponse(ctx);
+  return clearingResponse;
+}
+
 function forestInhabitants(ctx: SubstrateCtx): InhabitantHandle[] {
   // Wave 21.2 finish — only spawn inhabitants for the active room. Without
   // this filter all 4 spawned in every room and stacked visually (live UAT
   // 2026-05-05 showed this as 4 painted-rectangle planes overlapping Cosmo).
   const activeRoom = ctx.room.id;
-  return FOREST_INHABITANTS.filter((spec) => spec.room === activeRoom).map(
+  const list: InhabitantHandle[] = FOREST_INHABITANTS.filter((spec) => spec.room === activeRoom).map(
     (spec) => new ForestInhabitant(ctx.scene, spec),
   );
+  // Wave 28 — the clearing's room-level response rides along as an inhabitant.
+  if (activeRoom === 'clearing') list.push(getClearingResponse(ctx));
+  return list;
 }
 
 /* ── interactables ────────────────────────────────────────────────────────────
@@ -399,6 +724,9 @@ class ForestTrampoline implements InteractableHandle {
   /** Arrival = bounce-combo (see `arrival`). We only add the sound. */
   onUse(_cosmo: CosmoV2Rig, api?: UseApi): void {
     api?.sfx('jump');
+    // Wave 28 — the room answers: 3rd visit lights the canopy, every 5th a star shower.
+    const tier = clearingResponse?.trampolineVisit() ?? 1;
+    if (tier >= 2) api?.sfx('bonus');
   }
 
   dispose(): void {
@@ -440,12 +768,13 @@ class SunbeamPatch implements InteractableHandle {
   private poolTex: THREE.Texture;
   private timeS = 0;
   private useCount = 0;
+  /** Wave 28 — seconds left of the widened beam (tier 3). */
+  private widenFor = 0;
 
   constructor(
     private scene: THREE.Scene,
     room: SubstrateCtx['room'],
   ) {
-    // ~x+2.5 of the room anchor, on the ground, mid-depth near the trampoline.
     // Absolute stage space (Wave 27 — like every inhabitant; room.anchor is
     // metadata, Cosmo's home is the stage origin).
     // Phone-portrait first (Wave 27 measurement, FOV 35 / cam z=6): at
@@ -499,8 +828,13 @@ class SunbeamPatch implements InteractableHandle {
     const breathe = 1 + 0.04 * Math.sin((this.timeS * Math.PI * 2) / 9);
     const poolMat = this.poolMesh.material as THREE.MeshBasicMaterial;
     const shaftMat = this.shaftMesh.material as THREE.MeshBasicMaterial;
-    poolMat.opacity = 0.85 * breathe;
-    shaftMat.opacity = 0.22 * breathe;
+    // Wave 28 — widened beam eases to ×1.6 and back.
+    if (this.widenFor > 0) this.widenFor = Math.max(0, this.widenFor - dt);
+    const targetW = this.widenFor > 0 ? 1.6 : 1;
+    const w = this.group.scale.x + (targetW - this.group.scale.x) * Math.min(1, dt * 0.8);
+    this.group.scale.set(w, 1 + (w - 1) * 0.5, w);
+    poolMat.opacity = 0.85 * breathe * (0.85 + 0.15 * w);
+    shaftMat.opacity = 0.22 * breathe * w;
   }
 
   /**
@@ -510,6 +844,14 @@ class SunbeamPatch implements InteractableHandle {
    */
   onUse(_cosmo: CosmoV2Rig, api?: UseApi): void {
     this.useCount += 1;
+    // Wave 28 — 3rd visit: the beam widens, a dust column rises, Cosmo winks.
+    const tier = clearingResponse?.sunbeamVisit(this.anchor.x, this.anchor.z) ?? 1;
+    if (tier === 3) {
+      this.widenFor = 20;
+      api?.playClip('wink', { holdS: 3.6 });
+      api?.sfx('bonus');
+      return;
+    }
     if (this.useCount % 2 === 1) {
       // Wave 27 — the real clip: limber up in the warmth, settle to idle in-beam.
       api?.playClip('stretch', { holdS: 4.2 });
@@ -847,6 +1189,9 @@ class SporePuddle implements InteractableHandle {
     api?.playClip('dance', { loop: true, holdS: 4.6 });
     api?.sfx('cosmo-coo-2');
     this.splash = 1;
+    // Wave 28 — 2nd visit: the spores linger in the room; 3rd: they tint the light.
+    const tier = clearingResponse?.puddleVisit() ?? 1;
+    if (tier >= 2) api?.sfx('warp');
   }
 
   dispose(): void {
@@ -929,9 +1274,13 @@ class NapCap implements InteractableHandle {
   onUse(_cosmo: CosmoV2Rig, api?: UseApi): void {
     // Duck under, then curl up. The `petted` clip is the cozy loop; the hold
     // is the longest in the room on purpose.
-    api?.playClip('petted', { loop: true, holdS: 6.5 });
+    // Wave 28 — every rest dusks the room; from the 2nd rest on he dreams
+    // (deeper dusk, star field, hallucination bed) and rests longer.
+    const tier = clearingResponse?.napRest({ rest: 6.5, dream: 9 }) ?? 1;
+    const holdS = tier === 3 ? 9 : 6.5;
+    api?.playClip('petted', { loop: true, holdS });
     api?.sfx('cosmo-coo-3');
-    this.resting = 6.5;
+    this.resting = holdS;
   }
 
   dispose(): void {

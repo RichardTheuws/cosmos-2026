@@ -45,7 +45,7 @@ import { InteractionDirector } from './substrate/InteractionDirector';
 import { SubstrateLoader } from './substrate/SubstrateLoader';
 import { TravelVeil, type CosmosNavigateDetail } from './substrate/drivers/TravelVeil';
 
-const VERSION = '2.6.1';
+const VERSION = '2.7.0';
 
 /** Wave 26 — substrate is now the DEFAULT `/play/` experience (the cutover).
  *  The Universe→Area→Room contract boots unless `?legacy=1` is present, which
@@ -407,6 +407,7 @@ async function boot(): Promise<void> {
     agentEventShim.onTap = (x, y) => director.onTap(x, y);
     // UAT hook (scripts/uat): drive visits without guessing screen positions.
     (window as unknown as { __cosmosDirector?: InteractionDirector }).__cosmosDirector = director;
+    (window as unknown as { __cosmosUniforms?: typeof uniforms }).__cosmosUniforms = uniforms;
     window.addEventListener('pointerdown', () => director.noteInput(), { passive: true });
   }
 

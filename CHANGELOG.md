@@ -4,6 +4,20 @@ Alle wijzigingen volgen [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 De `/updates/` pagina wordt automatisch uit dit bestand gegenereerd via `npm run updates:build`.
 
+## [2.7.0] — 2026-09-05 — Wave 28 · system 1: the world answers in layers
+
+Richard's verdict on v2.6.0 from the phone: *"een world switcher zonder stickyness, amazement en return-factor."* Wave 28 answers those three words with three systems (PRD: `.claude/brainstorm/wave28/`). This is the first: **amazement** — the room itself answers what Cosmo does, and it escalates.
+
+### Added
+- **`ClearingResponse`** — a room-level inhabitant the forest authors. Interactables report each use; it decides the tier (`src/substrate/escalation.ts`, pure + unit-tested) and changes the *room*, not Cosmo. Post-FX is written as base + offset every frame, so every tier decays back to the calm baseline (NORTH-STAR §3: the world breathes).
+- **Trampoline** — 3rd visit: the canopy lights up (a warm glow across the top of the room, 8 s) with a kaleido swell. Every 5th visit: a star shower drifts down over the room for 10 s, full kaleido, a hallucination bed under the music.
+- **Spore-puddle** — 2nd visit: the spores linger, a saffron haze hangs in the room for a minute and lifts the bloom. 3rd visit: the haze stays for the session and tints the light.
+- **Sunbeam** — 3rd visit: the beam widens to ×1.6 for 20 s, a dust column rises inside it, Cosmo winks.
+- **Nap-cap** — every rest dusks the room: a veil darkens the world, tiny stars come out, bloom drops; it lifts over four seconds when he wakes. From the 2nd rest on he dreams: deeper dusk, a star field, a hallucination bed, a longer rest.
+
+### Notes
+- Counts are per session for now; system 3 (the clearing's clock + persistence) makes them survive a return. System 2 (Cosmo's inner life) is next.
+
 ## [2.6.1] — 2026-09-05 — The bed comes back after an interruption
 
 ### Fixed
