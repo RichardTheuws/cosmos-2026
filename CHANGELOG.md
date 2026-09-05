@@ -4,6 +4,17 @@ Alle wijzigingen volgen [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 De `/updates/` pagina wordt automatisch uit dit bestand gegenereerd via `npm run updates:build`.
 
+## [2.10.2] — 2026-09-05 — Final check before the phone: four small things that would have got in the way
+
+### Fixed
+- **After a trampoline bounce Cosmo snapped home.** He walks now — the last "sticker" move on the substrate path.
+- **A tap while Cosmo was mid-moment was silently dropped.** One is kept and honoured the moment he is free (within 12 s) — straight from where he is, without walking home first — so a tap never feels ignored.
+- **From day two every rest would have been a dream** (the counts persist now). It is every second rest; the others are a plain dusk.
+- **Ink-ocean's interactables were the old bridges** (nudging a position the agent overwrites, so nothing happened) and sat off the phone frame. Kelp-organ (calm): reach into the pipes, then listen. Float-tap (rest): he curls up and floats where he is. Updraft-current (play): the painted jump carries the lift. All inside the frame, all with sound.
+
+### Verified (production, headless, phone + desktop)
+- Every room of every universe boots with the director mounted and zero console errors; travelling forest → dunes → deep grove → clearing keeps post-FX at baseline; no Dutch strings in-game.
+
 ## [2.10.1] — 2026-09-05 — Front-left things pulled into the phone frame
 
 ### Fixed

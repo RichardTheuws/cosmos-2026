@@ -75,6 +75,9 @@ export class InteractionDirector {
   /** Wave 28.1 — when he next turns to you (affection made visible). */
   private nextGreetAt = Infinity;
   private greetedOnWake = false;
+  /** v2.10.2 — a tap that lands while he is mid-moment is kept (one), and
+   *  honoured as soon as he is free, so a tap never feels ignored. */
+  private pending: { handle: InteractableHandle; at: number } | null = null;
 
   /** He is the same Cosmo you left: energy and appetite come back with the
    *  hours you were away (never lowered), affection is remembered as-is. */
@@ -133,8 +136,11 @@ export class InteractionDirector {
     if (!handle) return false;
     const agent = this.deps.cosmoAgent;
     if (agent.paused) return false; // onboarding owns Cosmo; let the tap fall through
-    if (agent.isBusy) return true; // took the tap, but Cosmo is mid-moment
     this.deps.onPicked?.(handle);
+    if (agent.isBusy) {
+      this.pending = { handle, at: this.t }; // honoured when he is free
+      return true;
+    }
     this.visit(handle, true);
     return true;
   }
@@ -158,9 +164,21 @@ export class InteractionDirector {
       this.nextCuriosityAt = this.t + 1;
       return;
     }
-    if (agent.isBusy) {
+    if (agent.isBusy && !(this.pending && agent.isWalkingHome)) {
       this.nextCuriosityAt = this.t + 2;
       return;
+    }
+
+    // A tap kept from while he was busy: yours comes first (fresh ones only).
+    // If he is merely walking home, it takes over from where he is.
+    if (this.pending) {
+      const { handle, at } = this.pending;
+      this.pending = null;
+      if (this.t - at < 12 && this.deps.interactables().includes(handle)) {
+        this.visit(handle, true);
+        this.nextCuriosityAt = this.t + 4;
+        return;
+      }
     }
 
     // Affection, made visible (Wave 28.1). He remembers you: on the first

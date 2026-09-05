@@ -538,7 +538,9 @@ class ClearingResponse implements InhabitantHandle {
   /** Nap rest. Every rest dusks the room; the 2nd+ is a dream (and a longer
    *  rest). Returns the tier; the caller holds Cosmo for `holdFor(tier)`. */
   napRest(holdS: { rest: number; dream: number }): 1 | 2 | 3 {
-    const tier = tierFor(++this.counts.nap, { tier2At: 1, tier3At: 2, every: 1 });
+    // Every rest dusks; every 2nd rest is a dream (counts persist, so this
+    // stays a rhythm rather than becoming "always" from day two).
+    const tier = tierFor(++this.counts.nap, { tier2At: 1, tier3At: 2, every: 2 });
     this.saveCounts();
     this.dreaming = tier === 3;
     this.duskDepth = this.dreaming ? 0.7 : 0.45;

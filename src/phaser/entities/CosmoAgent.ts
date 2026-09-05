@@ -611,6 +611,12 @@ export class CosmoAgent {
     this.playClip(name, opts.loop ?? false);
   }
 
+  /** True while he is only walking home (nothing waits at the end) — a new
+   *  destination may take over without losing anything. */
+  get isWalkingHome(): boolean {
+    return this.state === 'walking-to' && this.walkArrivalAction === 'idle';
+  }
+
   /** Where Cosmo returns to after a visit. The substrate sets this per room. */
   setHome(x: number, z: number): void {
     this.homeX = x;
@@ -880,7 +886,13 @@ export class CosmoAgent {
             this.events.onBounce?.({ rollHallucination });
           } else {
             this.worldY = this.groundY;
-            this.setState('walking');
+            // v2.10.2 — walk home instead of snapping to it (the last
+            // "sticker" move on the substrate path).
+            if (Math.hypot(this.worldX - this.homeX, this.worldZ - this.homeZ) > 0.05) {
+              this.walkTo(this.homeX, this.homeZ, 'idle');
+            } else {
+              this.setState('walking');
+            }
           }
         }
         break;

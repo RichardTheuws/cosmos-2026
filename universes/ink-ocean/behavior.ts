@@ -35,6 +35,7 @@ import type {
   BackgroundHandle,
   InhabitantHandle,
   InteractableHandle,
+  UseApi,
   AudioHandle,
   TransitionCtx,
   TransitionDriver,
@@ -470,12 +471,15 @@ class KelpOrgan implements InteractableHandle {
   readonly id = 'kelp-organ';
   readonly anchor: { x: number; y: number; z: number };
   readonly range = 2.0;
+  readonly nature = 'calm' as const;
   private timeS = 0;
   private bloomUntil = 0;
+  private useCount = 0;
 
   constructor(room: SubstrateCtx['room']) {
-    // Anchor at the kelp silhouette's frame position (room anchor + offset).
-    this.anchor = { x: room.anchor.x + 1.9, y: room.anchor.y, z: room.anchor.z - 1.5 };
+    // Absolute stage space, inside the phone frame (v2.10.2).
+    this.anchor = { x: 1.0, y: 0, z: -2.6 };
+    void room;
   }
 
   update(dt: number, _u: GlobalUniforms): void {
@@ -483,17 +487,14 @@ class KelpOrgan implements InteractableHandle {
     void this.bloomUntil; // decay tracked by the post-FX intensity curve at runtime
   }
 
-  onUse(cosmo: CosmoV2Rig): void {
-    // ANIMATION (substrate anim director owns the clip-drive):
-    //   walkTo(anchor)  → `walk` clip  [fallback for unshipped `drift-swim`]
-    //   then one-shot   → `stretch`    (reach up into the reed-tubes)
-    //   then one-shot   → `wink`       (playful acknowledgement)
-    // Bridge until the director lands: a small procedural reach (lift + a touch
-    // of forward roll) so the gesture reads even before the clips are scheduled.
-    cosmo.root.position.y += 0.04; // gentle upward reach (weightless)
-    cosmo.rollZ += 0.06; // slight playful tilt — the "wink" lean
+  onUse(_cosmo: CosmoV2Rig, api?: UseApi): void {
+    // v2.10.2 — real clips: reach up into the pipes, then listen (look up).
+    this.useCount += 1;
+    api?.playClip(this.useCount % 2 === 1 ? 'stretch' : 'look', { holdS: 3.8 });
+    api?.sfx('cling');
     this.bloomUntil = this.timeS + 1.8; // shaft-brighten window (SFX #1 organ-swell)
   }
+
 
   dispose(): void {
     /* no GPU resources owned here — the kelp PNG is a background layer. */
@@ -509,20 +510,24 @@ class FloatTap implements InteractableHandle {
   readonly id = 'float-tap';
   readonly anchor: { x: number; y: number; z: number };
   readonly range = 0.8;
+  /** v2.10.2 — the ocean's resting place: he curls up and floats where he is. */
+  readonly nature = 'rest' as const;
 
   constructor(room: SubstrateCtx['room']) {
-    this.anchor = { x: room.anchor.x, y: room.anchor.y, z: room.anchor.z };
+    this.anchor = { x: 0, y: 0, z: 0 };
+    void room;
   }
 
   update(_dt: number, _u: GlobalUniforms): void {
     /* baseline: no tap, nothing to animate. */
   }
 
-  onUse(cosmo: CosmoV2Rig): void {
-    // ANIMATION: `petted` (loop, content) + a buoyant bob: a procedural upward
-    // drift impulse (a hand's-width up, slowly sinking back). SFX #3 bubble-release.
-    cosmo.root.position.y += 0.06; // weightless buoyant bob (decays via anim director)
+  onUse(_cosmo: CosmoV2Rig, api?: UseApi): void {
+    // v2.10.2 — he curls up and floats where he is (the ocean's rest).
+    api?.playClip('petted', { loop: true, holdS: 5.5 });
+    api?.sfx('cosmo-coo-2');
   }
+
 
   dispose(): void {
     /* nothing owned. */
@@ -541,6 +546,7 @@ class UpdraftCurrent implements InteractableHandle {
   readonly id = 'updraft-current';
   readonly anchor: { x: number; y: number; z: number };
   readonly range = 2.2;
+  readonly nature = 'play' as const;
   private timeS = 0;
   private liftElapsed = -1; // -1 = idle; >=0 = mid-arc
   private liftBaseY = 0;
@@ -549,8 +555,8 @@ class UpdraftCurrent implements InteractableHandle {
   private readonly liftHeight = 1.6; // tall, floaty — counterpoint to the snappy bounce
 
   constructor(room: SubstrateCtx['room']) {
-    // Column base at the trench center, at Cosmo's depth.
-    this.anchor = { x: room.anchor.x, y: room.anchor.y, z: room.anchor.z - 1.0 };
+    this.anchor = { x: 0, y: 0, z: -1.6 };
+    void room;
   }
 
   update(dt: number, _u: GlobalUniforms): void {
@@ -571,17 +577,17 @@ class UpdraftCurrent implements InteractableHandle {
     }
   }
 
-  onUse(cosmo: CosmoV2Rig): void {
-    // ANIMATION (substrate anim director owns the clip-drive):
-    //   walkTo(base)  → `walk` clip [fallback for unshipped `drift-swim`]
-    //   launch        → `jump` (one-shot) + procedural buoyant-arc (below)
-    //   descent       → `fall` (one-shot) on the way down
-    // SFX #1 updraft-ride whoosh through the lift; faint post.fluid ripple.
+  onUse(cosmo: CosmoV2Rig, api?: UseApi): void {
     if (this.liftElapsed >= 0) return; // already mid-ride — don't restack
+    // v2.10.2 — the painted `jump` carries the lift (CosmoAgent owns
+    // root.position, so the old procedural arc never showed).
+    api?.playClip('jump', { holdS: 3.2 });
+    api?.sfx('jump');
     this.cosmoRef = cosmo;
     this.liftBaseY = cosmo.root.position.y;
     this.liftElapsed = 0;
   }
+
 
   dispose(): void {
     this.cosmoRef = null;
