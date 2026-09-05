@@ -4,6 +4,21 @@ Alle wijzigingen volgen [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 De `/updates/` pagina wordt automatisch uit dit bestand gegenereerd via `npm run updates:build`.
 
+## [2.8.0] — 2026-09-05 — Wave 28 · system 2: Cosmo's inner life
+
+The second of the three Wave-28 systems: **stickiness** — something that keeps going while you watch. Cosmo wants things now.
+
+### Added
+- **`src/substrate/innerLife.ts`** (pure, unit-tested): energy, *zin* (appetite for something new) and affection, plus per-interactable novelty. Nothing is shown as a number; you read him from what he does.
+- **He tires.** Wild play (the trampoline) costs a lot, dancing some, the sunbeam gives a little back, the nap-cap a lot. Tired, he still comes when you tap — but he trudges. Rested and eager, he hurries.
+- **He sleeps.** Sleepy, he walks to the room's resting place on his own (the nap-cap, so the room dusks and he dreams — system 1 fires from his own need), or sleeps where he stands for a while if the room has none, and wakes rested.
+- **He chooses.** His own visits are no longer a dice roll: fit-to-energy × novelty. He doesn't repeat himself, and what he picks tells you how he feels. How soon he goes looking depends on his zin: quiet rooms make him restless.
+- **You matter.** Sending him somewhere he liked, sending a tired Cosmo to rest, and petting him raise his affection; it settles back to neutral slowly. (Affection is stored now; its visible expression is a follow-up.)
+- **Contract**: `InteractableHandle.nature?: 'wild' | 'play' | 'calm' | 'rest'` (default `play`). Authoring docs updated: give every room one `rest` and one `calm` thing.
+
+### Fixed
+- The legacy companion-AI (idle roam after 8 s) did not know the Wave-27 `using` state and could drag Cosmo away mid-visit and swap his clip. `using` is now owned by the substrate like `walking-to` and `bouncing`.
+
 ## [2.7.0] — 2026-09-05 — Wave 28 · system 1: the world answers in layers
 
 Richard's verdict on v2.6.0 from the phone: *"een world switcher zonder stickyness, amazement en return-factor."* Wave 28 answers those three words with three systems (PRD: `.claude/brainstorm/wave28/`). This is the first: **amazement** — the room itself answers what Cosmo does, and it escalates.

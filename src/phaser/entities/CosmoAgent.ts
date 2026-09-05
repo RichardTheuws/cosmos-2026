@@ -278,6 +278,9 @@ export class CosmoAgent {
    *  is not visiting an interactable (the room's stage origin). */
   private homeX = 0;
   private homeZ = 0;
+  /** Wave 28 — walk-speed multiplier set by the InteractionDirector from
+   *  Cosmo's inner life (1 = normal). */
+  walkPace = 1;
   /** World-Z (depth) — separate from worldY which is jump-height. Defaults 0. */
   worldZ = 0;
   /** True while a bounce is in progress. */
@@ -543,7 +546,8 @@ export class CosmoAgent {
     // Wave 27 — walk time scales with distance (min 0.6s) so a short hop
     // doesn't crawl and a cross-room walk doesn't teleport.
     const dist = Math.hypot(targetX - this.worldX, targetZ - this.worldZ);
-    this.walkToUntil = this.t + Math.max(0.6, Math.min(WALK_TO_DURATION_S * 1.6, dist * 0.55));
+    // Wave 28 — pace: tired Cosmo trudges (0.55), eager Cosmo hurries (1.15).
+    this.walkToUntil = this.t + Math.max(0.6, Math.min(WALK_TO_DURATION_S * 1.6, dist * 0.55)) / this.walkPace;
     this.walkArrivalAction = action;
     this.walkArrivalCallback = onArrive ?? null;
     this.setState('walking-to');
@@ -1119,7 +1123,8 @@ export class CosmoAgent {
       this.state === 'falling' ||
       this.state === 'jumping' ||
       this.state === 'ducking' ||
-      this.state === 'dancing';
+      this.state === 'dancing' ||
+      this.state === 'using'; // Wave 28 — a visit owns him; the AI must not drag him off
 
     if (!ownedByOtherSprint) {
       // Lerp worldX/Z toward AI target (anchored Y; jumping is owned elsewhere).

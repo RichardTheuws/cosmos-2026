@@ -206,6 +206,38 @@
     <article class="update" data-reveal>
       <div class="update__card">
         <div class="update__header">
+          <span class="update__version">v2.8.0</span>
+          <span class="update__date">2026-09-05</span>
+          <h2 class="update__title">09-05 — Wave 28 · system 2: Cosmo&#039;s inner life</h2>
+        </div>
+        <div class="update__body">
+          <div class="update__tags">
+          <span class="tag tag--feat">Feature</span>
+          <span class="tag tag--fix">Fix</span>
+          </div>
+        <div class="update__lead">
+          <p class="update__lead-line">The second of the three Wave-28 systems: <strong>stickiness</strong> — something that keeps going while you watch. Cosmo wants things now.</p>
+        </div>
+        <h3>ADDED</h3>
+        <ul class="update__highlights">
+          <li><strong><code>src/substrate/innerLife.ts</code></strong> (pure, unit-tested): energy, <em>zin</em> (appetite for something new) and affection, plus per-interactable novelty. Nothing is shown as a number; you read him from what he does.</li>
+          <li><strong>He tires.</strong> Wild play (the trampoline) costs a lot, dancing some, the sunbeam gives a little back, the nap-cap a lot. Tired, he still comes when you tap — but he trudges. Rested and eager, he hurries.</li>
+          <li><strong>He sleeps.</strong> Sleepy, he walks to the room&#039;s resting place on his own (the nap-cap, so the room dusks and he dreams — system 1 fires from his own need), or sleeps where he stands for a while if the room has none, and wakes rested.</li>
+          <li><strong>He chooses.</strong> His own visits are no longer a dice roll: fit-to-energy × novelty. He doesn&#039;t repeat himself, and what he picks tells you how he feels. How soon he goes looking depends on his zin: quiet rooms make him restless.</li>
+          <li><strong>You matter.</strong> Sending him somewhere he liked, sending a tired Cosmo to rest, and petting him raise his affection; it settles back to neutral slowly. (Affection is stored now; its visible expression is a follow-up.)</li>
+          <li><strong>Contract</strong>: <code>InteractableHandle.nature?: &#039;wild&#039; | &#039;play&#039; | &#039;calm&#039; | &#039;rest&#039;</code> (default <code>play</code>). Authoring docs updated: give every room one <code>rest</code> and one <code>calm</code> thing.</li>
+        </ul>
+<h3>FIXED</h3>
+        <ul class="update__highlights">
+          <li>The legacy companion-AI (idle roam after 8 s) did not know the Wave-27 <code>using</code> state and could drag Cosmo away mid-visit and swap his clip. <code>using</code> is now owned by the substrate like <code>walking-to</code> and <code>bouncing</code>.</li>
+        </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="update" data-reveal>
+      <div class="update__card">
+        <div class="update__header">
           <span class="update__version">v2.7.0</span>
           <span class="update__date">2026-09-05</span>
           <h2 class="update__title">09-05 — Wave 28 · system 1: the world answers in layers</h2>

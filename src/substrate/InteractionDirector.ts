@@ -23,14 +23,18 @@
 import * as THREE from 'three';
 import type { CosmoAgent } from '../phaser/entities/CosmoAgent';
 import type { InteractableHandle, UseApi } from './contracts/BehaviorContract';
-import { chooseCuriosityTarget, pickOnScreen, type ScreenPoint } from './pickOnScreen';
+import { pickOnScreen, type ScreenPoint } from './pickOnScreen';
+import {
+  choose, createInnerState, idleWaitFor, onPet, onVisit, paceFor, tickInner, wantsSleep,
+  type InnerState,
+} from './innerLife';
 
-/** Seconds of no input before Cosmo wanders to something on his own. */
-export const CURIOSITY_IDLE_S = 14;
 /** Minimum gap between two self-initiated visits. */
-export const CURIOSITY_COOLDOWN_S = 11;
+export const CURIOSITY_COOLDOWN_S = 9;
 /** First self-initiated visit after the visitor wakes Cosmo (show, don't tell). */
 export const CURIOSITY_FIRST_S = 3;
+/** Sleeping in place (no resting place in the room) lasts this long. */
+export const SLEEP_IN_PLACE_S = 14;
 
 export interface InteractionDirectorDeps {
   cosmoAgent: CosmoAgent;
@@ -54,6 +58,9 @@ export class InteractionDirector {
   private nextCuriosityAt = Infinity;
   private lastUsedId: string | null = null;
   private readonly api: UseApi;
+  /** Wave 28 — system 2. What he wants; read him from what he does. */
+  readonly inner: InnerState = createInnerState();
+  private sleepingInPlace = false;
 
   constructor(deps: InteractionDirectorDeps) {
     this.deps = deps;
@@ -61,6 +68,12 @@ export class InteractionDirector {
       playClip: (name, opts) => this.deps.cosmoAgent.useClip(name, opts),
       sfx: (name) => this.deps.playSfx(name),
     };
+  }
+
+  /** The visitor pet him (long-hold on Cosmo). */
+  notePet(): void {
+    onPet(this.inner);
+    this.noteInput();
   }
 
   /** Any pointer activity — resets the curiosity clock. */
@@ -90,52 +103,82 @@ export class InteractionDirector {
     if (agent.paused) return false; // onboarding owns Cosmo; let the tap fall through
     if (agent.isBusy) return true; // took the tap, but Cosmo is mid-moment
     this.deps.onPicked?.(handle);
-    this.visit(handle);
+    this.visit(handle, true);
     return true;
   }
 
-  /** Per-frame. Runs the curiosity clock. */
+  /** Per-frame. Inner life + the curiosity clock. */
   tick(dt: number): void {
     this.t += dt;
+    const agent = this.deps.cosmoAgent;
+    tickInner(this.inner, dt, agent.isBusy);
+    if (this.sleepingInPlace && !agent.isBusy) {
+      // He woke up from a sleep-in-place: rested, but not as well as a nap-cap.
+      this.sleepingInPlace = false;
+      this.inner.asleep = false;
+      this.inner.energy = Math.max(this.inner.energy, 0.6);
+    }
     if (!this.awake || this.t < this.nextCuriosityAt) return;
-    if (this.deps.cosmoAgent.paused) {
+    if (agent.paused) {
       // Onboarding still owns Cosmo (it resets his state when it hands over);
       // the first "show, don't tell" beat waits until he is really ours.
       this.nextCuriosityAt = this.t + 1;
       return;
     }
-    if (this.deps.cosmoAgent.isBusy) {
+    if (agent.isBusy) {
       this.nextCuriosityAt = this.t + 2;
       return;
     }
-    // Only when the visitor has gone quiet (or right after waking, for the
-    // first "show, don't tell" beat).
-    const quietFor = this.t - this.lastInputT;
-    const firstBeat = this.lastUsedId === null;
-    if (!firstBeat && quietFor < CURIOSITY_IDLE_S) {
-      this.nextCuriosityAt = this.lastInputT + CURIOSITY_IDLE_S;
+    const handles = this.deps.interactables();
+    const candidates = handles.map((h) => ({ id: h.id, nature: h.nature ?? ('play' as const) }));
+
+    // Sleepy: the resting place if the room has one, else sleep where he stands.
+    if (wantsSleep(this.inner) && !this.inner.asleep) {
+      const pick = choose(this.inner, candidates);
+      const handle = pick ? handles.find((h) => h.id === pick.id) : undefined;
+      if (handle) {
+        this.visit(handle, false);
+      } else {
+        this.inner.asleep = true;
+        this.sleepingInPlace = true;
+        agent.useClip('petted', { loop: true, holdS: SLEEP_IN_PLACE_S });
+      }
+      this.nextCuriosityAt = this.t + SLEEP_IN_PLACE_S + 4;
       return;
     }
-    const handles = this.deps.interactables();
-    const id = chooseCuriosityTarget(handles.map((x) => x.id), this.lastUsedId);
-    const handle = handles.find((x) => x.id === id);
+
+    // Only when the visitor has gone quiet (or right after waking, for the
+    // first "show, don't tell" beat). How long "quiet" is depends on his zin.
+    const quietFor = this.t - this.lastInputT;
+    const firstBeat = this.lastUsedId === null;
+    const wait = idleWaitFor(this.inner);
+    if (!firstBeat && quietFor < wait) {
+      this.nextCuriosityAt = this.lastInputT + wait;
+      return;
+    }
+    const pick = choose(this.inner, candidates);
+    const handle = pick ? handles.find((h) => h.id === pick.id) : undefined;
     if (!handle) {
       this.nextCuriosityAt = this.t + CURIOSITY_COOLDOWN_S;
       return;
     }
-    this.visit(handle);
+    this.visit(handle, false);
     this.nextCuriosityAt = this.t + CURIOSITY_COOLDOWN_S + Math.random() * 6;
   }
 
   /** Walk Cosmo to the handle and use it on arrival. */
-  visit(handle: InteractableHandle): void {
+  visit(handle: InteractableHandle, askedByYou = false): void {
     const agent = this.deps.cosmoAgent;
     if (agent.paused) return;
     const arrival = handle.arrival ?? 'use';
+    const nature = handle.nature ?? 'play';
     this.lastUsedId = handle.id;
+    // Tired = a trudge, eager = a hurry. Set before walkTo computes its time.
+    agent.walkPace = paceFor(this.inner);
     agent.walkTo(handle.anchor.x, handle.anchor.z, arrival, () => {
       // Still mounted? (room may have switched while walking)
       if (!this.deps.interactables().includes(handle)) return;
+      onVisit(this.inner, handle.id, nature, askedByYou);
       handle.onUse(agent.rig, this.api);
     });
   }

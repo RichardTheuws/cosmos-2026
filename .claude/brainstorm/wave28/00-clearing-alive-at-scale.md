@@ -10,8 +10,8 @@ Three systems, one room, each mapped to one of those words:
 | # | System | Word it answers | Status |
 |---|--------|-----------------|--------|
 | 1 | **The world answers in layers** — every clearing interactable has tiers; the room itself changes (canopy, stars, haze, dusk, dream) | amazement | v2.7.0 |
-| 2 | **Cosmo's inner life** — energy / curiosity / sleep drive what he chooses and how he reacts | stickiness | next |
-| 3 | **The clearing's clock** — real-time day/night + one thing that grows per visit (persisted) | return-factor | after 2 |
+| 2 | **Cosmo's inner life** — energy / zin / affection drive what he chooses, how fast he goes, when he sleeps | stickiness | v2.8.0 |
+| 3 | **The clearing's clock** — real-time day/night + one thing that grows per visit (persisted) | return-factor | next |
 
 ## System 1 — design (v2.7.0)
 
@@ -36,3 +36,21 @@ after `applyUniverseDefaults`).
 
 ## Gate
 Phone, AirPods: after five minutes Richard can name one thing the *room* did back.
+
+## System 2 — design (v2.8.0)
+
+`src/substrate/innerLife.ts` (pure, tested). Three quantities, never shown as numbers:
+**energy** (wild −0.3 · play −0.2 · calm +0.1 · rest +0.5 per visit; +0.008/s idle, ×4 asleep),
+**zin** (appetite: +0.012/s quiet, −0.25 per visit; idle wait before he goes looking =
+26 s → 6 s as zin rises), **affection** (+0.12 when you send him somewhere, +0.25 when
+you send a tired Cosmo to rest, +0.3 per pet; settles to neutral). Per-interactable
+**novelty** recovers over ~90 s so his own choices don't repeat.
+
+Behaviour: tired (< 0.28) → he trudges (pace 0.55); sleepy (< 0.14) → he goes to the
+room's `rest` interactable himself (the nap-cap, so system 1's dusk/dream fires), or
+sleeps where he stands for 14 s if the room has none. Eager (zin > 0.8, energy > 0.6)
+→ he hurries (1.15). His own choice = fit(nature, energy) × novelty.
+
+Contract: `InteractableHandle.nature?: 'wild' | 'play' | 'calm' | 'rest'` (default play).
+Clearing: trampoline wild · puddle play · sunbeam calm · nap-cap rest. Deep grove:
+echo-cap + portal-greeting calm (no rest → he sleeps in place there).

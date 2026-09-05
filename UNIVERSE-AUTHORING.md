@@ -176,6 +176,7 @@ export interface InteractableHandle {
   anchor: { x: number; y: number; z: number }; // absolute stage space (Cosmo's home is the origin)
   range: number;
   arrival?: 'use' | 'bounce';                  // default 'use'
+  nature?: 'wild' | 'play' | 'calm' | 'rest';  // Cosmo's inner life (Wave 28); default 'play'
   update(dt: number, u: GlobalUniforms): void;
   onUse(cosmo: CosmoV2Rig, api?: UseApi): void; // tap or curiosity walks Cosmo here, then this fires
   dispose(): void;

@@ -123,6 +123,11 @@ export interface InteractableHandle {
    *  calls `onUse`; `bounce` runs the trampoline bounce-combo instead (the
    *  handle's `onUse` is still called at arrival for its own visuals). */
   arrival?: 'use' | 'bounce';
+  /** Wave 28 — what this is to Cosmo's inner life: `wild` spends a lot of
+   *  energy, `play` some, `calm` gives a little back, `rest` is where he
+   *  sleeps. Drives what he chooses on his own and how he reacts to a tap.
+   *  Default `play`. */
+  nature?: 'wild' | 'play' | 'calm' | 'rest';
   update(dt: number, u: GlobalUniforms): void;
   /** Called by the InteractionDirector when Cosmo reaches the anchor. The
    *  second argument (Wave 27) lets the handle drive a named clip + a sound. */

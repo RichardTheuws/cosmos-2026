@@ -104,11 +104,17 @@ export interface InteractableHandle {
   range: number;
   /** 'bounce' runs the trampoline combo on arrival; default 'use'. */
   arrival?: 'use' | 'bounce';
+  /** What it is to Cosmo's inner life (Wave 28): wild spends a lot of energy,
+   *  play some, calm gives a little back, rest is where he sleeps. Drives what
+   *  he picks on his own and how he reacts to a tap. Default 'play'. */
+  nature?: 'wild' | 'play' | 'calm' | 'rest';
   update(dt: number, u: GlobalUniforms): void;
   onUse(cosmo: CosmoV2Rig, api?: UseApi): void;
   dispose(): void;
 }
 ```
+
+Cosmo has an inner life (`src/substrate/innerLife.ts`): energy, appetite for something new, and how he feels about you. Wild play tires him; tired he trudges; sleepy he goes to the room's `rest` interactable (or sleeps where he stands if there is none) and wakes rested. Give every room one `rest` and one `calm` thing, or he has nowhere to come down.
 
 Authored via `behavior.interactables(ctx)` returning an `InteractableHandle[]`. Default: empty array. A complete interaction is two lines: `api.playClip('stretch', { holdS: 4 }); api.sfx('cling');`. The Clearing (`universes/forest/behavior.ts`) is the reference: trampoline, spore-puddle, sunbeam-patch, nap-cap — from wild to slow.
 

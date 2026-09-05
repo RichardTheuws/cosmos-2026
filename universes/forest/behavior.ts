@@ -92,6 +92,7 @@ interface InteractableHandle {
   anchor: { x: number; y: number; z: number };
   range: number;
   arrival?: 'use' | 'bounce';
+  nature?: 'wild' | 'play' | 'calm' | 'rest';
   update(dt: number, u: GlobalUniforms): void;
   onUse(cosmo: CosmoV2Rig, api?: UseApi): void;
   dispose(): void;
@@ -707,6 +708,8 @@ class ForestTrampoline implements InteractableHandle {
   /** Wave 27 — arrival runs CosmoAgent's bounce-combo (the Wave-22 "go wild"
    *  loop), not a plain use. */
   readonly arrival = 'bounce' as const;
+  /** Wave 28 — wild: spends a lot of energy. */
+  readonly nature = 'wild' as const;
 
   constructor() {
     // Wave 27 — main.ts already renders the hero trampoline in the forest
@@ -761,6 +764,7 @@ class SunbeamPatch implements InteractableHandle {
   readonly id = 'sunbeam-patch';
   readonly anchor: { x: number; y: number; z: number };
   readonly range = 1.6;
+  readonly nature = 'calm' as const;
 
   private group: THREE.Group;
   private poolMesh: THREE.Mesh;
@@ -901,6 +905,7 @@ class EchoCap implements InteractableHandle {
   readonly id = 'echo-cap';
   readonly anchor: { x: number; y: number; z: number };
   readonly range = 1.8;
+  readonly nature = 'calm' as const;
 
   private group: THREE.Group;
   private tex: THREE.Texture;
@@ -1020,6 +1025,7 @@ class BreathingPortalGreeting implements InteractableHandle {
   readonly id = 'breathing-portal-greeting';
   readonly anchor: { x: number; y: number; z: number };
   readonly range = 1.6;
+  readonly nature = 'calm' as const;
 
   // The breathing-portal inhabitant lives at this room-relative anchor
   // (FOREST_INHABITANTS 'breathing-portal'). We walk Cosmo to just in front of
@@ -1087,6 +1093,7 @@ class BreathingPortalGreeting implements InteractableHandle {
  */
 class SporePuddle implements InteractableHandle {
   readonly id = 'spore-puddle';
+  readonly nature = 'play' as const;
   readonly anchor = { x: -0.55, y: 0, z: -1.1 }; // front-left; stays in frame through the ±1.6 camera pan
   readonly range = 1.6;
 
@@ -1215,6 +1222,7 @@ class SporePuddle implements InteractableHandle {
  */
 class NapCap implements InteractableHandle {
   readonly id = 'nap-cap';
+  readonly nature = 'rest' as const;
   readonly anchor = { x: 1.05, y: 0, z: -3.3 }; // right-back, on a phone too
   readonly range = 1.5;
 
