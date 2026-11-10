@@ -4,15 +4,31 @@ Alle wijzigingen volgen [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 De `/updates/` pagina wordt automatisch uit dit bestand gegenereerd via `npm run updates:build`.
 
-## [2.10.6] — 2026-11-10 — Cosmo heet nu Zorp
+## [2.10.7] — 2026-11-10 — Updates-pagina en historie na de naamswissel
+
+### Fixed
+- **De poort met verboden namen** toetst nu de ruwe changelog (vóór hernoemen en escapen) én de gegenereerde pagina, met alle apostrofvormen gelijkgetrokken. Een oude titel kan zich niet meer achter de hernoeming verstoppen.
+- **Sectiekoppen** gaan door dezelfde hernoeming als de tekst, dus geen oude naam meer in hoofdletters. Ook de oude projectnaam als los woord wordt in de weergave vervangen; paden en id's (`cosmos-2026`, `cosmo.glb`) blijven.
+- **Citaten blijven letterlijk.** Blockquotes worden niet hernoemd (een citaat met een andere naam is geen citaat meer), maar wel door de poort gehaald.
+- **Het oude handkenmerk** staat niet meer op de updates-pagina: zinnen die het beschrijven worden in de weergave weggelaten. De changelog zelf blijft volledig.
+- **NORTH-STAR**: citaten en gedateerde ledger-items houden hun oorspronkelijke naam; nieuwe ledger-entry voor de naamswissel.
+- **`assets-generated.json`**: het LoRA-record staat weer zoals het gegenereerd is, met een markering dat het de oude look is en niet voor Zorp gebruikt wordt.
+
+### Added
+- Tests voor de updates-generator (`scripts/changelog-to-html.test.mjs`).
+
+### Removed
+- Ander oud onderzoeksmateriaal uit de repo gehaald.
+
+## [2.10.6] — 2026-11-10 — Het personage heet nu Zorp
 
 ### Changed
 - **Het personage heet Zorp, het project Zorp's Universe.** Titels, meta/OG, JSON-LD, README, de site, de lore-pagina, de universe-manifests en de spelerteksten in de game (follow-hint, share-kaart, onboarding) gebruiken de nieuwe naam. Interne namen (`CosmoAgent`, `cosmo.glb`), localStorage-keys en het URL-pad `/games/cosmos-2026/` blijven, zodat saves en links werken.
-- **Zorp's handen**: zachte vingerloze wanthanden met handpalmen die zacht saffraan gloeien, in plaats van de oude zuignappen. Aangepast in de beschrijving, de stijlgids (design bible), de forest-README en de prompt-template. De beelden en de LoRA hebben nog de oude look; die worden apart opnieuw gemaakt.
+- **Zorp's handen**: zachte vingerloze wanthanden met handpalmen die zacht saffraan gloeien; de oude handvorm is weg. Aangepast in de beschrijving, de stijlgids (design bible), de forest-README en de prompt-template. De beelden en de LoRA hebben nog de oude look; die worden apart opnieuw gemaakt.
 - **Updates-pagina**: de generator toont de nieuwe naam (buiten code-spans) en stopt de build als er een verboden naam of jaartal op de pagina belandt. Oude regels die het oude voorbeeld noemden zijn in deze changelog herschreven.
 
 ### Removed
-- `research/01-original-game.md` uit de repo (staat nog in de git-historie).
+- Oud onderzoeksmateriaal uit de repo gehaald.
 - `public/showcase-assets/logo-title.png` (oud titelbeeld met de oude naam, nergens gebruikt).
 
 ## [2.10.5] — 2026-09-05 — No music on iPhone: the root cause, found and fixed

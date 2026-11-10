@@ -1,4 +1,4 @@
-# Project Context — Cosmos Cosmic Adventure 2026
+# Project Context — Zorp's Universe
 
 ## READ FIRST
 
@@ -15,7 +15,7 @@ Before any planning, coding, or even diagnosis in this project, **read `NORTH-ST
 
 This is a **prestige project**. It is no longer a proof-of-concept. That means:
 
-- **Quality > cost on assets.** No emojis, no placeholders, no "good enough" graphics. Regenerate 3-5x if needed. Use the LoRA-locked Cosmo (`rtcosmo` trigger word) for any Cosmo gen.
+- **Quality > cost on assets.** No emojis, no placeholders, no "good enough" graphics. Regenerate 3-5x if needed. **Do not use the `rtcosmo` LoRA for new Zorp images**: it was trained on the old look (with suction-cup hands) and stays retired until a new Zorp LoRA is trained. New Zorp gens wait for that LoRA.
 - **Quality > speed on every shipped piece.** One biome that's fully alive beats three half-alive ones.
 - **Co-authorship, not request-execute.** Strategic direction is set with Richard. Execution is mine to drive autonomously inside that direction. When direction is unclear, ask once with structured options — don't guess.
 - **The vision is editable.** If something Richard says (or something we discover building) would change NORTH-STAR.md, edit NORTH-STAR.md before doing the work.
@@ -32,15 +32,15 @@ When you decide a pivot is needed: **add a paragraph to the Pivot Ledger in NORT
 ## Brand contract (these never bend without a NORTH-STAR pivot entry)
 
 - **Visual language**: Hayao×Moebius watercolor + cosmic-luminous palette + saturated pop-accents (≤5%). No emojis. No Roblox-style placeholders. No standard stock graphics.
-- **Voice**: Cormorant Italic for poetic copy, Inter for UI. Stoner-game vibe, never tacky drug-references. The 1992 origin is referenced obliquely, never explicitly.
+- **Voice**: Cormorant Italic for poetic copy, Inter for UI. Stoner-game vibe, never tacky drug-references. Zorp and his world are our own: no references to other games, studios or years of origin, not even oblique ones.
 - **Language (locked, NORTH-STAR §1)**: **ALL in-game text and interaction is English** — every UI label, hint, onboarding line, system message, button, tooltip, any word the player reads in `/play/` — *even though Richard writes to you in Dutch*. Dutch is allowed ONLY for external marketing/site copy and internal working docs, never in-game. A Dutch string in-game is a bug. (Same discipline as English code/comments.) When you write or touch any player-facing string, it is English.
-- **Cosmo himself**: 1992 DNA — pearl-drop head, chameleon-bulging eyes (when re-rigged), saffron-crescent catchlight, single antenna with flower-bulb, suction-cup discs at hand-tips, faded-rose spots on green body, NO tail, slightly uncute proportions, slightly menacing-uncanny.
+- **Zorp himself** (renamed from Cosmo on 2026-11-10, NORTH-STAR §6): character-DNA — pearl-drop head, chameleon-bulging eyes, saffron-crescent catchlight, single antenna with flower-bulb, soft fingerless mitten-hands with faintly saffron-glowing palms (no suction cups), faded-rose spots on green body, NO tail, slightly uncute proportions, slightly menacing-uncanny. Internal names (`CosmoAgent`, `cosmo.glb`), localStorage keys and the `/games/cosmos-2026/` path keep the old name on purpose: saves and links must keep working.
 - **The world breathes, doesn't shake.** Calm baseline + event-driven peaks. Anything that pushes constant-trippy back to the foreground is an anti-pattern.
 
 ## Wave structure (current)
 
 - **Wave 18** ✓ shipped (v1.4.0): smoothness + calm baseline
-- **Wave 19a** ✓ shipped (v1.5.0 → 1.5.2): rig-fix attempts + lore pivot away from Apogee-spoof
+- **Wave 19a** ✓ shipped (v1.5.0 → 1.5.2): rig-fix attempts + lore pivot away from the spoof framing
 - **Wave 19b** *paused*: Life System (15 activities + mic-input) — will rebuild on Cosmo v2
 - **Wave 20** *next*: Cosmo v2 hybrid rebuild (primitive skeleton + painted decals) — see `.claude/brainstorm/wave20/01-cosmo-v2-architecture.md`
 - **Wave 21+**: world expansion — first new biome beyond the forest. Direction TBD per NORTH-STAR §3.

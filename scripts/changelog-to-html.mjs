@@ -51,41 +51,112 @@ const escapeHtml = (s) =>
  * Public naming. The character was called "Cosmo" until v2.10.6; the project
  * is now "Zorp's Universe". CHANGELOG history keeps the old name (it is a
  * historical record), but the public updates page shows the current name.
- * The project titles are renamed everywhere. The bare word "Cosmo" is renamed
- * only outside code spans (`CosmoAgent`, `cosmo.glb`): those are file and
- * symbol names, not prose.
+ * Renaming happens only outside code spans (`CosmoAgent`, `cosmo.glb`,
+ * `cosmos-2026`): those are file, path and symbol names, not prose. Both
+ * "Cosmo" and "COSMO" are renamed (section headings are upper-cased), and the
+ * old project name "Cosmos" too: "Cosmos-…" compounds become "Zorp-…", the
+ * bare word becomes "Zorp's Universe". Blockquotes are never renamed: they are
+ * Richard's own words, and a quote with a different name is a made-up quote.
  */
 const PROJECT_NAMES = [
   [/Cosmos'? Cosmic Adventure 2026/g, "Zorp's Universe"],
   [/Cosmo's Universe/g, "Zorp's Universe"],
 ];
-const CHARACTER_NAME = [/(?<![\w/.\-])Cosmo(?![\w(]|\.\w)/g, 'Zorp'];
+const NOT_IN_PATH = '(?<![\\w/.\\-])';
+const PROSE_NAMES = [
+  [new RegExp(`${NOT_IN_PATH}Cosmos(?=-[A-Za-z])`, 'g'), 'Zorp'],
+  [new RegExp(`${NOT_IN_PATH}COSMOS(?=-[A-Za-z])`, 'g'), 'ZORP'],
+  [new RegExp(`${NOT_IN_PATH}Cosmos(?![\\w(\\-/]|\\.\\w)`, 'g'), "Zorp's Universe"],
+  [new RegExp(`${NOT_IN_PATH}COSMOS(?![\\w(\\-/]|\\.\\w)`, 'g'), "ZORP'S UNIVERSE"],
+  [new RegExp(`${NOT_IN_PATH}Cosmo(?![\\w(/]|\\.\\w)`, 'g'), 'Zorp'],
+  [new RegExp(`${NOT_IN_PATH}COSMO(?![\\w(/]|\\.\\w)`, 'g'), 'ZORP'],
+];
 const applyAll = (s, pairs) => pairs.reduce((acc, [rx, rep]) => acc.replace(rx, rep), s);
 
 /** Rename prose; inside `code spans` only the project titles. */
-const publicProse = (s) =>
+export const publicProse = (s) =>
   applyAll(String(s), PROJECT_NAMES)
     .split(/(`[^`]+`)/)
-    .map((part, i) => (i % 2 ? part : part.replace(...CHARACTER_NAME)))
+    .map((part, i) => (i % 2 ? part : applyAll(part, PROSE_NAMES)))
     .join('');
 
 /**
- * Names that must never reach the public page (IP check 2026-11-10). If one
- * of these turns up in a new CHANGELOG entry, the build stops instead of
- * publishing it.
+ * Names that must never reach the public page (IP check 2026-11-10). The gate
+ * runs on the RAW CHANGELOG (before renaming and escaping, so a rename can't
+ * hide an old title) and on the rendered page. If one turns up, the build
+ * stops instead of publishing it.
  */
 const FORBIDDEN_PUBLIC = [
-  /cosmos?'?s? cosmic adventure/i,
+  /cosmos?\s*'?\s*s?\s+cosmic\s+adventure/i,
   /apogee/i,
   /3d\s*realms/i,
   /psychedelica/i,
   /\b1992\b/,
 ];
 
+/** Fold every apostrophe spelling (’ ‘ ʼ ` &#039; &#39; &apos; &rsquo;) to a plain '. */
+export const normalizeApostrophes = (s) =>
+  String(s)
+    .replace(/&(?:#0*39|#x0*27|apos|rsquo|lsquo);/gi, "'")
+    .replace(/[\u2018\u2019\u201B\u02BC\u2032`\u00B4]/g, "'");
+
+/** Returns the forbidden patterns found in `text` (as strings). */
+export const forbiddenHits = (text) => {
+  const norm = normalizeApostrophes(text);
+  return FORBIDDEN_PUBLIC.filter((rx) => rx.test(norm)).map(String);
+};
+
+/**
+ * The old character design had suction-cup hands. Zorp doesn't, so on the
+ * public page sentences that describe them are left out (CHANGELOG itself
+ * keeps them as history).
+ */
+const OLD_TRAIT = /suction|zuignap/i;
+export const hasOldTrait = (s) => OLD_TRAIT.test(String(s));
+
+/** Drop sentences that mention the old trait. Returns '' if nothing is left. */
+export const dropOldTraitSentences = (text) => {
+  const t = String(text);
+  if (!hasOldTrait(t)) return t;
+  return t
+    .split(/(?<=[.!?)])\s+(?=[A-Z*_(`\[])/)
+    .filter((sentence) => !hasOldTrait(sentence))
+    .join(' ')
+    .trim();
+};
+
+/** Filter the old trait out of one parsed block; returns null to drop it. */
+export function publicBlock(block) {
+  switch (block.type) {
+    case 'item':
+    case 'paragraph': {
+      const text = dropOldTraitSentences(block.text);
+      return text ? { ...block, text } : null;
+    }
+    case 'quote':
+      // A quote is never edited; it is shown whole or not at all.
+      return hasOldTrait(block.text) ? null : block;
+    case 'image':
+      return hasOldTrait(block.src) || hasOldTrait(block.caption) ? null : block;
+    case 'grid': {
+      const images = block.images.filter((src) => !hasOldTrait(src));
+      if (!images.length) return null;
+      const caption = hasOldTrait(block.caption)
+        ? block.caption.split(/\s+·\s+/).filter((part) => !hasOldTrait(part)).join(' · ')
+        : block.caption;
+      return { ...block, images, caption };
+    }
+    default:
+      return block;
+  }
+}
+
+const publicBlocks = (blocks) => (blocks || []).map(publicBlock).filter(Boolean);
+
 /** Inline-format a single line of markdown:
  *  `code`, **bold**, *italic*, [link](url). Order matters. */
-function inlineMd(text) {
-  let out = escapeHtml(publicProse(text));
+function inlineMd(text, { rename = true } = {}) {
+  let out = escapeHtml(rename ? publicProse(text) : text);
   // `code`
   out = out.replace(/`([^`]+)`/g, '<code>$1</code>');
   // **bold**
@@ -127,7 +198,7 @@ function parseBlockLine(line) {
  * Each entry: { version, date, lead: [paragraph-line...], sections: [{title, blocks: [...]}] }
  * Each block is either { type: 'item', text } or { type: 'image'|'grid'|'quote', ... }
  */
-function parseChangelog(md) {
+export function parseChangelog(md) {
   const lines = md.split('\n');
   const entries = [];
   let current = null;
@@ -254,7 +325,7 @@ function renderBlock(block) {
           </figure>`;
     }
     case 'quote':
-      return `<blockquote class="update__quote">${inlineMd(block.text)}</blockquote>`;
+      return `<blockquote class="update__quote">${inlineMd(block.text, { rename: false })}</blockquote>`;
     case 'paragraph':
       return `<p class="update__lead-line">${inlineMd(block.text)}</p>`;
     default:
@@ -262,8 +333,9 @@ function renderBlock(block) {
   }
 }
 
-function renderPreBlocks(blocks) {
-  if (!blocks || !blocks.length) return '';
+function renderPreBlocks(rawBlocks) {
+  const blocks = publicBlocks(rawBlocks);
+  if (!blocks.length) return '';
   return `
         <div class="update__lead">
           ${blocks.map(renderBlock).join('\n          ')}
@@ -272,7 +344,7 @@ function renderPreBlocks(blocks) {
 
 function renderSection(section) {
   // Separate items from non-item blocks. Items go in <ul>, others stand-alone in order.
-  const out = [`<h3>${escapeHtml(section.title.toUpperCase())}</h3>`];
+  const out = [`<h3>${escapeHtml(publicProse(section.title).toUpperCase())}</h3>`];
   let buf = [];
   const flushItems = () => {
     if (buf.length) {
@@ -280,7 +352,7 @@ function renderSection(section) {
       buf = [];
     }
   };
-  for (const b of section.blocks) {
+  for (const b of publicBlocks(section.blocks)) {
     if (b.type === 'item') buf.push(renderBlock(b));
     else {
       flushItems();
@@ -291,7 +363,7 @@ function renderSection(section) {
   return out.join('\n        ');
 }
 
-function renderEntry(entry) {
+export function renderEntry(entry) {
   const tags = new Set();
   entry.sections.forEach((s) => tags.add(tagFor(s.title)));
   if (entry.sections.length === 0 && (entry.preBlocks?.length ?? 0) > 0) tags.add('feat');
@@ -328,6 +400,12 @@ async function main() {
   const md = await readFile(CHANGELOG_PATH, 'utf8');
   const html = await readFile(UPDATES_PATH, 'utf8');
 
+  const rawHits = forbiddenHits(md);
+  if (rawHits.length) {
+    console.error(`[changelog-to-html] Forbidden public name(s) in CHANGELOG.md: ${rawHits.join(', ')}. Rewrite the CHANGELOG line.`);
+    process.exit(1);
+  }
+
   const entries = parseChangelog(md);
   if (!entries.length) {
     console.error('[changelog-to-html] No entries found in CHANGELOG.md');
@@ -340,7 +418,7 @@ async function main() {
     `<!-- TIMELINE:START -->\n${timeline}\n      <!-- TIMELINE:END -->`,
   );
 
-  const hits = FORBIDDEN_PUBLIC.filter((rx) => rx.test(next)).map(String);
+  const hits = forbiddenHits(next);
   if (hits.length) {
     console.error(`[changelog-to-html] Forbidden public name(s) on the updates page: ${hits.join(', ')}. Rewrite the CHANGELOG line.`);
     process.exit(1);
@@ -355,7 +433,9 @@ async function main() {
   console.log(`[changelog-to-html] Rendered ${entries.length} entries → ${UPDATES_PATH}`);
 }
 
-main().catch((e) => {
-  console.error('[changelog-to-html] Failed:', e);
-  process.exit(1);
-});
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((e) => {
+    console.error('[changelog-to-html] Failed:', e);
+    process.exit(1);
+  });
+}
