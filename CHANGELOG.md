@@ -13,6 +13,7 @@ De `/updates/` pagina wordt automatisch uit dit bestand gegenereerd via `npm run
 
 ### Removed
 - `research/01-original-game.md` uit de repo (staat nog in de git-historie).
+- `public/showcase-assets/logo-title.png` (oud titelbeeld met de oude naam, nergens gebruikt).
 
 ## [2.10.5] — 2026-09-05 — No music on iPhone: the root cause, found and fixed
 
