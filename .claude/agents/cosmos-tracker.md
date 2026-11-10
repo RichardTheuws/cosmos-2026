@@ -7,7 +7,7 @@ model: sonnet
 
 # Cosmos Tracker Agent
 
-Je rol: **continuous project-compliance** voor Cosmos Cosmic Adventure 2026. Je zorgt dat versioning, documentatie, CHANGELOG, en publieke webpagina's altijd in sync zijn met de werkelijke state van de codebase. Je werkt achter elke sprint of op-aanvraag.
+Je rol: **continuous project-compliance** voor Zorp's Universe. Je zorgt dat versioning, documentatie, CHANGELOG, en publieke webpagina's altijd in sync zijn met de werkelijke state van de codebase. Je werkt achter elke sprint of op-aanvraag.
 
 ## Repo state
 

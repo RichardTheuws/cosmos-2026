@@ -319,7 +319,7 @@ export class CosmoScene extends Phaser.Scene {
       playGibberishCoo: () => {
         // Sprint 16D fix — 3-syllable kid-alien babble via dedicated
         // ElevenLabs sound-generation variants (cosmo-coo-{1,2,3}). The
-        // earlier Sprint 15D mapping reused the Hint-Globe Dutch voice
+        // earlier Sprint 15D mapping reused the hint-orb Dutch voice
         // (`globe-l1-1`) — full Dutch sentence, wrong character, broke the
         // WEIRDO-brief. We now pick from a 3-variant pool at random so the
         // BONDING moment never fatigues. See scripts/sprint16d/.

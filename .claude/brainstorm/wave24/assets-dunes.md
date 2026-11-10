@@ -108,7 +108,7 @@ The behavior.ts ships brand-true fallbacks so the universe is not blocked.
   calm not frantic, slight grin, suction-cups trailing. *Fallback shipped:*
   `fall` + procedural lateral-glide (rollZ + downhill `root.position` drift) +
   `stretch`. Doc-rated only **"acceptable"** → track as a REAL dependency (Room A
-  headline joy). Preserves 1992 DNA: antenna-bulb, suction-cup hands, no tail.
+  headline joy). Preserves character-DNA: antenna-bulb, suction-cup hands, no tail.
 - **`circle-sway`** (Dunes Room B) — 2s loop: slow trance-like circular sway,
   leaning into the turn, eyes half-lidded, suction-cups trailing. *Fallback
   shipped:* `dance` + procedural slow-orbit ("reads well"). Nice-to-have.

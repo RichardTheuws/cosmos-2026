@@ -4,6 +4,15 @@ Alle wijzigingen volgen [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 De `/updates/` pagina wordt automatisch uit dit bestand gegenereerd via `npm run updates:build`.
 
+## [2.10.8] — 2026-11-10 — Oude verwijzingen uit de werkdocumenten
+
+### Changed
+- **Plannen, brainstorms, onderzoeksrapporten, scripts en deze changelog** noemen het oude voorbeeld, de makers ervan en namen uit dat spel niet meer. Waar het iets toevoegde staat er nu een neutrale omschrijving ("retro-geïnspireerd", "character-DNA", "hint orb"); de inhoud van de plannen is verder gelijk gebleven. Bestandsnamen en asset-id's blijven zoals ze zijn.
+- **Updates-generator**: de poort met verboden namen kent nu ook die namen.
+
+### Removed
+- Een brainstormdocument dat alleen over het oude voorbeeld ging, uit de repo gehaald.
+
 ## [2.10.7] — 2026-11-10 — Updates-pagina en historie na de naamswissel
 
 ### Fixed
@@ -672,7 +681,7 @@ Contributions happen via GitHub PRs, not patronage. INTEGRATIONS.md already docu
 - **`index.html`**: JSON-LD `description` + `alternateName` opgeschoond. Meta-pills "10 Levels — MVP" en "Three.js + Phaser 4" → "Life System (Wave 19)" en "Motion-controlled". World-grid `L1-L10` tags weg. Footer-credit voor het oude voorbeeld en "Phaser 4" weg (Three.js-only).
 - **`public/lore/index.html`**: Oude plot-tekst vervangen door 146-woorden backstory snippet (Cormorant-italic). Biome-secties stripped van level-tags en oude platformer-mechanics. Cast-grid (Brumberry/Hopper/Eye Plant/Blob) vervangen door Companion-grid (Cosmo / hallucination-particles / trampolines).
 - **`public/press/index.html`**: complete press-kit vervangen door noindex meta-refresh redirect → `/lore/`.
-- **`public/support/index.html`**: tier "Hint Globe Sponsor" → "Vibe Sponsor" (Suno-track of biome-particle-set sponsor). Tier "Bonus Room Builder" → "Hallucination Patron" (seasonal hallucination-event-pack). FAQ-item over het oude voorbeeld vervangen. ElevenLabs-where regel "Hint Globe voices" → "Companion-voices".
+- **`public/support/index.html`**: twee tiers die naar het oude voorbeeld verwezen → "Vibe Sponsor" (Suno-track of biome-particle-set sponsor) en "Hallucination Patron" (seasonal hallucination-event-pack). FAQ-item over het oude voorbeeld vervangen. ElevenLabs-where regel over de hint-voices → "Companion-voices".
 - **`public/thanks/index.html`**: oude plaatsnaam → "uit de aquarel-grond zelf". Tier-namen in bevestigings-tekst aangepast.
 - **Logo/favicon swap**: alle pagina's wijzen nu naar `/assets/sprites/cosmo-hero-lora.png` (Sprint 16A canonical, post-LoRA DNA-correct) i.p.v. `cosmo-hero-cleaned.png`.
 
@@ -788,7 +797,7 @@ Combined `tsc --noEmit` exit 0. Build 521 files in /tmp staging. Vite preview bo
 
 ## [1.2.0] — 2026-05-02 — Sprint 16: DNA-correcte Cosmo via LoRA + 6 polish-fixes
 
-v1.1.0's live demo was niet speelbaar: PIL-painted 2D-eyes werden 3D-blobs op de mesh, NL voice-over uit Hint-Globe-archief brak de vibe, mouth-pillar toonde 4 frames tegelijk, secret-crystal default zichtbaar, music stopte na track-end, onboarding skipte voor return-users. Sprint 16 fixt alles met **harde quality-gate**: orchestrator draait nu zelf pre-deploy live-test (browser-MCP playwright iPhone-emulation indien Docker UP, anders curl + tsc + GLTF-headless validate) — geen "live verify door user" meer als enige check.
+v1.1.0's live demo was niet speelbaar: PIL-painted 2D-eyes werden 3D-blobs op de mesh, NL voice-over uit het hint-orb-archief brak de vibe, mouth-pillar toonde 4 frames tegelijk, secret-crystal default zichtbaar, music stopte na track-end, onboarding skipte voor return-users. Sprint 16 fixt alles met **harde quality-gate**: orchestrator draait nu zelf pre-deploy live-test (browser-MCP playwright iPhone-emulation indien Docker UP, anders curl + tsc + GLTF-headless validate) — geen "live verify door user" meer als enige check.
 
 ### Fixed (16A — Cosmo-LoRA fine-tune, eindelijk DNA 10/10)
 
@@ -824,7 +833,7 @@ Live screenshot toonde 4 monden tegelijk. Fix: per-spawn-geklonen texture met `r
 
 ### Fixed (16D — ElevenLabs gibberish-coo + audio-loop hardened)
 
-NL voice-over uit Hint-Globe brak de vibe. Vervangen door 3 ElevenLabs Sound-Generation varianten:
+NL voice-over uit de hint-orb brak de vibe. Vervangen door 3 ElevenLabs Sound-Generation varianten:
 - `cosmo-coo-1.mp3` (3-syllable nonsense babble)
 - `cosmo-coo-2.mp3` (4-syllable melodic)
 - `cosmo-coo-3.mp3` (ascending 3-tone gurgle)
@@ -929,7 +938,7 @@ Alle 8 fal.ai-generated, $1.85, geen code aangeraakt:
 - `NebulaPortal` (Phaser canvas-drawn, 6 concentric rings, ease-out-cubic radial expand, palette saffron→faded-rose→ink-aubergine, per-ring breath + lichte rotation-eccentriciteit)
 - `HintGlyph` chevron-arrow + Cormorant-Garamond italic "veeg omhoog", anchored aan closest live obstacle, 1.6Hz bob → 3Hz intensify-pulse na 5s no-input
 - **Wave-uncanny** clip: te-traag, te-lang, te-gelocked. Eyes-locked-on-camera. "Alsof Cosmo JOU ontdekt"
-- Audio-stinger: bestaande `globe-l1-1.mp3` (3-syllable Hint Globe voice — kid-alien babble)
+- Audio-stinger: bestaande `globe-l1-1.mp3` (3-syllable hint-orb voice — kid-alien babble)
 - localStorage `cosmosOnboardingComplete` skip portal+arrival voor return-users
 - Geen text-instruction in stappen 0-2.5s
 
@@ -990,7 +999,7 @@ GROND-UP REBUILD. Pivot van platformer-experiment naar mobile-first hypnotische 
 
 5 sprints (13A-13E) parallel: foundation strip + BeatScene + CosmoRig 8-band FFT-rig + AutoVJ + 5 mobile gestures (13A); JSON-DSL beatmap-loader + onset-detector Python + 4 base-track beatmaps (13B); BiomeManager 4-state crossfade + share-stack 60s clip + screenshot peak-detector + daily-streak + friend-seed (13C); premium $1.75/$10 asset-gen — Cosmo 4K hero, 4 biome-4K backgrounds (inkpool + boss 10/10 first-pass), 8 cosmic-bubbles, 6 hallucination-particles, splash-hero (13D); deploy v1.0.0 (13E).
 
-Verwijderd: alle platformer-entities (L1Scene, Cosmo, Bomb, BreakableWall, HintGlobe, Star, Trampoline, alle enemies, HudOverlay, levelL1, oude biomes). Herzien: InputController gesture-bus, TouchOverlay simplified, audioFFTBridge.musicCurrentTime + setMusicTrack getters.
+Verwijderd: alle platformer-entities (L1Scene, Cosmo, Bomb, BreakableWall, hint-orb, Star, Trampoline, alle enemies, HudOverlay, levelL1, oude biomes). Herzien: InputController gesture-bus, TouchOverlay simplified, audioFFTBridge.musicCurrentTime + setMusicTrack getters.
 
 ## [0.9.0] — 2026-05-01 — Sprint 13C: biome-cycling + share-mechanismen
 
@@ -1321,7 +1330,7 @@ Vier agents tegelijk: Cosmo canonical inpaint-fix (6A), enemies + damage-systeem
 - **11 gedragsknopen** wired: patrol (met edge-flip probe), hop (timed), drifter (post-stomp fall), wallTurret (aimed projectile), burrow (proximity-surface), proximityGhost (chase only-when-faced-away), homing (lerp), sinusoid + dive-alignment, wallCrawler (placeholder), tulipLauncher (friendly bounce), rail
 - **Stomp-detectie**: `cosmo.vy > 60` AND `cosmo.bottom <= enemyTop + 35% * height + 8px` → kill + bounce-up. Side-touch → damage met invuln-frames.
 - **Eye Plant + Spitting Wall** zijn `bombOnly` (skippen stomp-branch, alleen bom-kill). **Ghost + Spark** zijn `invincible`.
-- **Hint Globe L1-1/2/3** voices wired aan trigger-zones (col 2/50/30)
+- **Hint orb L1-1/2/3** voices wired aan trigger-zones (col 2/50/30)
 - Legend uitgebreid met 12 lower-case enemy-chars (b/h/p/e/w/g/s/d/f/c/t/z) — geen botsing met bestaande tile-chars
 - 3 echte sprites + 9 hergebruikt-met-tint (`spriteTodo: true` flag voor toekomstige asset-gen — geen canvas-primitives, geen emoji's)
 
@@ -1484,7 +1493,7 @@ Met het v4 keyframe als visuele waarheid genereerden we 22 nieuwe in-game assets
 
 ### Changed
 - L1Scene preload + populateLevel switcht van procedural Graphics-tiles naar painted PNG tiles
-- Star + HintGlobe entities accepteren textureKey parameter — gebruiken painted pickup-art ipv canvas-graphics
+- Star + hint-orb entities accepteren textureKey parameter — gebruiken painted pickup-art ipv canvas-graphics
 - Slow Bloom biome wijst nu naar `slow-bloom-v2/` met de nieuwe 4 layers (cosmic moon-nebula sky, ink-aubergine mountains, glowing magenta-mushroom mid, foreground vines)
 - Cosmo display-size 80x80 met aangepaste body-offset voor de painted 1024 sprite
 
@@ -1558,15 +1567,15 @@ Twee EffectPass-conflicten opgelost door drie aparte passes:
 ## [0.3.0] — 2026-05-01 — Sprint 3: L1 + asset pipeline + audio
 
 ### Added
-- **L1 "First Steps"** — Bloomroot Veld biome speelbaar op `/play/`. 60×22 grid-level uit `src/data/levelL1.ts` met decoder voor cosmo-spawn, stars, hint-globes, walls, mushroom-platforms, dirt, ground, spikes
+- **L1 "First Steps"** — Bloomroot Veld biome speelbaar op `/play/`. 60×22 grid-level uit `src/data/levelL1.ts` met decoder voor cosmo-spawn, stars, hint-orbs, walls, mushroom-platforms, dirt, ground, spikes
 - `src/phaser/entities/Star.ts` — bobbing fluo-pop Dewdrop met magenta+lime halo, collect-tween + cleanup
-- `src/phaser/entities/HintGlobe.ts` — pulsing saffron+sky-wash orb met proximity-trigger en linger-latch tegen spam
+- Hint-orb entity — pulsing saffron+sky-wash orb met proximity-trigger en linger-latch tegen spam
 - `src/audio/sfxBus.ts` — Howler-backed SFX + voice playback, lazy-load, silent-fail bij missing files
 - `src/phaser/scenes/L1Scene.ts` — eerste echte level scene met SFX-wired collisions, hint-tekst-overlay (Cormorant Garamond italic), ↑↓ camera-pan-offset, debug-HUD met live state
 
 ### Audio (8 SFX + 3 voices via ElevenLabs)
 - SFX: cling/jump/stomp/hurt + pickup-star/bonus + globe-trigger + bonus-warp (totaal ~$0.37 API kosten)
-- Voices: 3 NL Hint Globe lines met Sarah voice (`EXAVITQu4vr4xnSDxMaL`, multilingual_v2, stability 0.6 / similarity 0.8 / style 0.4)
+- Voices: 3 NL hint-orb lines met Sarah voice (`EXAVITQu4vr4xnSDxMaL`, multilingual_v2, stability 0.6 / similarity 0.8 / style 0.4)
 - Suno-prompts gedocumenteerd in `public/assets/audio/music/_SUNO_PROMPTS.md` — 12 tracks D-minor, mapped naar Surface/Hollow/Cathedral biomes
 - `_HOWLER_CONFIG.json` met 23 logical-name → file mappings, levelMusicMap, globeVoiceMap
 - ElevenLabs sound-generation min-duration is 0.5s (niet 0.3) — SFX-targets aangepast
@@ -1581,7 +1590,7 @@ Twee EffectPass-conflicten opgelost door drie aparte passes:
 
 ### Pipeline
 - 6 Cosmo animation-frames staan klaar in `public/assets/sprites/` voor S4 atlas-pack
-- Star + HintGlobe entities gebruiken procedural Graphics-textures (geen externe assets nodig)
+- Star + hint-orb entities gebruiken procedural Graphics-textures (geen externe assets nodig)
 
 ## [0.2.0] — 2026-05-01 — Sprint 2: Cosmo controller + dual-canvas
 
@@ -1627,7 +1636,7 @@ Twee EffectPass-conflicten opgelost door drie aparte passes:
 - Homepage met hero (Cosmo bobbing tegen Cloud Cathedral background), 3-world showcase, numbers grid, about-strip, CTA banner
 - Play-launcher placeholder met sprint-progress-bar (Sprint 1/8 = 13%)
 - Updates-page met auto-generated timeline-template + first entry (deze release)
-- Support-page met "stardust" gamified counter, 4 tiers (Star Spotter / Hint Globe Sponsor / Bonus Room Builder / Episode Patron), 7-vraag FAQ
+- Support-page met "stardust" gamified counter, 4 supporter-tiers, 7-vraag FAQ
 - Lore-page met 3-bioom verhaal (Slow Bloom · Inkpool Hollow · Cloud Cathedral) + cast-grid
 - Press-page met factsheet, key art-grid en 5 suggested angles
 - Thanks-page voor post-donation flow
@@ -1636,7 +1645,7 @@ Twee EffectPass-conflicten opgelost door drie aparte passes:
 - Visual: B-hybride (Cosmic Watercolor base + kaleidoscope/fluo-pop/datamosh hallucinatie-pieken)
 - Architecture: Dual-canvas (Three.js root + Phaser 4 overlay)
 - Scope v1.0: MVP — Episode 1 (10 levels)
-- Titelthema: eigen-DNA (geen Tush-cover)
+- Titelthema: eigen-DNA (geen cover)
 - Enemy roster: 12 types + 1 boss (4 buffer boven minimum)
 - Site-laag: vanilla HTML/CSS/JS multi-entry Vite (RoB-blueprint, geen framework)
 - Donation: Mollie placeholder voor Sprint 5 activatie; e-mail werkt direct in v0.1.0

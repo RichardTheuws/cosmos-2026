@@ -1,4 +1,4 @@
-# Cosmos Cosmic Adventure 2026 — PRD v1.0
+# Zorp's Universe — PRD v1.0
 
 **Status**: Draft → ter goedkeuring
 **Datum**: 2026-04-30
@@ -10,9 +10,9 @@
 
 ## 1. Vision
 
-Een 2.5D browser-platformer remake van Cosmo's Cosmic Adventure (Apogee, 1992) als **psychedelische Ghibli-aquarel-droom** met hallucinaire breekpieken. Het 2D-gameplayplane blijft strak en eerlijk (Cosmo's identiteit = tactiele zuignap-platforming); de 3D-parallax + post-FX laag breekt en bloeit eromheen.
+Een 2.5D browser-platformer — een retro-geïnspireerde alien-avontuurgame — als **psychedelische Ghibli-aquarel-droom** met hallucinaire breekpieken. Het 2D-gameplayplane blijft strak en eerlijk (Cosmo's identiteit = tactiele zuignap-platforming); de 3D-parallax + post-FX laag breekt en bloeit eromheen.
 
-**One-line pitch**: *"Cosmo's Cosmic Adventure herboren als Tenniel-droom: aquarel-Ghibli-werelden die op power-ups, damage en bonus-momenten in fractal-tunnels en datamosh-scheuren openbarsten."*
+**One-line pitch**: *"Een retro alien-avontuur herboren als Tenniel-droom: aquarel-Ghibli-werelden die op power-ups, damage en bonus-momenten in fractal-tunnels en datamosh-scheuren openbarsten."*
 
 **Doelgroep**: nostalgische 90s-platformer-fans + indie-gamers die "art-direction first" titels zoeken (Hyper Light Drifter, Hollow Knight, Gris-publiek).
 
@@ -28,7 +28,7 @@ Een 2.5D browser-platformer remake van Cosmo's Cosmic Adventure (Apogee, 1992) a
 | 2 | Architectuur | **Dual-canvas** — Three.js (WebGPURenderer) als root voor 3D parallax + post-FX, Phaser 4 als overlay-canvas voor 2D gameplay, gedeelde uniforms via globalUniforms object |
 | 3 | Scope v1.0 | **MVP — Episode 1 (10 levels)** — Forbidden Planet biome (jungle/forest/ghost-haunt/industrial-intro) |
 | 4 | Frozen Easter egg | **Geparkeerd** voor E2 — wordt Frozen RoB-eenheid (DLC-fase) |
-| 5 | Titelthema | **Eigen-DNA** — geen Tush-cover. Suno-prompt vangt funk-zany-spirit van Bobby Prince zonder bekende melodieën. Brief: folktronica-koto + analog-warmth + lichte rock-undertow. |
+| 5 | Titelthema | **Eigen-DNA** — geen cover van een bestaand titelthema. Suno-prompt vangt een retro funk-zany-spirit zonder bekende melodieën. Brief: folktronica-koto + analog-warmth + lichte rock-undertow. |
 | 6 | Platform | **Browser, desktop-first** — mobile/touch is post-MVP |
 | 7 | Language | **TypeScript strict** + Vite |
 
@@ -58,21 +58,21 @@ Een 2.5D browser-platformer remake van Cosmo's Cosmic Adventure (Apogee, 1992) a
 - Stars = primaire collectible (visueel: saffron-glow Dewdrops met sky-wash blue swirl).
 - Bonus-room thresholds: 25 stars (Bonus 1), 50 stars (Bonus 2). Single bonus-room in MVP (25-threshold).
 - Hidden 50K bonuses: stomp 10 enemies airborne, blow up 15 Eye Plants, stomp alle barrels.
-- Hint Globe vernietiging = 12.800.
-- Hint Globe contact = ElevenLabs-voice tip + 0 score.
+- Hint orb vernietiging = 12.800.
+- Hint orb contact = ElevenLabs-voice tip + 0 score.
 
 ---
 
 ## 4. Episode 1 — "Forbidden Planet"
 
 ### 4.1 Plot
-Cosmo's familie reist naar **The Funplex** (Disney World-pastiche) voor zijn verjaardag. Kometen-impact dwingt noodlanding op **planet Zonk**. Cosmo wandelt af, ouders zijn bij terugkomst weg — opgeslokt door een blob? Hij gaat de jungle in. (Ware plot-twist komt in E2/E3 — voor MVP eindigt E1 met cliffhanger: Cosmo wordt opgeslokt door reuzen-blob.)
+Cosmo's familie maakt een uitstapje voor zijn verjaardag. Een komeetinslag dwingt een noodlanding op een onbekende planeet. Cosmo wandelt af, ouders zijn bij terugkomst weg — opgeslokt door een blob? Hij gaat de jungle in. (Ware plot-twist komt in E2/E3 — voor MVP eindigt E1 met cliffhanger: Cosmo wordt opgeslokt door reuzen-blob.)
 
 ### 4.2 Level-architectuur (10 levels)
 
 | # | Level | Sub-biome | Mechanic-introductie | Iconisch element |
 |---|-------|-----------|----------------------|------------------|
-| L1 | "First Steps" | Bloomroot Veld (jungle) | Run, jump, eerste cling | Tutorial Hint Globes |
+| L1 | "First Steps" | Bloomroot Veld (jungle) | Run, jump, eerste cling | Tutorial hint orbs |
 | L2 | "Up the Glow-Trees" | Bloomroot Veld | Verticale wallclimb | Sterren boven schermrand (camera-pan reveal) |
 | L3 | "The Hidden Hover" | Bloomroot Veld → industrial transitional | Hovercraft (verborgen) | Verborgen scooter geeft 30s flight-section |
 | L4 | "Whispers in the Hollow" | Slow Bloom mushroom forest | Ghost-enemy (beweegt alleen als Cosmo wegkijkt) | Boo-mechanic + paper-grain-dither piek |
@@ -161,7 +161,7 @@ Triggered: kaleidoscope-tunnel pass, RGB-shift datamosh, fluid-sim curl-noise on
 
 | # | Naam | Levels | Notes |
 |---|------|--------|-------|
-| 1 | "Welcome to Zonk" | Title screen | Eigen titelthema — folktronica + zany rock-undertow, koto + analog-warmth |
+| 1 | "Welcome" | Title screen | Eigen titelthema — folktronica + zany rock-undertow, koto + analog-warmth |
 | 2 | "First Light" | L1, L2 | Gentle intro, koto + bird-loops |
 | 3 | "The Glow-Trees" | L3 | Builds to flute-lead op hover-section |
 | 4 | "Whispers" | L4 | Sparse, ambient, ink-aubergine droning |
@@ -177,8 +177,8 @@ Triggered: kaleidoscope-tunnel pass, RGB-shift datamosh, fluid-sim curl-noise on
 ### 6.2 ElevenLabs SFX & Voice
 **SFX**: zuignap-pop (cling), spring-trampoline-sproing, jump-pad-fwoosh, stomp-splat, bomb-fizz + boom, pickup-tinkle, star-chime, cheeseburger-fanfare-1bar, datamosh-glitch.
 
-**Voices** (Hint Globes — 8 unieke lines minimum):
-- Stem-cast: warm-vrouwelijk, mid-range, lichte verwondering. Eén voice voor alle Globes (consistente "narrator van Zonk").
+**Voices** (hint orbs — 8 unieke lines minimum):
+- Stem-cast: warm-vrouwelijk, mid-range, lichte verwondering. Eén voice voor alle orbs (consistente "narrator van deze wereld").
 - Lines per level: 1-2 hints, 1 cosmetic flavor, 1 secret-tease.
 
 ### 6.3 Tone.js procedural layer
@@ -211,7 +211,7 @@ cosmos-cosmic-adventure-2026/
 │   │   ├── audio/
 │   │   │   ├── music/      (Suno tracks)
 │   │   │   ├── sfx/        (ElevenLabs SFX)
-│   │   │   └── voices/     (ElevenLabs Hint Globe lines)
+│   │   │   └── voices/     (ElevenLabs hint-orb lines)
 │   │   └── tilemaps/       (Tiled JSON exports)
 │   └── shaders/
 │       └── tsl/            (Three Shader Language modules)
@@ -239,7 +239,7 @@ cosmos-cosmic-adventure-2026/
 │   │   ├── entities/
 │   │   │   ├── Cosmo.ts       (player controller + wallcling)
 │   │   │   ├── enemies/       (8 enemy classes)
-│   │   │   ├── HintGlobe.ts
+│   │   │   ├── HintOrb.ts
 │   │   │   └── pickups/
 │   │   ├── systems/
 │   │   │   ├── damageSystem.ts
@@ -303,7 +303,7 @@ Per biome: 3 backgrounds (jungle/cave/sky). Layered into 3 PNG depth-layers via 
 
 ### 8.4 Audio (Suno + ElevenLabs)
 Suno: prompt-batch alle 12 tracks in folktronica-stijl in dezelfde key (D-minor) zodat stinger-A en damage-stinger naadloos invallen.
-ElevenLabs: één voice cast voor alle Hint Globes (consistency), ~25-30 lines totaal voor MVP.
+ElevenLabs: één voice cast voor alle hint orbs (consistency), ~25-30 lines totaal voor MVP.
 
 ---
 
@@ -315,7 +315,7 @@ ElevenLabs: één voice cast voor alle Hint Globes (consistency), ~25-30 lines t
 | **S2 — Cosmo controller** | Wallcling-mechanic perfectioneren | Run/jump/cling/wallclimb/stomp werkend op test-tilemap | 0.2.0 |
 | **S3 — L1 + asset-pipeline** | Eerste echte level + alle pipeline-scripts werkend | L1 speelbaar met fal.ai sprites + Meshy parallax + Suno music | 0.3.0 |
 | **S4 — Enemies + damage** | 8 enemy-types + HP-systeem + damage-FX | Alle E1-enemies geïmplementeerd, datamosh-tear werkend | 0.4.0 |
-| **S5 — L2-L6 + Hint Globes** | 5 levels + ElevenLabs voices | L2-L6 speelbaar, 25-star bonus-room werkend | 0.5.0 |
+| **S5 — L2-L6 + hint orbs** | 5 levels + ElevenLabs voices | L2-L6 speelbaar, 25-star bonus-room werkend | 0.5.0 |
 | **S6 — L7-L9 + post-FX** | 3 levels + alle hallucinaire effects | L7-L9 speelbaar, kaleidoscope/fluid-sim/fluo-pop volledig live | 0.6.0 |
 | **S7 — L10 + Boss + Cinematics** | Boss-fight + Theatre.js cliffhanger | L10 boss-fight speelbaar, ending-cutscene werkend | 0.7.0 |
 | **S8 — Polish + Launch** | Audio-mix, perf-tuning, save-systeem, browser-test, deploy | v1.0.0 deployed naar theuws.com/games/cosmos-2026 | **1.0.0** |
@@ -330,7 +330,7 @@ ElevenLabs: één voice cast voor alle Hint Globes (consistency), ~25-30 lines t
 - 10 speelbare levels van begin tot eind
 - Alle 8 enemy-types + 1 boss
 - Suction-cup wallcling tactiel (geen frustration-moments — getest op 5+ sessies)
-- 1 Hint Globe per level minimum, ElevenLabs-stem
+- 1 hint orb per level minimum, ElevenLabs-stem
 - Kaleidoscope op power-ups + fluo-pop op collectibles + datamosh op damage operationeel
 - Suno OST volledig (10 tracks + 2 stingers)
 - Save-anywhere via localStorage (3 slots)
@@ -356,7 +356,7 @@ ElevenLabs: één voice cast voor alle Hint Globes (consistency), ~25-30 lines t
 | FalSprite consistency tussen prompts | Mid | Mid | LoRA finetune op Cosmo character-design na S3, batch-generate alle frames met seed-locking |
 | fal.ai-uitval tijdens dev | Laag | Hoog | Asset-cache in repo voor reproducibility, secondary key in `.env.backup` |
 | Kaleidoscope motion-sickness | Mid | Mid | Settings: "reduce motion" toggle disables kaleidoscope + fluid-sim |
-| ~~Tush-cover copyright~~ | ~~Hoog~~ | ~~Mid~~ | **Geresolved**: eigen titelthema, geen ZZ Top reference. |
+| ~~Cover-copyright titelthema~~ | ~~Hoog~~ | ~~Mid~~ | **Geresolved**: eigen titelthema, geen cover. |
 | Scope-creep richting E2 vóór E1 ship | Hoog | Hoog | E2-features → BACKLOG file, niet in v1.0-tracker |
 
 ---
@@ -382,5 +382,5 @@ PRD klaar voor review. Bij goedkeuring start sprint S1 (Scaffolding) — Vite-se
 
 **Review-vraag aan Game Master**:
 1. Zijn de 8 enemy-types (S4) goed genoeg voor MVP, of moet er specifiek iets uit Cosmodoc toegevoegd worden?
-2. Wil je de Tush-titelthema 1:1 (met copyright-risico) of een eigen-DNA opener met Tush-vibes?
+2. Wil je een bestaand titelthema 1:1 coveren (met copyright-risico) of een eigen-DNA opener?
 3. Sprint-cadence: bij goedkeuring start S1 deze sessie, of plan je een aparte kickoff-sessie?

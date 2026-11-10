@@ -33,7 +33,7 @@ These never bend without a NORTH-STAR §6 pivot entry (`.claude/CLAUDE.md` brand
 - [ ] **Calm baseline + weirdness on event-peaks only.** Anything constantly-trippy = anti-pattern. "The world breathes, it does not shake."
 - [ ] No pivot to bolder-pop / anime / graphic-novel. Visual questions must be implementation-concrete (which crop / dimension / decal-region), never "which mood."
 
-**Cosmo 1992 DNA** (any Cosmo gen uses the `rtcosmo` LoRA trigger word)
+**Cosmo character-DNA** (any Cosmo gen uses the `rtcosmo` LoRA trigger word)
 - [ ] pearl-drop head · chameleon-bulging eyes · saffron-crescent catchlight · single antenna with flower-bulb · soft fingerless mitten-hands with faintly saffron-glowing palms (no suction cups) · faded-rose spots on green body · **NO tail** · slightly uncute / slightly menacing-uncanny proportions.
 
 **Language**

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-suno_client.py — sunoapi.org wrapper client for Cosmos Cosmic Adventure 2026.
+suno_client.py — sunoapi.org wrapper client for Zorp's Universe.
 
 Provides a small, dependency-light Python client for the third-party Suno wrapper
 at https://api.sunoapi.org. The official Suno service has no public API, so this

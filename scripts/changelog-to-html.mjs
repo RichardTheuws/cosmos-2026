@@ -92,6 +92,9 @@ const FORBIDDEN_PUBLIC = [
   /3d\s*realms/i,
   /psychedelica/i,
   /\b1992\b/,
+  /replogle|hornback|bobby\s*prince/i,
+  /\bzonk\b|funplex/i,
+  /hint[\s-]?globe/i,
 ];
 
 /** Fold every apostrophe spelling (’ ‘ ʼ ` &#039; &#39; &apos; &rsquo;) to a plain '. */

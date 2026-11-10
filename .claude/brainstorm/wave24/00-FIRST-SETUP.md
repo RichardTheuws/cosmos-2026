@@ -204,7 +204,7 @@ Grammar: `?substrate=v2&universe=<u>&area=<a>&room=<r>`. Transitions are **scale
 | **`slide`** | Dunes (Room A) | One-shot ~1.6s — Cosmo sledding down a slope on his backside, arms out for balance, body angled downslope, antenna streaming back, calm not frantic, slight grin, suction-cups trailing | `fall` + procedural lateral-glide + `stretch` (doc-rated only "acceptable") | **Track as real dependency** — it's Room A's headline joy; the composite is the floor, not the target |
 | **`circle-sway`** | Dunes (Room B) | 2s loop — slow trance-like circular sway, leaning into the turn, eyes half-lidded, suction-cups trailing | `dance` + procedural slow-orbit ("reads well") | Nice-to-have; fallback is strong |
 
-*Every clip brief preserves Cosmo 1992 DNA: antenna-bulb, suction-cup hands, no tail, slightly-uncute proportions.*
+*Every clip brief preserves Cosmo character-DNA: antenna-bulb, suction-cup hands, no tail, slightly-uncute proportions.*
 
 ---
 

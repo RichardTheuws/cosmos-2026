@@ -40,7 +40,7 @@ Pipeline per attempt (locked):
 Output: public/assets/cosmo/decals/v2-final/{eyes-l, eyes-r, mouth-neutral,
 body-skin, disc-suction, antenna-flower}.png — overwrite in place.
 
-Brand contract (NORTH-STAR §brand): Hayao×Moebius watercolor + 1992-DNA.
+Brand contract (NORTH-STAR §brand): Hayao×Moebius watercolor + character-DNA.
 """
 from __future__ import annotations
 

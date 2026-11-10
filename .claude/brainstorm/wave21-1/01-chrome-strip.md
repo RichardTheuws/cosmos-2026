@@ -27,7 +27,7 @@ What was removed:
 
 - **Dutch strings**:
   - `<html lang="nl">` → `<html lang="en">`.
-  - `<title>Speel · Cosmos Cosmic Adventure 2026</title>` → `<title>Cosmo's Universe — play</title>`.
+  - `<title>Speel · [oude titel]</title>` → `<title>Cosmo's Universe — play</title>`.
   - `<meta name="description"` content rewritten English: *"A psychedelic companion in an ever-growing world."*
   - Boot overlay copy: *"Cosmos ontwaakt…"* → *"Cosmo awakening…"*; *"tik om te ontwaken"* → *"tap to wake him"*.
   - Mobile disclaimer: *"touch-controls actief"* → *"touch-controls active"*.

@@ -214,7 +214,7 @@ After three consecutive rig-fix attempts (v1.5.0/1.5.1/1.5.2) failed to fully el
 These choices favor brand integrity over experimentation. They are revisitable per §4 if a future wave shows them limiting.
 
 ### 2026-05-03 — Spoof framing retired (Wave 19a)
-The game began as a spoof of an old platformer. It had drifted too far for that frame to fit. We migrated five HTML pages, killed the press-kit (redirect to /lore/), and re-anchored the brand on a 146-word backstory. New tagline: *"Een aquarel-trip die zichzelf voortzet als jij stilzit."* Logo swap to LoRA-locked hero. Game-code itself was already spoof-free.
+The game began as a retro-inspired alien adventure with a spoof framing. It had drifted too far for that frame to fit. We migrated five HTML pages, killed the press-kit (redirect to /lore/), and re-anchored the brand on a 146-word backstory. New tagline: *"Een aquarel-trip die zichzelf voortzet als jij stilzit."* Logo swap to LoRA-locked hero. Game-code itself was already spoof-free.
 
 ### 2026-05-02 — Smoothness + calm baseline (Wave 18)
 The game had become **constantly distorted**: every effect always-on, breathing sines locked in lockstep, a placeholder synth fluitje forever audible. We reconsidered the post-FX philosophy from "always trippy" to "calm baseline + event-driven peaks". Bloom -44%, fluid -55%, kaleido ambient → 0, event cadence 18-30s. Plus the placeholder synth was killed, the gyro deadband fixed, the AI mixer-clobber-bug fixed. The world now breathes; it doesn't shake.

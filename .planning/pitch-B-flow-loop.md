@@ -11,7 +11,7 @@
 - **0-3s**: Cosmo materialiseert in Slow Bloom biome. Wooden flute fade-in. Loopt vanzelf. Geen tutorial-tekst.
 - **3-8s**: Speler tikt instinctief — Cosmo springt over moss-rock. Eerste saffron-star pickup. Score-teller fade-in.
 - **8-15s**: Kloof komt eraan, te ver voor sprong. Hold-tap = wing-glide met chromatic-bleed trail. Eerste "ohh"-moment.
-- **15-22s**: Trampoline (1992 spring-platform DNA). Auto-bounce sync op kick van `slow-bloom-l1.mp3` 86 BPM. Drie op rij = combo ×2, kaleidoscope spike op de derde.
+- **15-22s**: Trampoline (retro spring-platform DNA). Auto-bounce sync op kick van `slow-bloom-l1.mp3` 86 BPM. Drie op rij = combo ×2, kaleidoscope spike op de derde.
 - **22-30s**: Kosmische deur opent. Cosmo loopt erdoor, datamosh+RGB-shift 600ms, track cross-fade naar `inkpool-hollow-l4.mp3`. Palette wisselt naar ink-aubergine. Loop herstart in nieuwe wereld.
 
 **Geen game-over.** Cosmo "valt" alleen als speler grof faalt — en de val zelf is de portal naar de volgende biome (zachte combo-reset, score blijft).

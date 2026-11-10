@@ -49,7 +49,7 @@ Crop boxes were derived by **flood-fill detecting dark eye-clusters in the hero*
 | `mouth-neutral.png` | (1880, 1770, 2280, 2040) | soft-ellipse σ=22 | **9.0/10** | Small ink-aubergine smile-line + tiny upper-teeth peek (overbite hint). Not cute, not threatening, slightly uncanny |
 | `body-skin.png` | (1700, 2300, 2400, 3000) | tile-blend (no alpha) | **9.0/10** | Moss-sage watercolor + 3 faded-rose spots. Center-seam from tile-blend exists but not visible at body-capsule render scale |
 | `disc-suction.png` | (2700, 1700, 3450, 2280) | soft-ellipse σ=30 | **9.5/10** | Side-view of painted UFO-disc with ink-aubergine outline. Used 4× on hand+foot tips |
-| `antenna-flower.png` | (1700, 350, 1960, 610) | soft-ellipse σ=22 | **9.5/10** | Single rose-bulb — matches 1992-DNA per `cosmo_lora_v16a.md` ("single antenna with faded rose flower bulb tip"); not a multi-petal flower |
+| `antenna-flower.png` | (1700, 350, 1960, 610) | soft-ellipse σ=22 | **9.5/10** | Single rose-bulb — matches character-DNA per `cosmo_lora_v16a.md` ("single antenna with faded rose flower bulb tip"); not a multi-petal flower |
 
 **Average score: 9.2/10** — meets the brief's 9+/10 bar.
 
@@ -191,7 +191,7 @@ The composite face material/textures (`cosmo-face-neutral.png` etc.) are **kept 
   3. Hand-paint a 2048² seamless variant in Photoshop — best long-term fix
 
   Wave 21 ships option (2)-equivalent: the texture is set to `RepeatWrapping` (existing rig behaviour) but at the natural body capsule UV the wrap is invisible.
-- **eye catchlight color** — both eyes carry **saffron-CREAM** catchlight (not pure saffron). This is the hero's natural rendering; matches 1992-DNA "saffron crescent" loosely. If Richard wants pure saffron, regenerate from a hero-variant. No code/rig change needed.
+- **eye catchlight color** — both eyes carry **saffron-CREAM** catchlight (not pure saffron). This is the hero's natural rendering; matches character-DNA "saffron crescent" loosely. If Richard wants pure saffron, regenerate from a hero-variant. No code/rig change needed.
 - **disc side-view** — disc-suction.png is a SIDE view from the hero's painted disc (which is rendered as a UFO shape). The rig uses it on a cylinder cap that faces +Z (camera). At certain camera angles the disc may read as a side-view rather than top-down. Acceptable for this wave; if jarring at runtime, the rig already has a working suction-cup-disc geometry — the texture is decoration only.
 
 ### 4.2 Tick order (runtime-wirer needs to know)

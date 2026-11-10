@@ -41,7 +41,7 @@ LEGACY DELETION   ← last, only after visual-UAT confirms parity
 
 ## What needs live human eyes (code cannot self-verify)
 
-- Cosmo billboard 1992-DNA fidelity on the live build (sticker vs being).
+- Cosmo billboard character-DNA fidelity on the live build (sticker vs being).
 - Trampoline delight-loop *feel* (juice, repeatability) in substrate mode.
 - The walk-out → mote-drift → re-tint → walk-in path sequence (path-as-content).
 - Cross-Universe portal round-trip + inhabitant coherence (the recurring 21.2.x failure mode).
@@ -49,7 +49,7 @@ LEGACY DELETION   ← last, only after visual-UAT confirms parity
 
 ## What survives untouched (do NOT reopen)
 
-Brand contract (watercolor + 1992-DNA); the billboard-Cosmo pivot; the 4 transform anims; the chrome-stripped `/play/` shell; the substrate architecture itself.
+Brand contract (watercolor + character-DNA); the billboard-Cosmo pivot; the 4 transform anims; the chrome-stripped `/play/` shell; the substrate architecture itself.
 
 ## Second Universe — DECIDED: Ink-Ocean (2026-05-30)
 

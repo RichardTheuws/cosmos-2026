@@ -291,7 +291,7 @@ declare -a PICKUPS_DEF=(
     "pickup-star|single floating saffron-glow geometric Dewdrop crystal pickup with bright pop-magenta and pop-lime micro-halo glow rays, painted illustration"
     "pickup-powerup|painted alien power-up mushroom with mushroom-cream cap fluo-lime stem and ink-aubergine spores swirling around it, faint saffron halo"
     "pickup-cheeseburger|painted alien cheeseburger easter-egg pickup, mushroom-cream bun top and bottom with faded-rose meat patty and saffron-glow filling, ink-line outline, slightly absurd"
-    "hint-globe|sky-wash blue painted floating Hint Globe orb with ink underdrawing visible inside the globe, faint saffron halo, soft inner glow, transparent crystal-ball look"
+    "hint-globe|sky-wash blue painted floating hint orb with ink underdrawing visible inside the globe, faint saffron halo, soft inner glow, transparent crystal-ball look"
 )
 
 # ----- BACKGROUNDS (4) — Flux Pro, landscape 16:9 -----

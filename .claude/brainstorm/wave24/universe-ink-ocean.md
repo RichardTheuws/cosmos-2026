@@ -305,7 +305,7 @@ Ink-Ocean exports this subset of `UniverseBehavior`:
 - **Seeds building:** PASS — the authorship is legible (a builder *chose* a sea drawn in one line, chose to make light sing through kelp); the `biomeKey:null` + custom `background` is the literal demonstration that *you could author your own world this way*.
 - **≥1 trampoline-analog:** PASS — two, in fact: kelp-organ (Room A) and updraft-current (Room B, the floaty counterpoint to the forest's snappy trampoline).
 - **Sims-density:** PASS — 6–7 parallax layers per room, breathing/reacting inhabitants (jellyfish, lure-orb), ≥1 interactable per room, Cosmo with room-specific autonomous life.
-- **Brand/lang gate:** PASS — locked palette only, pop-cyan ≤5%, calm baseline, Cosmo 1992 DNA preserved (floating reads his uncanny proportions even better), ALL text English, no emoji/placeholder/stock, `brandDeviation:null`.
+- **Brand/lang gate:** PASS — locked palette only, pop-cyan ≤5%, calm baseline, Cosmo character-DNA preserved (floating reads his uncanny proportions even better), ALL text English, no emoji/placeholder/stock, `brandDeviation:null`.
 
 ---
 

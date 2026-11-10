@@ -587,8 +587,8 @@
     {
       "sprint": "Sprint 11C \u2014 Tile-set + spikes + ladders + grass redesign (painted-watercolor v3)",
       "generated": "2026-05-01",
-      "purpose": "Replace 1992-feel tiles (yellow/orange stripes, purple ladder, magenta spike-rows) with painted-watercolor Hayao\u00d7Moebius set coherent with Cosmo canonical (v3) and enemies (v4). Locked palette respect, pop-accents max 5 percent.",
-      "feedback_trigger": "Richard 2026-05-01: 'gele/oranje strepen, paarse ladder, roze-paarse spike-rijen \u2014 eerder 1992 dan 2026, een miljoen keer beter en mooier'",
+      "purpose": "Replace retro-feel tiles (yellow/orange stripes, purple ladder, magenta spike-rows) with painted-watercolor Hayao\u00d7Moebius set coherent with Cosmo canonical (v3) and enemies (v4). Locked palette respect, pop-accents max 5 percent.",
+      "feedback_trigger": "Richard 2026-05-01: 'gele/oranje strepen, paarse ladder, roze-paarse spike-rijen \u2014 eerder [het oude voorbeeld] dan 2026, een miljoen keer beter en mooier'",
       "tile_trap_recipe_applied": "DROP 'psychedelic illustration' + 'cosmic-adventure mood' STEM keywords (scene-magnets that bias Flux toward landscapes for square tiles \u2014 proven 4/5 fail in Sprint 4.5 Fase B). Use rider-FRONT pattern with 'macro close-up flat texture filling entire square edge to edge' + anti-landscape negatives. Followed by Hayao\u00d7Moebius style + locked palette tail. NO BiRefNet (would strip texture).",
       "model_default": "fal-ai/flux-pro/v1.1 (6 square tiles), fal-ai/flux/dev (3 strip / experimental)",
       "post_processing": "none \u2014 BiRefNet bypassed for tiles per memory",
@@ -2027,7 +2027,7 @@
           ],
           "mask": "soft-elliptical alpha, softness=22",
           "dna_score": 9.5,
-          "notes": "Single rose-bulb (matches 1992-DNA per cosmo_lora_v16a.md memory). Not a multi-petal flower \u2014 bulb-form is correct."
+          "notes": "Single rose-bulb (matches character-DNA per cosmo_lora_v16a.md memory). Not a multi-petal flower \u2014 bulb-form is correct."
         }
       ]
     },

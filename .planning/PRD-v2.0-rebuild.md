@@ -1,4 +1,4 @@
-# PRD v2.0 — Cosmos Cosmic Adventure 2026 ground-up rebuild
+# PRD v2.0 — Zorp's Universe ground-up rebuild
 
 **Version target**: 1.0.0
 **Date**: 2026-05-02
@@ -158,7 +158,7 @@ Geen text-tutorial. Geen "tap here" arrow. Discover-by-doing. Volgens pitch-C-fi
 
 ### Wat WEG gaat:
 - `src/phaser/scenes/L1Scene.ts` — vervangen door `src/phaser/scenes/BeatScene.ts`
-- `src/phaser/entities/{Cosmo,Bomb,BreakableWall,HintGlobe,Star,Trampoline}.ts`
+- `src/phaser/entities/{Cosmo,Bomb,BreakableWall,HintOrb,Star,Trampoline}.ts`
 - `src/phaser/entities/enemies/*` — geen vijanden meer
 - `src/phaser/hud/HudOverlay.ts` — Sprint 11B HUD weg, vervangen door minimale combo-counter + version-pill
 - `src/data/{biomes,levelL1}.ts` — geen levels, biomes worden runtime

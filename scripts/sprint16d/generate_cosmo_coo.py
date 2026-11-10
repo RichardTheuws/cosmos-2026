@@ -2,8 +2,8 @@
 """
 Sprint 16D — gibberish-coo generation via ElevenLabs Sound Generation API.
 
-Sprint 15D mistakenly hooked up the Hint-Globe Dutch voice (`globe-l1-1.mp3`)
-as the BONDING-state stinger ("3-syllable kid-alien babble"). The Hint Globe
+Sprint 15D mistakenly hooked up the hint-orb Dutch voice (`globe-l1-1.mp3`)
+as the BONDING-state stinger ("3-syllable kid-alien babble"). The hint orb
 voice is a full Dutch sentence — wrong character, wrong language, breaks
 the WEIRDO-brief. This script replaces it with three short prompted variants
 generated via the ElevenLabs Sound Generation endpoint (text-to-sound, NOT

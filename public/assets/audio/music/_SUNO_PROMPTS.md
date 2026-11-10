@@ -8,7 +8,7 @@
 - **Influences**: Joe Hisaishi (Studio Ghibli warmth) × Boards of Canada (analog tape decay) (geen covers)
 - **Hoofdpalet**: Wooden flute high register, koto pluck, granular pad, field-recording crickets, analog tape hiss, soft fretless bass
 - **Spectrum-bandbreedte**: warm low-mids, gefilterde air, geen harsh top-end — past binnen het music-reactive 512-FFT analyzer-budget
-- **Eigen-DNA**: melodieën NOOIT direct citeren uit bekend werk; eigen motieven die als "narrator van Zonk" voelen
+- **Eigen-DNA**: melodieën NOOIT direct citeren uit bekend werk; eigen motieven die als "narrator van deze wereld" voelen
 
 ## Suno-instructies (universeel toepassen)
 
@@ -39,7 +39,7 @@ Render op **Suno v4 Pro** met "Custom Mode → Instrumental" toggle aan.
 **Where played**: Levels 2-3 (Surface · increasing density)
 **Tempo**: 96 BPM · **Duration target**: 2:30 loopable
 **Prompt**:
-> Slightly more energetic Slow Bloom variation. Same wooden flute & koto palette as L1 but with soft brushed snare entering at bar 9 and a fretless bass line walking D-minor pentatonic. Granular pad swells. Bobby Prince zany-funk-spirit barely peeks through in a syncopated koto figure. Still warm, still organic. No distortion.
+> Slightly more energetic Slow Bloom variation. Same wooden flute & koto palette as L1 but with soft brushed snare entering at bar 9 and a fretless bass line walking D-minor pentatonic. Granular pad swells. Retro zany-funk-spirit barely peeks through in a syncopated koto figure. Still warm, still organic. No distortion.
 
 ## Track 4 — `inkpool-hollow-l4.mp3`
 **Where played**: Level 4 (Hollow · ghost-mechanic)
@@ -69,7 +69,7 @@ Render op **Suno v4 Pro** met "Custom Mode → Instrumental" toggle aan.
 **Where played**: Level 8 (Cathedral · spring-trampoline beat-jumps)
 **Tempo**: 110 BPM · **Duration target**: 2:00 loopable
 **Prompt**:
-> Bouncy beat-jump theme. Strong rhythmic backbone for trampoline timing — kick on 1 & 3, koto pluck on 2 & 4. Wooden flute plays a playful skipping melody. Folktronica funk — Bobby Prince zany-spirit channeled through hand-drums. Tempo locked 110 BPM. Players should feel the bounce. No vocal samples.
+> Bouncy beat-jump theme. Strong rhythmic backbone for trampoline timing — kick on 1 & 3, koto pluck on 2 & 4. Wooden flute plays a playful skipping melody. Folktronica funk — retro zany-spirit channeled through hand-drums. Tempo locked 110 BPM. Players should feel the bounce. No vocal samples.
 
 ## Track 9 — `bonus-warp-l9.mp3`
 **Where played**: Level 9 (25-star bonus-room · no-enemy paradise)

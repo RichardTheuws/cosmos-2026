@@ -1,7 +1,7 @@
 # Sprint 4.5 Fase C — Cosmo Redesign Case Study
 
 **Datum**: 2026-04-30
-**Doel**: 1992 → 2026 cosmic-acid-Moebius bridge voor Cosmo character
+**Doel**: retro → 2026 cosmic-acid-Moebius bridge voor Cosmo character
 **Generations**: 6 hoofdvarianten + 2 v2 retries = 8 totaal
 **Cost**: ~$0.20 Flux Dev sprite generations
 
@@ -34,7 +34,7 @@
 | Kid-proportions | ✓ |
 | Naakt + geen schoenen | ✓ |
 | Tenniel ink-line woodcut | ✓✓ heel sterk |
-| **Anti-pattern**: tail | ✗ heeft tail (1992-Cosmo had geen tail) |
+| **Anti-pattern**: tail | ✗ heeft tail (het oude ontwerp had geen tail) |
 
 **Stylistic-fit**: 7/10 — sterke ink linework, kid-frame goed, maar tail + 2 antennae zijn hard DNA-fails.
 **Wat dit goed maakt**: aller-melancholische trip-vibe; voelt als "Tenniel die acid neemt".
@@ -54,7 +54,7 @@
 | Hayao soft watercolor | ✓✓ pink moon halo achtergrond mooi |
 | Cosmic glow halo painted in | ✓ pink moon disk doet dit werk |
 
-**Stylistic-fit**: 6/10 — Ghibli-aesthetic werkt, maar 3 flowers verstoort 1992-DNA. Twee "wing flowers" lezen als ears, niet als spots/antenna.
+**Stylistic-fit**: 6/10 — Ghibli-aesthetic werkt, maar 3 flowers verstoort de character-DNA. Twee "wing flowers" lezen als ears, niet als spots/antenna.
 **Wat dit goed maakt**: dreamy-hopeful tone die Hayao vraagt — minder zwaar dan Tenniel.
 
 ### V3 — Moebius Mainline
@@ -71,7 +71,7 @@
 | **Mushroom-cap-head** | ✗ kop is mushroom-cap-shape (anti-pattern: head-shape distortion) |
 | Moebius bande-dessinée | ✓✓✓ pure 70s french comic style — sterkste stylistic match |
 
-**Stylistic-fit**: 8/10 — als pure Moebius is dit de winner. Maar mushroom-cap-head is een vreemde DNA-twist die niet bij 1992-Cosmo past.
+**Stylistic-fit**: 8/10 — als pure Moebius is dit de winner. Maar mushroom-cap-head is een vreemde DNA-twist die niet bij het oude ontwerp past.
 **Wat dit goed maakt**: de meest "echte" Moebius-rendering — dit voelt als concept-art uit Métal Hurlant 1978.
 
 ### V4 — Pulse-Trip ⭐
@@ -108,8 +108,8 @@
 | **Anti-pattern**: kawaii-eye drift | ✗ kawaii sparkle-eye (ondanks negatives) |
 | **Anti-pattern**: tail | ✗ tail aanwezig |
 
-**Stylistic-fit**: 6/10 — meest expliciet 1992-DNA via overbite + spots, maar slipt naar kawaii + geen acid-cosmic vibe.
-**Wat dit goed maakt**: enige variant met duidelijke Bart-overbite. Goed voor 1992-fidelity-shoppers.
+**Stylistic-fit**: 6/10 — meest expliciet character-DNA via overbite + spots, maar slipt naar kawaii + geen acid-cosmic vibe.
+**Wat dit goed maakt**: enige variant met duidelijke Bart-overbite. Goed voor retro-fidelity-shoppers.
 
 ### V6 — Wide-eye Astronaut
 **File**: `cosmo-v6-wide-eye-astronaut.png`

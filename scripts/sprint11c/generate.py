@@ -2,7 +2,7 @@
 Sprint 11C — Tile-set redesign + spikes + ladders + grass strip.
 
 Generates 9 painted tiles in Hayao×Moebius watercolor style:
-  v3 painted-tile generation pass — replaces 1992-feel tiles with cohesive
+  v3 painted-tile generation pass — replaces retro-feel tiles with cohesive
   watercolor look matching enemies (v4) and Cosmo canonical (v3).
 
 Pipeline pattern (proven in Sprint 4.5 Fase B + 7D):

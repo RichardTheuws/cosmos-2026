@@ -1,11 +1,11 @@
 # Portal redesign — Wave 20b architecture
 
-The live portal at `theuws.com/games/cosmos-2026/` is still a Dutch game-marketing site. Apogee-spoof was stripped Wave 19a, but framing was never re-anchored to the v2.0.0 substrate pivot. README is now substrate-first; the portal must match. `/play/` stays untouched.
+The live portal at `theuws.com/games/cosmos-2026/` is still a Dutch game-marketing site. The spoof framing was stripped in Wave 19a, but framing was never re-anchored to the v2.0.0 substrate pivot. README is now substrate-first; the portal must match. `/play/` stays untouched.
 
 ## 1. Information architecture (sitemap)
 
 - `/` — substrate landing (hero · pitch · quickstart · how-to-join · gallery · brand contract · GitHub CTA). **Full rewrite.**
-- `/lore/` — 1992-DNA backstory poem. Wave-19a-clean. **Voice-pass + English summary block.**
+- `/lore/` — character-DNA backstory poem. Wave-19a-clean. **Voice-pass + English summary block.**
 - `/support/` — sponsor / patron path. Mollie placeholders kept; GitHub Sponsors slot added. **Voice-pass.**
 - `/thanks/` — minimal post-pledge. **Voice-pass.**
 - `/updates/` — auto-built from CHANGELOG. **Don't touch.**
@@ -34,7 +34,7 @@ Hero stacks vertically on ≤720px (Cosmo above text). Quickstart code-block scr
 
 **KEEP**: Cormorant + Inter + JetBrains Mono fonts; `tokens.css`; existing `og:*` tags (already English/substrate); `site.js` analytics + reveal hooks.
 
-**REWRITE**: `<html lang>` to `en`. `<title>` → "Cosmo's Universe — an open substrate for Claude-paired devs". Dutch `<meta description>` → English substrate-pitch. JSON-LD `VideoGame` → English description, `inLanguage: en`, add `softwareHelp` URL → README. `.hero-bg` (cathedral-sky) → `hero-cosmo-in-forest.jpg` (forest is the entry point per NORTH-STAR §3). `.eyebrow` → "v2.0 substrate · MIT · authored alongside Claude". `h1` "Cosmos Cosmic Adventure 2026" → *"Cosmo's Universe"* with subhead *"Your Cosmo can visit my forest."* `.cta-row` → ▶ Play live · View on GitHub primary; Charter · Universe Contract secondary. `.meta-pills` → "MIT · Three.js · Vite · Claude-paired · Universe contract v1.0". Sticky nav → Play / Lore / Updates / GitHub / Support (drop PRD). `.cta-banner` "De droom moet gefinancierd" → soft "How to join" banner (Play / Author / Improve), not a fundraising push. Footer → GitHub-prominent, MIT, doc-links, Built alongside Claude, Dutch easter-egg last line.
+**REWRITE**: `<html lang>` to `en`. `<title>` → "Cosmo's Universe — an open substrate for Claude-paired devs". Dutch `<meta description>` → English substrate-pitch. JSON-LD `VideoGame` → English description, `inLanguage: en`, add `softwareHelp` URL → README. `.hero-bg` (cathedral-sky) → `hero-cosmo-in-forest.jpg` (forest is the entry point per NORTH-STAR §3). `.eyebrow` → "v2.0 substrate · MIT · authored alongside Claude". `h1` [oude titel] → *"Cosmo's Universe"* with subhead *"Your Cosmo can visit my forest."* `.cta-row` → ▶ Play live · View on GitHub primary; Charter · Universe Contract secondary. `.meta-pills` → "MIT · Three.js · Vite · Claude-paired · Universe contract v1.0". Sticky nav → Play / Lore / Updates / GitHub / Support (drop PRD). `.cta-banner` "De droom moet gefinancierd" → soft "How to join" banner (Play / Author / Improve), not a fundraising push. Footer → GitHub-prominent, MIT, doc-links, Built alongside Claude, Dutch easter-egg last line.
 
 **DROP**: `<link hreflang="nl">`. `.tagline` "Een aquarel-trip..." (the "your Cosmo / my world" tagline replaces it; Dutch line migrates to footer easter-egg). `.world-grid` (3 biomes — episode framing retired in NORTH-STAR §3). `.numbers-grid` (10 levels / 12 enemies / 1 boss — same retired framing). `.about` strip (Richard's voice belongs on `/lore/`; credits move to footer link).
 

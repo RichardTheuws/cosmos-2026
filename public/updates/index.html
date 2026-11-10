@@ -206,6 +206,31 @@
     <article class="update" data-reveal>
       <div class="update__card">
         <div class="update__header">
+          <span class="update__version">v2.10.8</span>
+          <span class="update__date">2026-11-10</span>
+          <h2 class="update__title">11-10 — Oude verwijzingen uit de werkdocumenten</h2>
+        </div>
+        <div class="update__body">
+          <div class="update__tags">
+          <span class="tag tag--change">Wijziging</span>
+          <span class="tag tag--fix">Fix</span>
+          </div>
+        <h3>CHANGED</h3>
+        <ul class="update__highlights">
+          <li><strong>Plannen, brainstorms, onderzoeksrapporten, scripts en deze changelog</strong> noemen het oude voorbeeld, de makers ervan en namen uit dat spel niet meer. Waar het iets toevoegde staat er nu een neutrale omschrijving (&quot;retro-geïnspireerd&quot;, &quot;character-DNA&quot;, &quot;hint orb&quot;); de inhoud van de plannen is verder gelijk gebleven. Bestandsnamen en asset-id&#039;s blijven zoals ze zijn.</li>
+          <li><strong>Updates-generator</strong>: de poort met verboden namen kent nu ook die namen.</li>
+        </ul>
+<h3>REMOVED</h3>
+        <ul class="update__highlights">
+          <li>Een brainstormdocument dat alleen over het oude voorbeeld ging, uit de repo gehaald.</li>
+        </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="update" data-reveal>
+      <div class="update__card">
+        <div class="update__header">
           <span class="update__version">v2.10.7</span>
           <span class="update__date">2026-11-10</span>
           <h2 class="update__title">11-10 — Updates-pagina en historie na de naamswissel</h2>
@@ -1774,7 +1799,7 @@
           <li><strong><code>index.html</code></strong>: JSON-LD <code>description</code> + <code>alternateName</code> opgeschoond. Meta-pills &quot;10 Levels — MVP&quot; en &quot;Three.js + Phaser 4&quot; → &quot;Life System (Wave 19)&quot; en &quot;Motion-controlled&quot;. World-grid <code>L1-L10</code> tags weg. Footer-credit voor het oude voorbeeld en &quot;Phaser 4&quot; weg (Three.js-only).</li>
           <li><strong><code>public/lore/index.html</code></strong>: Oude plot-tekst vervangen door 146-woorden backstory snippet (Cormorant-italic). Biome-secties stripped van level-tags en oude platformer-mechanics. Cast-grid (Brumberry/Hopper/Eye Plant/Blob) vervangen door Companion-grid (Zorp / hallucination-particles / trampolines).</li>
           <li><strong><code>public/press/index.html</code></strong>: complete press-kit vervangen door noindex meta-refresh redirect → <code>/lore/</code>.</li>
-          <li><strong><code>public/support/index.html</code></strong>: tier &quot;Hint Globe Sponsor&quot; → &quot;Vibe Sponsor&quot; (Suno-track of biome-particle-set sponsor). Tier &quot;Bonus Room Builder&quot; → &quot;Hallucination Patron&quot; (seasonal hallucination-event-pack). FAQ-item over het oude voorbeeld vervangen. ElevenLabs-where regel &quot;Hint Globe voices&quot; → &quot;Companion-voices&quot;.</li>
+          <li><strong><code>public/support/index.html</code></strong>: twee tiers die naar het oude voorbeeld verwezen → &quot;Vibe Sponsor&quot; (Suno-track of biome-particle-set sponsor) en &quot;Hallucination Patron&quot; (seasonal hallucination-event-pack). FAQ-item over het oude voorbeeld vervangen. ElevenLabs-where regel over de hint-voices → &quot;Companion-voices&quot;.</li>
           <li><strong><code>public/thanks/index.html</code></strong>: oude plaatsnaam → &quot;uit de aquarel-grond zelf&quot;. Tier-namen in bevestigings-tekst aangepast.</li>
           <li><strong>Logo/favicon swap</strong>: alle pagina&#039;s wijzen nu naar <code>/assets/sprites/cosmo-hero-lora.png</code> (Sprint 16A canonical, post-LoRA DNA-correct) i.p.v. <code>cosmo-hero-cleaned.png</code>.</li>
         </ul>
@@ -1893,7 +1918,7 @@
           <span class="tag tag--change">Wijziging</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">v1.1.0&#039;s live demo was niet speelbaar: PIL-painted 2D-eyes werden 3D-blobs op de mesh, NL voice-over uit Hint-Globe-archief brak de vibe, mouth-pillar toonde 4 frames tegelijk, secret-crystal default zichtbaar, music stopte na track-end, onboarding skipte voor return-users. Sprint 16 fixt alles met <strong>harde quality-gate</strong>: orchestrator draait nu zelf pre-deploy live-test (browser-MCP playwright iPhone-emulation indien Docker UP, anders curl + tsc + GLTF-headless validate) — geen &quot;live verify door user&quot; meer als enige check.</p>
+          <p class="update__lead-line">v1.1.0&#039;s live demo was niet speelbaar: PIL-painted 2D-eyes werden 3D-blobs op de mesh, NL voice-over uit het hint-orb-archief brak de vibe, mouth-pillar toonde 4 frames tegelijk, secret-crystal default zichtbaar, music stopte na track-end, onboarding skipte voor return-users. Sprint 16 fixt alles met <strong>harde quality-gate</strong>: orchestrator draait nu zelf pre-deploy live-test (browser-MCP playwright iPhone-emulation indien Docker UP, anders curl + tsc + GLTF-headless validate) — geen &quot;live verify door user&quot; meer als enige check.</p>
         </div>
         <h3>FIXED (16A — ZORP-LORA FINE-TUNE, EINDELIJK DNA 10/10)</h3>
         <ul class="update__highlights">
@@ -1996,7 +2021,7 @@
           <li><code>NebulaPortal</code> (Phaser canvas-drawn, 6 concentric rings, ease-out-cubic radial expand, palette saffron→faded-rose→ink-aubergine, per-ring breath + lichte rotation-eccentriciteit)</li>
           <li><code>HintGlyph</code> chevron-arrow + Cormorant-Garamond italic &quot;veeg omhoog&quot;, anchored aan closest live obstacle, 1.6Hz bob → 3Hz intensify-pulse na 5s no-input</li>
           <li><strong>Wave-uncanny</strong> clip: te-traag, te-lang, te-gelocked. Eyes-locked-on-camera. &quot;Alsof Zorp JOU ontdekt&quot;</li>
-          <li>Audio-stinger: bestaande <code>globe-l1-1.mp3</code> (3-syllable Hint Globe voice — kid-alien babble)</li>
+          <li>Audio-stinger: bestaande <code>globe-l1-1.mp3</code> (3-syllable hint-orb voice — kid-alien babble)</li>
           <li>localStorage <code>cosmosOnboardingComplete</code> skip portal+arrival voor return-users</li>
           <li>Geen text-instruction in stappen 0-2.5s</li>
         </ul>
@@ -2057,7 +2082,7 @@
         <div class="update__lead">
           <p class="update__lead-line">GROND-UP REBUILD. Pivot van platformer-experiment naar mobile-first hypnotische rhythm-trip. <em>&quot;Geen game. Geen score. De track is de game.&quot;</em></p>
           <p class="update__lead-line">5 sprints (13A-13E) parallel: foundation strip + BeatScene + CosmoRig 8-band FFT-rig + AutoVJ + 5 mobile gestures (13A); JSON-DSL beatmap-loader + onset-detector Python + 4 base-track beatmaps (13B); BiomeManager 4-state crossfade + share-stack 60s clip + screenshot peak-detector + daily-streak + friend-seed (13C); premium $1.75/$10 asset-gen — Zorp 4K hero, 4 biome-4K backgrounds (inkpool + boss 10/10 first-pass), 8 cosmic-bubbles, 6 hallucination-particles, splash-hero (13D); deploy v1.0.0 (13E).</p>
-          <p class="update__lead-line">Verwijderd: alle platformer-entities (L1Scene, Zorp, Bomb, BreakableWall, HintGlobe, Star, Trampoline, alle enemies, HudOverlay, levelL1, oude biomes). Herzien: InputController gesture-bus, TouchOverlay simplified, audioFFTBridge.musicCurrentTime + setMusicTrack getters.</p>
+          <p class="update__lead-line">Verwijderd: alle platformer-entities (L1Scene, Zorp, Bomb, BreakableWall, hint-orb, Star, Trampoline, alle enemies, HudOverlay, levelL1, oude biomes). Herzien: InputController gesture-bus, TouchOverlay simplified, audioFFTBridge.musicCurrentTime + setMusicTrack getters.</p>
         </div>
         
         </div>
@@ -2456,7 +2481,7 @@
           <li><strong>11 gedragsknopen</strong> wired: patrol (met edge-flip probe), hop (timed), drifter (post-stomp fall), wallTurret (aimed projectile), burrow (proximity-surface), proximityGhost (chase only-when-faced-away), homing (lerp), sinusoid + dive-alignment, wallCrawler (placeholder), tulipLauncher (friendly bounce), rail</li>
           <li><strong>Stomp-detectie</strong>: <code>cosmo.vy &gt; 60</code> AND <code>cosmo.bottom &lt;= enemyTop + 35% * height + 8px</code> → kill + bounce-up. Side-touch → damage met invuln-frames.</li>
           <li><strong>Eye Plant + Spitting Wall</strong> zijn <code>bombOnly</code> (skippen stomp-branch, alleen bom-kill). <strong>Ghost + Spark</strong> zijn <code>invincible</code>.</li>
-          <li><strong>Hint Globe L1-1/2/3</strong> voices wired aan trigger-zones (col 2/50/30)</li>
+          <li><strong>Hint orb L1-1/2/3</strong> voices wired aan trigger-zones (col 2/50/30)</li>
           <li>Legend uitgebreid met 12 lower-case enemy-chars (b/h/p/e/w/g/s/d/f/c/t/z) — geen botsing met bestaande tile-chars</li>
           <li>3 echte sprites + 9 hergebruikt-met-tint (<code>spriteTodo: true</code> flag voor toekomstige asset-gen — geen canvas-primitives, geen emoji&#039;s)</li>
         </ul>
@@ -2663,7 +2688,7 @@
 <h3>CHANGED</h3>
         <ul class="update__highlights">
           <li>L1Scene preload + populateLevel switcht van procedural Graphics-tiles naar painted PNG tiles</li>
-          <li>Star + HintGlobe entities accepteren textureKey parameter — gebruiken painted pickup-art ipv canvas-graphics</li>
+          <li>Star + hint-orb entities accepteren textureKey parameter — gebruiken painted pickup-art ipv canvas-graphics</li>
           <li>Slow Bloom biome wijst nu naar <code>slow-bloom-v2/</code> met de nieuwe 4 layers (cosmic moon-nebula sky, ink-aubergine mountains, glowing magenta-mushroom mid, foreground vines)</li>
           <li>Zorp display-size 80x80 met aangepaste body-offset voor de painted 1024 sprite</li>
         </ul>
@@ -2784,16 +2809,16 @@
           </div>
         <h3>ADDED</h3>
         <ul class="update__highlights">
-          <li><strong>L1 &quot;First Steps&quot;</strong> — Bloomroot Veld biome speelbaar op <code>/play/</code>. 60×22 grid-level uit <code>src/data/levelL1.ts</code> met decoder voor cosmo-spawn, stars, hint-globes, walls, mushroom-platforms, dirt, ground, spikes</li>
+          <li><strong>L1 &quot;First Steps&quot;</strong> — Bloomroot Veld biome speelbaar op <code>/play/</code>. 60×22 grid-level uit <code>src/data/levelL1.ts</code> met decoder voor cosmo-spawn, stars, hint-orbs, walls, mushroom-platforms, dirt, ground, spikes</li>
           <li><code>src/phaser/entities/Star.ts</code> — bobbing fluo-pop Dewdrop met magenta+lime halo, collect-tween + cleanup</li>
-          <li><code>src/phaser/entities/HintGlobe.ts</code> — pulsing saffron+sky-wash orb met proximity-trigger en linger-latch tegen spam</li>
+          <li>Hint-orb entity — pulsing saffron+sky-wash orb met proximity-trigger en linger-latch tegen spam</li>
           <li><code>src/audio/sfxBus.ts</code> — Howler-backed SFX + voice playback, lazy-load, silent-fail bij missing files</li>
           <li><code>src/phaser/scenes/L1Scene.ts</code> — eerste echte level scene met SFX-wired collisions, hint-tekst-overlay (Cormorant Garamond italic), ↑↓ camera-pan-offset, debug-HUD met live state</li>
         </ul>
 <h3>AUDIO (8 SFX + 3 VOICES VIA ELEVENLABS)</h3>
         <ul class="update__highlights">
           <li>SFX: cling/jump/stomp/hurt + pickup-star/bonus + globe-trigger + bonus-warp (totaal ~$0.37 API kosten)</li>
-          <li>Voices: 3 NL Hint Globe lines met Sarah voice (<code>EXAVITQu4vr4xnSDxMaL</code>, multilingual_v2, stability 0.6 / similarity 0.8 / style 0.4)</li>
+          <li>Voices: 3 NL hint-orb lines met Sarah voice (<code>EXAVITQu4vr4xnSDxMaL</code>, multilingual_v2, stability 0.6 / similarity 0.8 / style 0.4)</li>
           <li>Suno-prompts gedocumenteerd in <code>public/assets/audio/music/_SUNO_PROMPTS.md</code> — 12 tracks D-minor, mapped naar Surface/Hollow/Cathedral biomes</li>
           <li><code>_HOWLER_CONFIG.json</code> met 23 logical-name → file mappings, levelMusicMap, globeVoiceMap</li>
           <li>ElevenLabs sound-generation min-duration is 0.5s (niet 0.3) — SFX-targets aangepast</li>
@@ -2811,7 +2836,7 @@
 <h3>PIPELINE</h3>
         <ul class="update__highlights">
           <li>6 Zorp animation-frames staan klaar in <code>public/assets/sprites/</code> voor S4 atlas-pack</li>
-          <li>Star + HintGlobe entities gebruiken procedural Graphics-textures (geen externe assets nodig)</li>
+          <li>Star + hint-orb entities gebruiken procedural Graphics-textures (geen externe assets nodig)</li>
         </ul>
         </div>
       </div>
@@ -2891,7 +2916,7 @@
           <li>Homepage met hero (Zorp bobbing tegen Cloud Cathedral background), 3-world showcase, numbers grid, about-strip, CTA banner</li>
           <li>Play-launcher placeholder met sprint-progress-bar (Sprint 1/8 = 13%)</li>
           <li>Updates-page met auto-generated timeline-template + first entry (deze release)</li>
-          <li>Support-page met &quot;stardust&quot; gamified counter, 4 tiers (Star Spotter / Hint Globe Sponsor / Bonus Room Builder / Episode Patron), 7-vraag FAQ</li>
+          <li>Support-page met &quot;stardust&quot; gamified counter, 4 supporter-tiers, 7-vraag FAQ</li>
           <li>Lore-page met 3-bioom verhaal (Slow Bloom · Inkpool Hollow · Cloud Cathedral) + cast-grid</li>
           <li>Press-page met factsheet, key art-grid en 5 suggested angles</li>
           <li>Thanks-page voor post-donation flow</li>
@@ -2901,7 +2926,7 @@
           <li>Visual: B-hybride (Cosmic Watercolor base + kaleidoscope/fluo-pop/datamosh hallucinatie-pieken)</li>
           <li>Architecture: Dual-canvas (Three.js root + Phaser 4 overlay)</li>
           <li>Scope v1.0: MVP — Episode 1 (10 levels)</li>
-          <li>Titelthema: eigen-DNA (geen Tush-cover)</li>
+          <li>Titelthema: eigen-DNA (geen cover)</li>
           <li>Enemy roster: 12 types + 1 boss (4 buffer boven minimum)</li>
           <li>Site-laag: vanilla HTML/CSS/JS multi-entry Vite (RoB-blueprint, geen framework)</li>
           <li>Donation: Mollie placeholder voor Sprint 5 activatie; e-mail werkt direct in v0.1.0</li>

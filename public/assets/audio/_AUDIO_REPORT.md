@@ -34,7 +34,7 @@ All voices rendered via `POST /v1/text-to-speech/{voice_id}` with model `eleven_
 
 | Filename | Status | Size | Text |
 |---|---|---:|---|
-| `voices/globe-l1-1.mp3` | OK | 115400 B | "Welkom op Zonk, kleine wandelaar. Gebruik je handen — ze plakken aan muren. Druk tegen de muur en spring opnieuw." |
+| `voices/globe-l1-1.mp3` | OK | 115400 B | "Welkom op [planeetnaam], kleine wandelaar. Gebruik je handen — ze plakken aan muren. Druk tegen de muur en spring opnieuw." |
 | `voices/globe-l1-2.mp3` | OK | 94502 B | "Sterren liggen niet altijd op de grond. Kijk omhoog. Sommige glimmen waar je niet meteen heen kijkt." |
 | `voices/globe-l1-3.mp3` | OK | 96174 B | "Drie hartjes maar geen zorgen. Een paddenstoel hier, een cheeseburger daar — en je rekt het verder uit." |
 
@@ -44,12 +44,12 @@ All voices rendered via `POST /v1/text-to-speech/{voice_id}` with model `eleven_
 
 **Motivatie**:
 - ElevenLabs default library voice; stabiel, goed gedocumenteerd, multilingual
-- Warm female mid-range storyteller-timbre — sluit aan op de PRD-vraag "ElevenLabs warm-vrouwelijk mid-range, één voice-cast voor alle Hint Globes"
-- "Narrator van Zonk" past bij Hisaishi-Ghibli-toon (warmth zonder sentimentaliteit)
+- Warm female mid-range storyteller-timbre — sluit aan op de PRD-vraag "ElevenLabs warm-vrouwelijk mid-range, één voice-cast voor alle hint orbs"
+- "Narrator van deze wereld" past bij Hisaishi-Ghibli-toon (warmth zonder sentimentaliteit)
 - Nederlandse uitspraak via `eleven_multilingual_v2` is solide voor de korte regels (geen complex jargon)
 - Settings: `stability=0.6` (consistent), `similarity_boost=0.8` (clean voice), `style=0.4` (lichte expressiviteit voor narrator-flair)
 
-**Beslissing**: gebruik dezelfde voice-id voor alle Hint Globes door alle 10 levels — single consistent narrator. Bij Sprint 5 dezelfde voice opnieuw gebruiken voor L2-L6 globes.
+**Beslissing**: gebruik dezelfde voice-id voor alle hint orbs door alle 10 levels — single consistent narrator. Bij Sprint 5 dezelfde voice opnieuw gebruiken voor L2-L6 globes.
 
 ---
 
@@ -144,7 +144,7 @@ ElevenLabs character/credit pricing (Creator plan, april 2026):
 1. **Suno tracks renderen** (handmatig door Richard): 12 tracks, `_SUNO_PROMPTS.md` is de sourced-of-truth.
 2. **Loop-points editen** in Audacity na Suno-render — bar-aligned, geen pop.
 3. **Mix-pass**: -14 LUFS, high-pass 60Hz, soft glue-comp. Zie `_SUNO_PROMPTS.md` § Mixing-richtlijnen.
-4. **Sprint 5 globe-voices**: zelfde voice-id (`EXAVITQu4vr4xnSDxMaL`) hergebruiken voor L2-L6 hint-globes (consistent narrator).
+4. **Sprint 5 globe-voices**: zelfde voice-id (`EXAVITQu4vr4xnSDxMaL`) hergebruiken voor L2-L6 hint orbs (consistent narrator).
 5. **Boss-stinger + damage-stinger**: niet als aparte Suno-tracks gegenereerd — in Sprint 6/7 via Tone.js procedural over de bestaande track laggen.
 6. **Crickets/tape-hiss bedlaag**: optioneel, eventueel field-recording uit free archives toevoegen als ambient bed onder alle tracks (overweeg in Sprint 6 polish-pass).
 

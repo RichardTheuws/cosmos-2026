@@ -4,7 +4,7 @@
 
 > **Werknaam**: `Cosmos: Bloom Riser` (of: `Cosmo Up`)
 
-> **Reference cocktail**: Doodle Jump's verticale puurheid × Tiny Wings' rhythm-glide × Patapon's diëgetische muziek-koppeling × Alto's Odyssey's stilte × _de paddenstoelen-trip in jouw 1992 herinnering_.
+> **Reference cocktail**: Doodle Jump's verticale puurheid × Tiny Wings' rhythm-glide × Patapon's diëgetische muziek-koppeling × Alto's Odyssey's stilte × _de paddenstoelen-trip in jouw retro-herinnering_.
 
 ---
 
@@ -38,7 +38,7 @@
 
 - **Schermhoogte aandeel**: 38% (boven de 35% drempel die Game Master memory vereist). Op een 6.7" iPhone: ±260px. Op desktop: ±380px.
 - **Positie**: dead-center horizontaal, 50% verticaal — hij beweegt NIET met de bounce. **De wereld kantelt en valt om Cosmo heen**, niet andersom. Dit is de hypnose-truc: je oog blijft aan Cosmo geplakt en je perifere zicht ziet de trip.
-- **Zelfde Cosmo-canonical-v2 sprite** (hayao×moebius, antenne, zuignap-handen, overbite — alle 1992-DNA blijft). Zachte audio-reactive ademhaling: 4% scale-pulse op kick-drum band van FFT.
+- **Zelfde Cosmo-canonical-v2 sprite** (hayao×moebius, antenne, zuignap-handen, overbite — alle character-DNA blijft). Zachte audio-reactive ademhaling: 4% scale-pulse op kick-drum band van FFT.
 - **Antenne-glow** = combo-indicator. Bij combo 13+ wordt de antenne een chromatic prism waar pop-magenta uit lekt.
 
 ## 4. Visuele hierarchie
@@ -107,7 +107,7 @@ Bonus: **AR-mode** (ARKit) — Cosmo springt over je tafel. iOS-only. TikTok-bai
 
 ## 11. Existing assets reuse
 
-**Behouden** (~70%): Cosmo canonical v2 sprite, alle 12 Suno-tracks, 3 biome-background-stacks (slow-bloom/inkpool/cathedral), post-FX stack v0.4.0, TrippyEventDirector, Audio-FFT bridge (Sprint 6D), trampoline-tile v3 (Flux Dev 3/4-angle die werkte), gele sterren + hint globes, locked palette.
+**Behouden** (~70%): Cosmo canonical v2 sprite, alle 12 Suno-tracks, 3 biome-background-stacks (slow-bloom/inkpool/cathedral), post-FX stack v0.4.0, TrippyEventDirector, Audio-FFT bridge (Sprint 6D), trampoline-tile v3 (Flux Dev 3/4-angle die werkte), gele sterren + hint orbs, locked palette.
 
 **Weg**: 12 enemy-classes, bomb-systeem, breakable walls (`B`) + bomb-pickup (`Q`), Phaser tile-grid level-editor (vervangen door procedural spawner), ENEMY_LEGEND data, Sprint 6/7 boss-arena, damage- & life-systeem.
 
@@ -135,7 +135,7 @@ Asset-pipeline en audio-systeem 100% intact, gameplay-code grotendeels weg.
 
 1. **Vertical = TikTok-native frame.** 9:16 ratio _is_ de gameplay. Geen letterbox, geen cropping. Auto-screenshot zorgt dat ook niet-deler-types delen — de game kiest het mooie moment voor ze.
 
-2. **One-thumb + no-fail = stoner-instant-grip.** Doodle Jump's puurheid + Alto's Odyssey's calmness + jouw 1992-trippy-art-DNA = niemand op de App Store doet dit. Markt heeft hyper-casual risers, maar geen die er als kunst uitzien én een audio-DNA hebben dat al loop-baar gemixt is.
+2. **One-thumb + no-fail = stoner-instant-grip.** Doodle Jump's puurheid + Alto's Odyssey's calmness + jouw retro-trippy-art-DNA = niemand op de App Store doet dit. Markt heeft hyper-casual risers, maar geen die er als kunst uitzien én een audio-DNA hebben dat al loop-baar gemixt is.
 
 3. **Audio-reactivity die niemand kopieert.** FFT-bridge op Suno-tracks (Sprint 6D al live) modulerend kaleido/bloom is een moat — vereist én muziek-IP én shader-stack. Dat is wat mensen voelen zonder te kunnen benoemen ("waarom voelt dit anders?").
 

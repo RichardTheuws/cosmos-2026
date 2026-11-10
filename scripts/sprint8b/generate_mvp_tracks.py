@@ -2,7 +2,7 @@
 """
 generate_mvp_tracks.py — Sprint 8B batch driver.
 
-Generates the 4 MVP tracks for Cosmos Cosmic Adventure 2026 (per
+Generates the 4 MVP tracks for Zorp's Universe (per
 `public/assets/audio/music/_SUNO_PROMPTS.md`):
 
     1. title-theme.mp3        — slow-bloom psychedelic D-minor opener

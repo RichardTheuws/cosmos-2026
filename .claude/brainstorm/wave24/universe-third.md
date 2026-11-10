@@ -303,7 +303,7 @@ Exports the subset: `background` (configure the single shared `ctx.parallax` for
 - [x] **Seeds building** — legible authorship: a builder clearly *chose* emptiness, one pop-accent, a horizontal slide instead of a vertical bounce. Plants "what mood would *I* make?"
 - [x] **≥1 trampoline-analog per room** — Room A: the Slide-Crest; Room B: the Singing Bowl. Both small, juicy, repeatable, skill-free, reward watching.
 - [x] **Sims-density** — breathing/reacting inhabitants (crest-redraw, glint-cycle, ripple-shimmer), background life (heat-shimmer, drifting grain), ≥1 interactable per room, 5–7 parallax layers each. Room B's single-interactable restraint is *declared* per §1.
-- [x] **Brand/lang gate** — locked palette only (saffron-glow/ink-aubergine/faded-rose/mushroom-cream); one pop-accent (pop-magenta) ≤5%; calm baseline, weird only on peaks; ALL in-game text English; no emoji/placeholder/stock; Cosmo 1992 DNA preserved (the new `slide`/`circle-sway` clip briefs keep antenna-bulb, suction-cup hands, no tail).
+- [x] **Brand/lang gate** — locked palette only (saffron-glow/ink-aubergine/faded-rose/mushroom-cream); one pop-accent (pop-magenta) ≤5%; calm baseline, weird only on peaks; ALL in-game text English; no emoji/placeholder/stock; Cosmo character-DNA preserved (the new `slide`/`circle-sway` clip briefs keep antenna-bulb, suction-cup hands, no tail).
 
 ---
 

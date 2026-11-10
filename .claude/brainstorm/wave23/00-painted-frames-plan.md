@@ -69,4 +69,4 @@ Escalates per rebounce. No separate gen.
 5. Curate, wire all clips to states, live UAT, ship.
 
 Quality > cost (locked). Each clip = gen + curation + alpha pass. Regen until the
-1992-DNA + watercolor reads right; discard bad gens without sunk-cost defense.
+character-DNA + watercolor reads right; discard bad gens without sunk-cost defense.

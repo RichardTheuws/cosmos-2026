@@ -29,7 +29,7 @@ Quality gate per decal
 
 Brand contract (NORTH-STAR §brand):
   * Hayao×Moebius watercolor + cosmic-luminous palette
-  * 1992-DNA: pearl-drop head, chameleon-bulging eyes, saffron-crescent
+  * character-DNA: pearl-drop head, chameleon-bulging eyes, saffron-crescent
     catchlight, single antenna with flower-bulb, suction-cup discs,
     faded-rose spots, NO tail, slightly uncute, slightly menacing-uncanny
   * Anti-drift riders on EVERY prompt: NOT kawaii, NOT pokemon, NOT green
@@ -96,7 +96,7 @@ def cost_check(label: str, c: float) -> None:
 
 DNA_RIDER = (
     'Hayao Miyazaki x Moebius watercolor illustration, soft pastel cosmic palette, '
-    '1992-DNA painted with paper-grain texture, painterly ink underdrawing, '
+    'character-DNA painted with paper-grain texture, painterly ink underdrawing, '
     'NOT kawaii NOT chibi NOT Disney NOT pokemon NOT green pill, '
     'slightly uncute, slightly uncanny, painted not vector, '
     'visible watercolor brushstrokes, isolated subject on plain pure white background, '

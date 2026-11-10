@@ -22,6 +22,10 @@ describe('forbidden-name gate', () => {
     expect(forbiddenHits('3D Realms')).not.toHaveLength(0);
     expect(forbiddenHits('psychedelica')).not.toHaveLength(0);
     expect(forbiddenHits('since 1992')).not.toHaveLength(0);
+    expect(forbiddenHits('music by Bobby Prince')).not.toHaveLength(0);
+    expect(forbiddenHits('Welcome to Zonk')).not.toHaveLength(0);
+    expect(forbiddenHits('The Funplex')).not.toHaveLength(0);
+    expect(forbiddenHits('Hint Globe Sponsor')).not.toHaveLength(0);
   });
 
   it('passes clean text', () => {

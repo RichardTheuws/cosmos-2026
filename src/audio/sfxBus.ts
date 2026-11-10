@@ -26,7 +26,7 @@ const SFX_MANIFEST: Record<string, { src: string; volume?: number }> = {
   // Sprint 16D — Cosmo gibberish-coo (ElevenLabs sound-generation, NOT voice).
   // 3 variants picked at random in CosmoScene.playGibberishCoo() so the
   // BONDING-state stinger never fatigues. Replaces the Sprint 15D mistake
-  // of routing the Hint-Globe Dutch voice (`globe-l1-1`) into the bonding
+  // of routing the hint-orb Dutch voice (`globe-l1-1`) into the bonding
   // moment — see scripts/sprint16d/generate_cosmo_coo.py.
   'cosmo-coo-1': { src: `${SFX_BASE}/cosmo-coo-1.mp3`, volume: 0.85 },
   'cosmo-coo-2': { src: `${SFX_BASE}/cosmo-coo-2.mp3`, volume: 0.85 },

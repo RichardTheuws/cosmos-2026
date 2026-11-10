@@ -24,7 +24,7 @@ root                       (Object3D — world driver, position+scale; jump-arc 
    └─ disc_r               (Object3D + DiscGeometry — right suction-cup, floats free)
 ```
 
-**Why no legs/arms?** Reign-of-Brabant-style stoner-vibe = Cosmo *floats*. The Sprint-15A reference has discs at hand-tips; v2 makes them free-floating around the body — closer to 1992 DNA + cheaper to animate.
+**Why no legs/arms?** Reign-of-Brabant-style stoner-vibe = Cosmo *floats*. The Sprint-15A reference has discs at hand-tips; v2 makes them free-floating around the body — closer to the character-DNA + cheaper to animate.
 
 **Why one face_decal (not eye_l + eye_r + mouth)?** A single 512×512 painted plane reproduces the Hayao×Moebius look in one stroke. Lip-sync swaps the texture URL (4 mouth states), eye-track uses a small UV offset on the eye-region only — no separate planes to keep aligned.
 
@@ -151,7 +151,7 @@ Net code delta: **~−250 LOC** (drop skin-fix + mixer wiring), **~+230 LOC** (b
 ## 7. Open questions for the user
 
 1. **Decal style** — keep Hayao×Moebius watercolor (matches LoRA, brand-consistent) or shift to bolder pop-stoner illustrations (cheaper, more readable on phone)? Recommend: **watercolor**, we already paid for the LoRA in Sprint 16A.
-2. **Body shape** — taller/thinner capsule (Sprint 15A "slight uncute proportions") or rounder pearl-drop blob (1992 DNA)? Recommend: **capsule len=0.9 r=0.45**, mid-ground.
+2. **Body shape** — taller/thinner capsule (Sprint 15A "slight uncute proportions") or rounder pearl-drop blob (character-DNA)? Recommend: **capsule len=0.9 r=0.45**, mid-ground.
 3. **Discs** — separate floating objects (current sketch — Sprint 15A reference image), or fused into body silhouette like little stub-arms? Recommend: **separate floating** — cheaper to animate, weirder, matches `cosmo-preview.png`.
 4. **Migration** — hard-cutover on deploy day, or `?cosmo=v2` feature-flag for parallel A/B? Recommend: **feature-flag for one sprint** (20a behind flag, 20b promotes default), so we can revert without re-deploying GLB.
 5. **GLB archival** — keep `cosmo.glb` reachable for case-study URL or remove from prod entirely? Recommend: **move to `_archive/cosmo-v1-glb/`**, drop from build.
@@ -161,7 +161,7 @@ Net code delta: **~−250 LOC** (drop skin-fix + mixer wiring), **~+230 LOC** (b
 ## 8. Risks
 
 - **Decals always face camera = 2D feel.** Mitigation: face-decal billboards softly (deadband ±15° before re-orienting), or use a shader to fake parallax on the iris based on `motionPan`. Side benefit: small iris UV-shift inside the decal *is* eye-track without separate eye-meshes.
-- **1992-DNA brand drift.** Chameleon-bulging-eyes + saffron-crescent-catchlight are signature. Mitigation: Sprint 16A LoRA (`rtcosmo`) reproduces both; the face-neutral PNG will be DNA-checked against `cosmo-hero-lora.png` at gen-time. If catchlight reads weak → re-prompt with "saffron catchlight emphasized".
+- **Character-DNA brand drift.** Chameleon-bulging-eyes + saffron-crescent-catchlight are signature. Mitigation: Sprint 16A LoRA (`rtcosmo`) reproduces both; the face-neutral PNG will be DNA-checked against `cosmo-hero-lora.png` at gen-time. If catchlight reads weak → re-prompt with "saffron catchlight emphasized".
 - **Performance.** Replacing 29k-tri SkinnedMesh with primitives (~2k tris total: capsule 600 + sphere 700 + disc×2 360 + plane 4 + cylinder 80 + bulb 200) = ~14× tri reduction. Net WIN. No SkinnedMesh CPU skinning cost. iPhone 14 baseline easily holds 60 fps.
 - **Lost expressivity.** Skeleton-rig had baked clips (idle/sit/stretch/wave). Procedural director must re-create them. Mitigation: spec already calls for procedural (anim-spec line 183) — we're shipping the originally-intended path, not a regression.
 - **Asset failure mode.** If face-decal gen produces non-DNA face, we have 4 retries before falling back to: ship body+disc primitives + a placeholder neutral face from `cosmo-hero-lora.png` cropped. No emoji fallback ever (memory: `shared/feedback_asset_rules.md`).
