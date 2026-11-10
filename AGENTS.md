@@ -2,7 +2,7 @@
 
 > *Every Claude-paired workflow that builds this project also produces tooling. We share it.*
 
-This document describes how the development infrastructure of Cosmo's Universe is organised, how to contribute improvements to it, and why we believe the dev-tooling improvements compound across the contributor community as much as the runtime code does.
+This document describes how the development infrastructure of Zorp's Universe is organised, how to contribute improvements to it, and why we believe the dev-tooling improvements compound across the contributor community as much as the runtime code does.
 
 Read [`NORTH-STAR.md`](./NORTH-STAR.md) §3b for the underlying posture.
 
@@ -16,7 +16,7 @@ cosmos-cosmic-adventure-2026/
 │   ├── skills/                 ← reusable skills (slash-command-style)
 │   ├── brainstorm/             ← per-wave planning artifacts
 │   │   ├── wave19/             ← rig diagnosis, life-system, lore migration, asset pipeline
-│   │   └── wave20/             ← Cosmo v2 architecture, decal-gen report
+│   │   └── wave20/             ← Zorp v2 architecture, decal-gen report
 │   ├── plans/                  ← active in-flight plan documents
 │   ├── commands/               ← project-specific slash-commands
 │   └── CLAUDE.md               ← project instructions for any Claude session
@@ -65,7 +65,7 @@ We want this collective sharpening to be visible and frictionless from the start
 
 Today everything lives in this one repository. That's the simplest contributor workflow: clone, improve, PR. No submodule complexity. No version skew between the runtime and its tools.
 
-If at some point the agents/skills mature into something genuinely portable beyond Cosmo's Universe — meaning multiple unrelated projects want to depend on them — we'll extract them into a sibling repo at that moment. The split won't be speculative; it'll be in response to real demand. The brave-reconsideration principle (NORTH-STAR §4) governs the timing.
+If at some point the agents/skills mature into something genuinely portable beyond Zorp's Universe — meaning multiple unrelated projects want to depend on them — we'll extract them into a sibling repo at that moment. The split won't be speculative; it'll be in response to real demand. The brave-reconsideration principle (NORTH-STAR §4) governs the timing.
 
 Until then: fork, improve, upstream. The collective workflow gets sharper.
 
@@ -77,14 +77,14 @@ Same as runtime code. Specifically:
 - **Reproducibility**: scripts must run on a fresh checkout with documented env variables. Pipelines log telemetry to `_logs/` so future contributors can see what worked.
 - **Failure modes**: agents and scripts log loud failures; they never silently swallow errors and produce nothing.
 - **Cost transparency**: any pipeline that hits a paid API documents the per-run cost and a budget cap.
-- **Brand fit**: agents that produce assets must respect the brand contract (LoRA `rtcosmo` for Cosmo, palette-locked colors, watercolor style) by default.
+- **Brand fit**: agents that produce assets must respect the brand contract (LoRA `rtcosmo` for Zorp, palette-locked colors, watercolor style) by default.
 
 ## Where agents shine in this workflow
 
 A few patterns we've found work especially well in this project. They're suggestions, not rules.
 
 - **Parallel diagnostic agents** for unclear bugs: 4 agents looking at audio / post-FX / gameplay / visual-coherence simultaneously, each in their own scope, producing focused reports. Worked beautifully for Wave 18 smoothness pass.
-- **Architect agents for redesigns**: write a brainstorm doc *before* code, with deliverables structured for downstream agents to consume. Wave 20a's Cosmo v2 architecture spec was an architect-agent output that the implementation agents then consumed.
+- **Architect agents for redesigns**: write a brainstorm doc *before* code, with deliverables structured for downstream agents to consume. Wave 20a's Zorp v2 architecture spec was an architect-agent output that the implementation agents then consumed.
 - **Asset-gen agents with DNA validation**: the costly part of fal.ai work isn't the API call, it's iterating prompts. An agent that runs the gen, validates against a reference, and retries with prompt iteration saves hours.
 - **Honest fitness-check at first contact**: the README quickstart asks Claude to evaluate whether a new contributor is ready before suggesting they author a Universe. Care, not gatekeeping.
 

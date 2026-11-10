@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Cosmo's Universe — play</title>
+<title>Zorp's Universe — play</title>
 <meta name="description" content="A psychedelic companion in an ever-growing world.">
 <meta name="theme-color" content="#3D2E4A">
-<meta property="og:title" content="Cosmo's Universe — play">
+<meta property="og:title" content="Zorp's Universe — play">
 <meta property="og:description" content="A psychedelic companion in an ever-growing world. Built as an open substrate for Claude-paired developers.">
 <meta property="og:image" content="https://theuws.com/games/cosmos-2026/og-image.jpg">
 <meta property="og:image:width" content="1200">
@@ -233,7 +233,7 @@ html, body {
 .hud-invite:hover { color: var(--mushroom-cream); }
 @media (max-width: 600px) { .hud-invite { font-size: 11px; } }
 
-/* "Show, don't tell" trampoline hint — fades in a beat after wake (when Cosmo
+/* "Show, don't tell" trampoline hint — fades in a beat after wake (when Zorp
    demonstrates the trampoline), dismissed by the next tap or after 9s. */
 .trampoline-hint {
   position: fixed;
@@ -358,11 +358,11 @@ html, body {
     </div>
   </div>
 
-  <!-- "Show, don't tell" — fades in when Cosmo demonstrates the trampoline. -->
+  <!-- "Show, don't tell" — fades in when Zorp demonstrates the trampoline. -->
   <div class="trampoline-hint" id="trampoline-hint">tap the trampoline — watch him go</div>
 
   <div class="boot-overlay" id="boot">
-    <div class="title">Cosmo awakening&hellip;</div>
+    <div class="title">Zorp awakening&hellip;</div>
     <!-- await-touch is shown ~0.6s after page-paint via JS adding .is-awaiting -->
     <div class="await-touch" id="boot-await">
       <canvas class="mic-icon" id="boot-mic" width="28" height="28" aria-hidden="true"></canvas>
@@ -425,7 +425,7 @@ html, body {
     document.getElementById('boot')?.classList.add('is-awaiting');
   }, 600);
 
-  // Wave 22 — trampoline hint ("show, don't tell"). The first tap wakes Cosmo;
+  // Wave 22 — trampoline hint ("show, don't tell"). The first tap wakes Zorp;
   // a beat later (as he walks over and demonstrates the trampoline) the hint
   // fades in. The next tap — or 9s — dismisses it. No nagging.
   (() => {

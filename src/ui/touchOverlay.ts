@@ -24,7 +24,7 @@ import { isTouchDevice } from '../core/deviceDetect';
 // LEGACY beat-game disclaimer; in substrate/dweller mode it is not mounted at
 // all (main.ts gates it), the dweller's first read is the chart's soft wenk.
 const DISCLAIMER_LINES = [
-  'Tap Cosmo on the beat.',
+  'Tap Zorp on the beat.',
   'Hold for the shockwave.',
 ] as const;
 
@@ -54,7 +54,7 @@ export class TouchOverlay {
     const root = document.createElement('div');
     root.id = 'touch-overlay';
     root.setAttribute('role', 'note');
-    root.setAttribute('aria-label', 'Cosmos onboarding hint');
+    root.setAttribute('aria-label', "Zorp's Universe onboarding hint");
     Object.assign(root.style, {
       position: 'fixed',
       left: '50%',

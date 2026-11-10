@@ -22,7 +22,7 @@
       "area": "the-drowned-cathedral",
       "displayName": "The Trench",
       "displayNameEn": "The Trench",
-      "description": "The deep below the shafts — ink-aubergine fading to black. A rising updraft-current lifts Cosmo; a single cyan lure-orb pulses far down.",
+      "description": "The deep below the shafts — ink-aubergine fading to black. A rising updraft-current lifts Zorp; a single cyan lure-orb pulses far down.",
       "anchor": { "x": 0, "y": -4, "z": 0 },
       "cameraBounds": { "panRangeX": 1.6, "panRangeY": 1.4 },
       "biomeKey": null,

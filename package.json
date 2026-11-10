@@ -1,6 +1,6 @@
 {
   "name": "cosmos-cosmic-adventure-2026",
-  "version": "2.10.5",
+  "version": "2.10.6",
   "private": false,
   "license": "MIT",
   "repository": {
@@ -9,7 +9,7 @@
   },
   "homepage": "https://theuws.com/games/cosmos-2026/play/",
   "type": "module",
-  "description": "Cosmos Cosmic Adventure 2026 — mobile-first hypnotische rhythm-trip. Geen game. Geen score. De track is de game.",
+  "description": "Zorp's Universe — an open substrate for Claude-paired devs.",
   "scripts": {
     "dev": "vite --host",
     "build": "npm run updates:build && tsc --noEmit && vite build && node scripts/postbuild-rewrite-paths.mjs && node scripts/postbuild-copy-public.mjs",

@@ -1,4 +1,4 @@
-# Contributing to Cosmo's Universe
+# Contributing to Zorp's Universe
 
 This is an open repository, but it's authored — not committee-managed. Read [`NORTH-STAR.md`](./NORTH-STAR.md) before doing any non-trivial work. Everything below assumes you've read it.
 
@@ -48,7 +48,7 @@ Contributors who don't share that posture will find PR review frustrating. Contr
 | **Bug fix in runtime** | Yes | Open issue first if it's not obvious. |
 | **Performance improvement** | Yes | With benchmarks before/after. |
 | **New companion-AI behavior** | Yes if it fits the life-system spec | See `.claude/brainstorm/wave19/02-life-system.md`. |
-| **New Cosmo capability (move, scale, etc.)** | Discuss first | Capabilities affect every Universe — must compose. |
+| **New Zorp capability (move, scale, etc.)** | Discuss first | Capabilities affect every Universe — must compose. |
 | **Cheaper/better integration alternative** | Yes, please | See [`INTEGRATIONS.md`](./INTEGRATIONS.md) for the substitution bar (equal or better quality, equal or lower cost, ≥1 Universe author validated). |
 | **Asset-gen pipeline improvements** | Yes, please | Scripts in `scripts/` are first-class shared infrastructure. Smarter prompts, cheaper-model cascading, automated DNA validation, faster batch — all welcome. |
 | **Agent / skill / brainstorm-template improvements** | Yes, please | `.claude/agents/`, `.claude/skills/`, `.claude/brainstorm/` are shared dev infrastructure. See [`AGENTS.md`](./AGENTS.md) for the contribution pattern — every Claude-paired contributor's workflow gets sharper when these compound. |
@@ -64,7 +64,7 @@ The technical contract is in [`UNIVERSE-AUTHORING.md`](./UNIVERSE-AUTHORING.md).
    - Background (Three.js scene module or composition-spec.json)
    - Room-list + traversal graph
    - Asset manifest
-   - Cosmo-arrival hook
+   - Zorp-arrival hook
 3. Test locally with `npm run dev` + URL `?universe=<your-name>` to enter your Universe.
 4. Open a PR titled `universe: <your-name>`.
 5. Engage with PR review — reviewers will check brand-fit, contract-correctness, and posture-alignment.
@@ -87,7 +87,7 @@ The technical contract is in [`UNIVERSE-AUTHORING.md`](./UNIVERSE-AUTHORING.md).
 
 ## Brand fidelity
 
-The brand is **locked at the current Hayao×Moebius watercolor + 1992-DNA palette**. See NORTH-STAR §3 / §brand. Do not propose pivots to bolder pop, anime, graphic-novel, or any other style without a PR titled `pivot:` and a NORTH-STAR §6 ledger entry as the first commit on that branch.
+The brand is **locked at the current Hayao×Moebius watercolor + character-DNA palette**. See NORTH-STAR §3 / §brand. Do not propose pivots to bolder pop, anime, graphic-novel, or any other style without a PR titled `pivot:` and a NORTH-STAR §6 ledger entry as the first commit on that branch.
 
 Universes are allowed brand-deviation **inside their own folder** if documented. The substrate (everything outside `universes/`) is not.
 
@@ -106,7 +106,7 @@ There's no Code of Conduct document. The expectation is professional engagement,
 Many contributors here pair-program with Claude (Claude Code, Claude.ai, Anthropic API). That's the implicit population of this project. A few patterns we've found work:
 
 - **Memory matters**. Hand Claude the relevant brainstorm doc + the current state of your branch. It can't search the whole repo every turn.
-- **Brave reconsideration applies to Claude too**. If Claude is iterating on a fix that isn't converging, *stop*. Reconsider the whole approach. We learned this the hard way at Cosmo v1.5.0/1/2 → v2.
+- **Brave reconsideration applies to Claude too**. If Claude is iterating on a fix that isn't converging, *stop*. Reconsider the whole approach. We learned this the hard way at Zorp v1.5.0/1/2 → v2.
 - **Verify deploys**. Header-grep is not UAT. See NORTH-STAR §7.
 
 You don't have to use Claude. But know that the project is *authored* in a Claude-pair workflow, and the brainstorm docs in `.claude/brainstorm/` are written for that workflow.

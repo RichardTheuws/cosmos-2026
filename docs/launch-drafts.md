@@ -1,21 +1,21 @@
 # Launch post drafts
 
-Ready-to-publish drafts for sharing Cosmo's Universe. All in English; adapt to other languages or platforms freely. Pick the one that fits the channel + your mood. None of these are mandatory; the project speaks for itself.
+Ready-to-publish drafts for sharing Zorp's Universe. All in English; adapt to other languages or platforms freely. Pick the one that fits the channel + your mood. None of these are mandatory; the project speaks for itself.
 
 ---
 
 ## Show HN (Hacker News)
 
 **Title** (≤80 chars):
-> Cosmo's Universe — an open substrate for Claude-paired devs to build small worlds
+> Zorp's Universe — an open substrate for Claude-paired devs to build small worlds
 
 **Body**:
 
-I've been building a small psychedelic browser-game called Cosmo's Universe alongside Claude (Claude Code as the dev companion). The character — a small green being loosely based on a 1992 memory — has reached a point where the game itself wants to become something else: a **substrate** that other developers can plug their own Universes into.
+I've been building a small psychedelic browser-game called Zorp's Universe alongside Claude (Claude Code as the dev companion). The character — a small green being loosely based on an old memory — has reached a point where the game itself wants to become something else: a **substrate** that other developers can plug their own Universes into.
 
-The pitch is one sentence: *your Cosmo can visit my forest, my Cosmo can visit your world.*
+The pitch is one sentence: *your Zorp can visit my forest, my Zorp can visit your world.*
 
-The repo is now structured for that. Cosmo himself is a primitive-skeleton + painted-decal hybrid (Three.js Object3D nodes with painted PNG textures, no SkinnedMesh — we tried that and it melted). Universes plug in via a four-part contract: background renderer, room-list + traversal graph, asset manifest, Cosmo-arrival hook. State persists when Cosmo travels between Universes.
+The repo is now structured for that. Zorp himself is a primitive-skeleton + painted-decal hybrid (Three.js Object3D nodes with painted PNG textures, no SkinnedMesh — we tried that and it melted). Universes plug in via a four-part contract: background renderer, room-list + traversal graph, asset manifest, Zorp-arrival hook. State persists when Zorp travels between Universes.
 
 It's deliberately ambitious about being a meeting point for the population of developers who build small things alongside Claude. Quickstart is a paste-into-Claude-Code prompt that runs an honest fitness-check on the new contributor before suggesting they author a Universe — care, not gatekeeping.
 
@@ -32,17 +32,17 @@ Welcome to anyone who wants to author a Universe.
 ## X / Twitter / Bluesky thread
 
 **Tweet 1**:
-Building Cosmo's Universe — an open substrate where developers paired with Claude can plug in their own small psychedelic worlds. Your Cosmo can visit my forest. My Cosmo can visit your world. 🍄
+Building Zorp's Universe — an open substrate where developers paired with Claude can plug in their own small psychedelic worlds. Your Zorp can visit my forest. My Zorp can visit your world. 🍄
 
 https://github.com/RichardTheuws/cosmos-2026
 
 **Tweet 2**:
-The character: a small green being loosely based on a 1992 memory, painted in watercolor, alive on screen whether you're touching it or not.
+The character: a small green being loosely based on an old memory, painted in watercolor, alive on screen whether you're touching it or not.
 
 After three failed rig-fix attempts I rebuilt him as primitive-skeleton + painted decals. Six PNG faces ($0.27 fal.ai cost) carry his expressions.
 
 **Tweet 3**:
-The contract: four artifacts to author a Universe — background renderer, room-list, asset manifest, Cosmo-arrival hook. Fork, build under universes/, open a PR.
+The contract: four artifacts to author a Universe — background renderer, room-list, asset manifest, Zorp-arrival hook. Fork, build under universes/, open a PR.
 
 Universes don't ask permission. They just plug in.
 
@@ -62,9 +62,9 @@ The being is the constant. The world keeps growing.
 
 **Title**: Open-sourcing a substrate for Claude-paired game development
 
-I've been building a small psychedelic browser-experience called Cosmo's Universe over the past months, paired with Claude (using Claude Code) as my development companion.
+I've been building a small psychedelic browser-experience called Zorp's Universe over the past months, paired with Claude (using Claude Code) as my development companion.
 
-This week the project crossed an interesting threshold. The single game I was building wants to become a **shared substrate** — an open repository where any developer who works alongside Claude can plug in their own small Universe, and the same character (Cosmo, a small green being loosely based on a 1992 memory) travels between them.
+This week the project crossed an interesting threshold. The single game I was building wants to become a **shared substrate** — an open repository where any developer who works alongside Claude can plug in their own small Universe, and the same character (Zorp, a small green being loosely based on an old memory) travels between them.
 
 The technical commitment is concrete: a documented four-part Universe contract, MIT license, full transparency on integrations and costs, brand contract enforced by PR review rather than policy, and a quickstart prompt that runs an honest fitness-check on new contributors before suggesting they author a Universe.
 
@@ -83,7 +83,7 @@ Welcome to anyone curious.
 
 **Body**:
 
-Background: I've been building a watercolor browser-game called Cosmo's Universe (Three.js + Phaser dual-canvas). The main character started as a Meshy-imported GLB. It had a hand-rigged skeleton with weight-paint bleed across ~1500 face/eye verts. Three patch attempts later, the character was still melting under head rotation.
+Background: I've been building a watercolor browser-game called Zorp's Universe (Three.js + Phaser dual-canvas). The main character started as a Meshy-imported GLB. It had a hand-rigged skeleton with weight-paint bleed across ~1500 face/eye verts. Three patch attempts later, the character was still melting under head rotation.
 
 Pivot: replaced the entire skinned mesh with a hybrid rig — primitive Three.js Object3D bones (capsule body, sphere head, plane decals for face) with painted PNG textures swapped per face-state. Result: no SkinnedMesh, no AnimationMixer, no inverse-bind matrices. 360° head rotation produces zero shear vertices because there's nothing to shear.
 

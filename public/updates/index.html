@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Updates · Cosmos Cosmic Adventure 2026</title>
-<meta name="description" content="Visuele changelog van Cosmos Cosmic Adventure 2026. Elke sprint, elk model, elke fluid-sim shader. Auto-gegenereerd uit CHANGELOG.md.">
+<title>Updates · Zorp's Universe</title>
+<meta name="description" content="Visuele changelog van Zorp's Universe. Elke sprint, elk model, elke fluid-sim shader. Auto-gegenereerd uit CHANGELOG.md.">
 <meta name="theme-color" content="#3D2E4A">
 
-<meta property="og:title" content="Updates · Cosmos Cosmic Adventure 2026">
-<meta property="og:description" content="Volg de ontwikkeling van een aquarel-droom met zuignap-handen, sprint voor sprint.">
+<meta property="og:title" content="Updates · Zorp's Universe">
+<meta property="og:description" content="Volg de ontwikkeling van een aquarel-droom, sprint voor sprint.">
 <meta property="og:image" content="/showcase-assets/bg-cloud-cathedral-sky.png">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="nl_NL">
 <meta property="og:url" content="https://theuws.com/games/cosmos-2026/updates/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Updates · Cosmos Cosmic Adventure 2026">
+<meta name="twitter:title" content="Updates · Zorp's Universe">
 <meta name="twitter:image" content="/showcase-assets/bg-cloud-cathedral-sky.png">
 <link rel="canonical" href="https://theuws.com/games/cosmos-2026/updates/">
 <link rel="icon" href="/showcase-assets/cosmo-hero-cleaned.png" type="image/png">
@@ -184,7 +184,7 @@
 <body class="paper-grain">
 
 <nav class="sticky-nav">
-  <a href="/" class="sticky-nav__brand"><img src="/showcase-assets/cosmo-hero-cleaned.png" alt="Cosmo"><span>Cosmos 2026</span></a>
+  <a href="/" class="sticky-nav__brand"><img src="/showcase-assets/cosmo-hero-cleaned.png" alt="Zorp"><span>Zorp&#039;s Universe</span></a>
   <div class="sticky-nav__links">
     <a href="/play/">Speel</a>
     <a href="/lore/">Het Verhaal</a>
@@ -202,6 +202,32 @@
 
 <main class="timeline">
   <!-- TIMELINE:START -->
+
+    <article class="update" data-reveal>
+      <div class="update__card">
+        <div class="update__header">
+          <span class="update__version">v2.10.6</span>
+          <span class="update__date">2026-11-10</span>
+          <h2 class="update__title">11-10 — Zorp heet nu Zorp</h2>
+        </div>
+        <div class="update__body">
+          <div class="update__tags">
+          <span class="tag tag--change">Wijziging</span>
+          <span class="tag tag--fix">Fix</span>
+          </div>
+        <h3>CHANGED</h3>
+        <ul class="update__highlights">
+          <li><strong>Het personage heet Zorp, het project Zorp&#039;s Universe.</strong> Titels, meta/OG, JSON-LD, README, de site, de lore-pagina, de universe-manifests en de spelerteksten in de game (follow-hint, share-kaart, onboarding) gebruiken de nieuwe naam. Interne namen (<code>CosmoAgent</code>, <code>cosmo.glb</code>), localStorage-keys en het URL-pad <code>/games/cosmos-2026/</code> blijven, zodat saves en links werken.</li>
+          <li><strong>Zorp&#039;s handen</strong>: zachte vingerloze wanthanden met handpalmen die zacht saffraan gloeien, in plaats van de oude zuignappen. Aangepast in de beschrijving, de stijlgids (design bible), de forest-README en de prompt-template. De beelden en de LoRA hebben nog de oude look; die worden apart opnieuw gemaakt.</li>
+          <li><strong>Updates-pagina</strong>: de generator toont de nieuwe naam (buiten code-spans) en stopt de build als er een verboden naam of jaartal op de pagina belandt. Oude regels die het oude voorbeeld noemden zijn in deze changelog herschreven.</li>
+        </ul>
+<h3>REMOVED</h3>
+        <ul class="update__highlights">
+          <li><code>research/01-original-game.md</code> uit de repo (staat nog in de git-historie).</li>
+        </ul>
+        </div>
+      </div>
+    </article>
 
     <article class="update" data-reveal>
       <div class="update__card">
@@ -236,7 +262,7 @@
         <h3>FIXED</h3>
         <ul class="update__highlights">
           <li><strong>Music dropped out after ~30 s of no sound effects, and came back with the next effect.</strong> The bridge shares Howler&#039;s AudioContext, and Howler&#039;s <code>autoSuspend</code> suspends that context 30 s after its own last sound — the music bed, routed through the same context, went silent with it until an SFX resumed it. <code>autoSuspend</code> is now off. Together with v2.6.1 (<code>interrupted</code>) and v2.10.3 (<code>touchend</code> unlock) this closes the three separate ways the bed could be silent on an iPhone.</li>
-          <li>The &quot;follow Cosmo&quot; pill&#039;s six seconds now start at your first touch, not during boot behind the wake screen.</li>
+          <li>The &quot;follow Zorp&quot; pill&#039;s six seconds now start at your first touch, not during boot behind the wake screen.</li>
         </ul>
         </div>
       </div>
@@ -256,7 +282,7 @@
         <h3>FIXED</h3>
         <ul class="update__highlights">
           <li><strong>No music on iPhone while SFX played.</strong> iOS Safari does not count <code>touchstart</code> as a user activation for media playback, and a tap our pointer handling consumes may never become a <code>click</code> — so the bed&#039;s <code>play()</code> was never blessed. Howler unlocks on <code>touchend</code>, which is why effects worked. The bed now unlocks on <code>touchend</code> / <code>pointerup</code> too, and the blessed element no longer gets an explicit <code>load()</code> on a room swap (that can drop the blessing). <code>?audiodebug=1</code> shows a small on-screen readout (context state, bed playing/paused, last rejection) for reports from a phone.</li>
-          <li><strong>The &quot;follow Cosmo&quot; pill sat in the frame permanently, with a glyph.</strong> The arrow is gone (no emoji, no symbols). The pill shows for six seconds on arrival, then recedes to a small breathing mote at the same spot; tap the mote to bring the pill back, tap the pill to travel. The hud link&#039;s arrow glyph is gone too.</li>
+          <li><strong>The &quot;follow Zorp&quot; pill sat in the frame permanently, with a glyph.</strong> The arrow is gone (no emoji, no symbols). The pill shows for six seconds on arrival, then recedes to a small breathing mote at the same spot; tap the mote to bring the pill back, tap the pill to travel. The hud link&#039;s arrow glyph is gone too.</li>
         </ul>
         </div>
       </div>
@@ -276,8 +302,8 @@
           </div>
         <h3>FIXED</h3>
         <ul class="update__highlights">
-          <li><strong>After a trampoline bounce Cosmo snapped home.</strong> He walks now — the last &quot;sticker&quot; move on the substrate path.</li>
-          <li><strong>A tap while Cosmo was mid-moment was silently dropped.</strong> One is kept and honoured the moment he is free (within 12 s) — straight from where he is, without walking home first — so a tap never feels ignored.</li>
+          <li><strong>After a trampoline bounce Zorp snapped home.</strong> He walks now — the last &quot;sticker&quot; move on the substrate path.</li>
+          <li><strong>A tap while Zorp was mid-moment was silently dropped.</strong> One is kept and honoured the moment he is free (within 12 s) — straight from where he is, without walking home first — so a tap never feels ignored.</li>
           <li><strong>From day two every rest would have been a dream</strong> (the counts persist now). It is every second rest; the others are a plain dusk.</li>
           <li><strong>Ink-ocean&#039;s interactables were the old bridges</strong> (nudging a position the agent overwrites, so nothing happened) and sat off the phone frame. Kelp-organ (calm): reach into the pipes, then listen. Float-tap (rest): he curls up and floats where he is. Updraft-current (play): the painted jump carries the lift. All inside the frame, all with sound.</li>
         </ul>
@@ -302,8 +328,8 @@
           </div>
         <h3>FIXED</h3>
         <ul class="update__highlights">
-          <li>The glass-bead-bloom (Hollow) and the spore-puddle (Clearing) sat at the very edge of a phone-portrait frame, where a tap could miss. Both moved a little toward centre. The UAT script now wakes Cosmo with a top-centre tap so the camera stays centred.</li>
-          <li><strong>A visit started in Cosmo&#039;s first second was silently cancelled.</strong> The intro hand-over (1.2 s of looking, then walking) overwrote whatever state he was in — including a walk to something you had just tapped — and he drifted home. It now only hands over from its own states.</li>
+          <li>The glass-bead-bloom (Hollow) and the spore-puddle (Clearing) sat at the very edge of a phone-portrait frame, where a tap could miss. Both moved a little toward centre. The UAT script now wakes Zorp with a top-centre tap so the camera stays centred.</li>
+          <li><strong>A visit started in Zorp&#039;s first second was silently cancelled.</strong> The intro hand-over (1.2 s of looking, then walking) overwrote whatever state he was in — including a walk to something you had just tapped — and he drifted home. It now only hands over from its own states.</li>
         </ul>
         </div>
       </div>
@@ -322,7 +348,7 @@
           </div>
         <h3>ADDED</h3>
         <ul class="update__highlights">
-          <li><strong>Affection, made visible.</strong> A Cosmo who likes you turns and waves on the first free moment after you wake him; while you stay he looks over every minute or so and winks or waves, more often the more he likes you. Never a meter — you read it from him. (Affection rises when you send him somewhere he liked, send a tired Cosmo to rest, or pet him; it is remembered across visits.)</li>
+          <li><strong>Affection, made visible.</strong> A Zorp who likes you turns and waves on the first free moment after you wake him; while you stay he looks over every minute or so and winks or waves, more often the more he likes you. Never a meter — you read it from him. (Affection rises when you send him somewhere he liked, send a tired Zorp to rest, or pet him; it is remembered across visits.)</li>
           <li><strong>The dunes have things now — as objects, with clips.</strong> The Wave-25.5 soul pass removed the dunes&#039; decal interactables because they were floating rectangles; the &quot;properly-arted layer&quot; it reserved exists since Wave 27/28, so what reads as an object comes back on the same contract. <em>The Long Dune</em>: the <strong>updraft</strong> (play — he jumps into a column of rising light; the light quickens) and the <strong>wind-bowl</strong> (calm — he stretches, then listens as the sand sings). <em>The Windless Hollow</em>: a <strong>warm-stone</strong> (rest — a sun-warmed stone he curls up against, new asset, fal Ultra + BiRefNet) and the <strong>glass-bead-bloom</strong> (calm — he ducks to look, the bead glints). Every dunes room now has a rest or a calm thing, so his inner life works there. The slide-crest stays out (it is a landscape, not an object).</li>
         </ul>
         </div>
@@ -347,7 +373,7 @@
         <ul class="update__highlights">
           <li><strong>Real time over the room.</strong> The clearing follows your local clock: night (23–05) dims the world by half and brings the stars out; dusk (17–22) is a rose wash the canopy catches; dawn a pale lift. Eased, so a phone locked mid-transition never snaps. <code>?hour=22</code> overrides it for authoring. (<code>src/substrate/clock.ts</code>, pure + tested.)</li>
           <li><strong>The garden.</strong> A small arc of glow-caps beside the spore-puddle. One more sprouts for every calendar day you come (up to seven) and it is still there tomorrow. On the day it grows, the new cap rises out of the moss with a soft bloom — something that only happens because you came back.</li>
-          <li><strong>Memory.</strong> What you did here is still true tomorrow: the tier counts persist (raise the spores three times and the haze is hanging when you return). Cosmo&#039;s inner life persists too — his energy and appetite come back with the hours you were away, his affection is remembered. <code>readMemory</code> / <code>writeMemory</code> in <code>StatePersistence</code> are the authoring surface (documented in <code>ROOM-AUTHORING.md</code>).</li>
+          <li><strong>Memory.</strong> What you did here is still true tomorrow: the tier counts persist (raise the spores three times and the haze is hanging when you return). Zorp&#039;s inner life persists too — his energy and appetite come back with the hours you were away, his affection is remembered. <code>readMemory</code> / <code>writeMemory</code> in <code>StatePersistence</code> are the authoring surface (documented in <code>ROOM-AUTHORING.md</code>).</li>
         </ul>
         </div>
       </div>
@@ -358,7 +384,7 @@
         <div class="update__header">
           <span class="update__version">v2.8.0</span>
           <span class="update__date">2026-09-05</span>
-          <h2 class="update__title">09-05 — Wave 28 · system 2: Cosmo&#039;s inner life</h2>
+          <h2 class="update__title">09-05 — Wave 28 · system 2: Zorp&#039;s inner life</h2>
         </div>
         <div class="update__body">
           <div class="update__tags">
@@ -366,7 +392,7 @@
           <span class="tag tag--fix">Fix</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">The second of the three Wave-28 systems: <strong>stickiness</strong> — something that keeps going while you watch. Cosmo wants things now.</p>
+          <p class="update__lead-line">The second of the three Wave-28 systems: <strong>stickiness</strong> — something that keeps going while you watch. Zorp wants things now.</p>
         </div>
         <h3>ADDED</h3>
         <ul class="update__highlights">
@@ -374,12 +400,12 @@
           <li><strong>He tires.</strong> Wild play (the trampoline) costs a lot, dancing some, the sunbeam gives a little back, the nap-cap a lot. Tired, he still comes when you tap — but he trudges. Rested and eager, he hurries.</li>
           <li><strong>He sleeps.</strong> Sleepy, he walks to the room&#039;s resting place on his own (the nap-cap, so the room dusks and he dreams — system 1 fires from his own need), or sleeps where he stands for a while if the room has none, and wakes rested.</li>
           <li><strong>He chooses.</strong> His own visits are no longer a dice roll: fit-to-energy × novelty. He doesn&#039;t repeat himself, and what he picks tells you how he feels. How soon he goes looking depends on his zin: quiet rooms make him restless.</li>
-          <li><strong>You matter.</strong> Sending him somewhere he liked, sending a tired Cosmo to rest, and petting him raise his affection; it settles back to neutral slowly. (Affection is stored now; its visible expression is a follow-up.)</li>
+          <li><strong>You matter.</strong> Sending him somewhere he liked, sending a tired Zorp to rest, and petting him raise his affection; it settles back to neutral slowly. (Affection is stored now; its visible expression is a follow-up.)</li>
           <li><strong>Contract</strong>: <code>InteractableHandle.nature?: &#039;wild&#039; | &#039;play&#039; | &#039;calm&#039; | &#039;rest&#039;</code> (default <code>play</code>). Authoring docs updated: give every room one <code>rest</code> and one <code>calm</code> thing.</li>
         </ul>
 <h3>FIXED</h3>
         <ul class="update__highlights">
-          <li>The legacy companion-AI (idle roam after 8 s) did not know the Wave-27 <code>using</code> state and could drag Cosmo away mid-visit and swap his clip. <code>using</code> is now owned by the substrate like <code>walking-to</code> and <code>bouncing</code>.</li>
+          <li>The legacy companion-AI (idle roam after 8 s) did not know the Wave-27 <code>using</code> state and could drag Zorp away mid-visit and swap his clip. <code>using</code> is now owned by the substrate like <code>walking-to</code> and <code>bouncing</code>.</li>
         </ul>
         </div>
       </div>
@@ -398,19 +424,19 @@
           <span class="tag tag--change">Wijziging</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">Richard&#039;s verdict on v2.6.0 from the phone: <em>&quot;een world switcher zonder stickyness, amazement en return-factor.&quot;</em> Wave 28 answers those three words with three systems (PRD: <code>.claude/brainstorm/wave28/</code>). This is the first: <strong>amazement</strong> — the room itself answers what Cosmo does, and it escalates.</p>
+          <p class="update__lead-line">Richard&#039;s verdict on v2.6.0 from the phone: <em>&quot;een world switcher zonder stickyness, amazement en return-factor.&quot;</em> Wave 28 answers those three words with three systems (PRD: <code>.claude/brainstorm/wave28/</code>). This is the first: <strong>amazement</strong> — the room itself answers what Zorp does, and it escalates.</p>
         </div>
         <h3>ADDED</h3>
         <ul class="update__highlights">
-          <li><strong><code>ClearingResponse</code></strong> — a room-level inhabitant the forest authors. Interactables report each use; it decides the tier (<code>src/substrate/escalation.ts</code>, pure + unit-tested) and changes the <em>room</em>, not Cosmo. Post-FX is written as base + offset every frame, so every tier decays back to the calm baseline (NORTH-STAR §3: the world breathes).</li>
+          <li><strong><code>ClearingResponse</code></strong> — a room-level inhabitant the forest authors. Interactables report each use; it decides the tier (<code>src/substrate/escalation.ts</code>, pure + unit-tested) and changes the <em>room</em>, not Zorp. Post-FX is written as base + offset every frame, so every tier decays back to the calm baseline (NORTH-STAR §3: the world breathes).</li>
           <li><strong>Trampoline</strong> — 3rd visit: the canopy lights up (a warm glow across the top of the room, 8 s) with a kaleido swell. Every 5th visit: a star shower drifts down over the room for 10 s, full kaleido, a hallucination bed under the music.</li>
           <li><strong>Spore-puddle</strong> — 2nd visit: the spores linger, a saffron haze hangs in the room for a minute and lifts the bloom. 3rd visit: the haze stays for the session and tints the light.</li>
-          <li><strong>Sunbeam</strong> — 3rd visit: the beam widens to ×1.6 for 20 s, a dust column rises inside it, Cosmo winks.</li>
+          <li><strong>Sunbeam</strong> — 3rd visit: the beam widens to ×1.6 for 20 s, a dust column rises inside it, Zorp winks.</li>
           <li><strong>Nap-cap</strong> — every rest dusks the room: a veil darkens the world, tiny stars come out, bloom drops; it lifts over four seconds when he wakes. From the 2nd rest on he dreams: deeper dusk, a star field, a hallucination bed, a longer rest.</li>
         </ul>
 <h3>NOTES</h3>
         <ul class="update__highlights">
-          <li>Counts are per session for now; system 3 (the clearing&#039;s clock + persistence) makes them survive a return. System 2 (Cosmo&#039;s inner life) is next.</li>
+          <li>Counts are per session for now; system 3 (the clearing&#039;s clock + persistence) makes them survive a return. System 2 (Zorp&#039;s inner life) is next.</li>
         </ul>
         </div>
       </div>
@@ -449,23 +475,23 @@
           <span class="tag tag--fix">Fix</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">The first room that keeps the dweller promise. You visit, and there are things here — for Cosmo, and so for you.</p>
+          <p class="update__lead-line">The first room that keeps the dweller promise. You visit, and there are things here — for Zorp, and so for you.</p>
         </div>
         <h3>ADDED</h3>
         <ul class="update__highlights">
-          <li><strong>The interaction loop, closed (shared-substrate S3 + S5).</strong> <code>src/substrate/InteractionDirector.ts</code>: a tap on an interactable walks Cosmo there and calls its <code>onUse</code> — the hook the Wave-21 contract declared, the forest authored, and nothing ever called. Picking is screen-space (<code>pickOnScreen</code>, pure + unit-tested) so items without a pickable mesh work too. The legacy trampoline raycast yields when the director takes the tap, so one tap never fires two walks.</li>
-          <li><strong><code>UseApi</code> on the contract.</strong> <code>onUse(cosmo, api)</code> — <code>api.playClip(name, { loop, holdS })</code> drives one of the twelve painted clips while Cosmo stays put (new <code>using</code> state), then he walks home; <code>api.sfx(name)</code> fires a one-shot from the shared bus. Two lines are a complete interaction. <code>arrival: &#039;bounce&#039;</code> keeps the trampoline&#039;s combo path.</li>
-          <li><strong>Curiosity.</strong> After ~14 s without input Cosmo picks something in the room himself and goes to use it (never the same thing twice in a row). Cosmo lives whether or not you watch (NORTH-STAR §1). Replaces the trampoline-only &quot;show, don&#039;t tell&quot; loop on the substrate path.</li>
-          <li><strong>Two new clearing interactables.</strong> The <strong>spore-puddle</strong> (Cosmo steps in and dances; spores lift with him) and the <strong>nap-cap</strong> (he ducks under and rests, curled, while the underglow warms — the slowest thing in the room). Assets: fal Ultra + BiRefNet, house watercolor. The clearing now holds four things, from wild to slow: trampoline · spore-puddle · sunbeam · nap-cap.</li>
+          <li><strong>The interaction loop, closed (shared-substrate S3 + S5).</strong> <code>src/substrate/InteractionDirector.ts</code>: a tap on an interactable walks Zorp there and calls its <code>onUse</code> — the hook the Wave-21 contract declared, the forest authored, and nothing ever called. Picking is screen-space (<code>pickOnScreen</code>, pure + unit-tested) so items without a pickable mesh work too. The legacy trampoline raycast yields when the director takes the tap, so one tap never fires two walks.</li>
+          <li><strong><code>UseApi</code> on the contract.</strong> <code>onUse(cosmo, api)</code> — <code>api.playClip(name, { loop, holdS })</code> drives one of the twelve painted clips while Zorp stays put (new <code>using</code> state), then he walks home; <code>api.sfx(name)</code> fires a one-shot from the shared bus. Two lines are a complete interaction. <code>arrival: &#039;bounce&#039;</code> keeps the trampoline&#039;s combo path.</li>
+          <li><strong>Curiosity.</strong> After ~14 s without input Zorp picks something in the room himself and goes to use it (never the same thing twice in a row). Zorp lives whether or not you watch (NORTH-STAR §1). Replaces the trampoline-only &quot;show, don&#039;t tell&quot; loop on the substrate path.</li>
+          <li><strong>Two new clearing interactables.</strong> The <strong>spore-puddle</strong> (Zorp steps in and dances; spores lift with him) and the <strong>nap-cap</strong> (he ducks under and rests, curled, while the underglow warms — the slowest thing in the room). Assets: fal Ultra + BiRefNet, house watercolor. The clearing now holds four things, from wild to slow: trampoline · spore-puddle · sunbeam · nap-cap.</li>
         </ul>
 <h3>CHANGED</h3>
         <ul class="update__highlights">
           <li><strong>Forest interactables are real now.</strong> Sunbeam → <code>stretch</code>, then <code>look</code> on re-use, with a coo; echo-cap → <code>duck</code> + <code>cling</code> + the cascade; portal-greeting → <code>wave</code> + coo; trampoline → walk + bounce-combo + <code>jump</code>. The old <code>root.position.y += 0.05</code> bridges are gone.</li>
-          <li><code>ROOM-AUTHORING.md</code> / <code>UNIVERSE-AUTHORING.md</code> carry the <code>UseApi</code> and the two ways Cosmo reaches an interactable.</li>
+          <li><code>ROOM-AUTHORING.md</code> / <code>UNIVERSE-AUTHORING.md</code> carry the <code>UseApi</code> and the two ways Zorp reaches an interactable.</li>
         </ul>
 <h3>FIXED</h3>
         <ul class="update__highlights">
-          <li><strong>Deep-grove interactables were off-screen.</strong> They added <code>room.anchor</code> (x = −12) to their positions while inhabitants use absolute stage space, so the echo-cap and the portal-greeting rendered at x ≈ −13. All anchors are absolute now; the substrate parks Cosmo at the stage origin per room (<code>setHome</code>).</li>
+          <li><strong>Deep-grove interactables were off-screen.</strong> They added <code>room.anchor</code> (x = −12) to their positions while inhabitants use absolute stage space, so the echo-cap and the portal-greeting rendered at x ≈ −13. All anchors are absolute now; the substrate parks Zorp at the stage origin per room (<code>setHome</code>).</li>
           <li>The forest&#039;s trampoline handle built a second trampoline mesh on top of the one main.ts already renders. It owns no mesh now.</li>
         </ul>
         </div>
@@ -509,7 +535,7 @@
         </div>
         <h3>CHANGED</h3>
         <ul class="update__highlights">
-          <li><strong>Substrate is now the default <code>/play/</code> experience (the Wave 22 cutover).</strong> <code>useSubstrate</code> flips: the Universe→Area→Room contract boots unless <code>?legacy=1</code> is explicitly present. A bare <code>/play/</code> now lands in the forest daydream — Cosmo, the breathing world, the &quot;follow Cosmo&quot; travel layer, the &quot;Look up.&quot; way home to the chart. Browser-UAT&#039;d: bare <code>/play/</code> boots substrate (forest) and writes a clean <code>?universe=…&amp;area=…&amp;room=…</code> URL; <code>?legacy=1</code> still reaches the old beat-game as a transitional rollback hatch. The substrate-boot-failure → legacy recovery path stays as a safety net.</li>
+          <li><strong>Substrate is now the default <code>/play/</code> experience (the Wave 22 cutover).</strong> <code>useSubstrate</code> flips: the Universe→Area→Room contract boots unless <code>?legacy=1</code> is explicitly present. A bare <code>/play/</code> now lands in the forest daydream — Zorp, the breathing world, the &quot;follow Zorp&quot; travel layer, the &quot;Look up.&quot; way home to the chart. Browser-UAT&#039;d: bare <code>/play/</code> boots substrate (forest) and writes a clean <code>?universe=…&amp;area=…&amp;room=…</code> URL; <code>?legacy=1</code> still reaches the old beat-game as a transitional rollback hatch. The substrate-boot-failure → legacy recovery path stays as a safety net.</li>
           <li><strong>URLs are clean.</strong> <code>syncURL</code> no longer writes <code>?substrate=v2</code> — in-app navigation and shared links read <code>/play/?universe=dunes&amp;area=…&amp;room=…</code>.</li>
         </ul>
 <h3>REMOVED</h3>
@@ -518,7 +544,7 @@
         </ul>
 <h3>NOTE</h3>
         <ul class="update__highlights">
-          <li>&quot;No hidden updates&quot; by design (Richard): there&#039;s no participation in the Cosmo universe yet, so there&#039;s no reason to gate the new experience — it&#039;s simply the default. Full legacy demolition (&quot;slopen&quot;) — removing the <code>?legacy=1</code> branch and the old Phaser beat-game entirely — is the next focused wave.</li>
+          <li>&quot;No hidden updates&quot; by design (Richard): there&#039;s no participation in the Zorp universe yet, so there&#039;s no reason to gate the new experience — it&#039;s simply the default. Full legacy demolition (&quot;slopen&quot;) — removing the <code>?legacy=1</code> branch and the old Phaser beat-game entirely — is the next focused wave.</li>
         </ul>
         </div>
       </div>
@@ -536,7 +562,7 @@
           <span class="tag tag--change">Wijziging</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">The last big dir. The <code>/updates/</code> case-study — the open record of how Cosmo was built with Claude — was 279MB, most of it never even shown.</p>
+          <p class="update__lead-line">The last big dir. The <code>/updates/</code> case-study — the open record of how Zorp was built with Claude — was 279MB, most of it never even shown.</p>
         </div>
         <h3>CHANGED</h3>
         <ul class="update__highlights">
@@ -580,20 +606,20 @@
         <div class="update__header">
           <span class="update__version">v2.4.20</span>
           <span class="update__date">2026-06-14</span>
-          <h2 class="update__title">06-14 — Wave 26 (cont.): Cosmo himself + the inhabitants go WebP</h2>
+          <h2 class="update__title">06-14 — Wave 26 (cont.): Zorp himself + the inhabitants go WebP</h2>
         </div>
         <div class="update__body">
           <div class="update__tags">
           <span class="tag tag--change">Wijziging</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">The sweep continues onto the substrate&#039;s living things — Cosmo&#039;s frames, the world-dwellers, and the canonical hero painting.</p>
+          <p class="update__lead-line">The sweep continues onto the substrate&#039;s living things — Zorp&#039;s frames, the world-dwellers, and the canonical hero painting.</p>
         </div>
         <h3>CHANGED</h3>
         <ul class="update__highlights">
-          <li><strong>Cosmo&#039;s 12 frame atlases → lossless WebP</strong> (28MB → 19MB). Lossless, not lossy: the player samples sub-cells with mipmaps off, so lossy macroblocks would bleed across frame cells on the hero himself — not acceptable on Cosmo. Browser-UAT&#039;d in the forest: every pose crisp, no cell-bleed, no edge halos.</li>
+          <li><strong>Zorp&#039;s 12 frame atlases → lossless WebP</strong> (28MB → 19MB). Lossless, not lossy: the player samples sub-cells with mipmaps off, so lossy macroblocks would bleed across frame cells on the hero himself — not acceptable on Zorp. Browser-UAT&#039;d in the forest: every pose crisp, no cell-bleed, no edge halos.</li>
           <li><strong>The 21 world-inhabitants → WebP</strong> (9MB → 2MB, ~6×): eyeball-sentry, mouth-pillar, kelp-organ, jellyfish, wind-bowl, spore-blooms, sunbeam, the trampoline, and the rest. Cut-outs converted with <code>-exact</code> so transparent-edge RGB is preserved — no halos around the alpha.</li>
-          <li><strong>The canonical hero <code>cosmo-hero-lora.png</code> → WebP</strong> (5MB → 340KB, 14×). It backs Cosmo&#039;s plane <em>and</em> every page&#039;s favicon/splash — all entry HTMLs (root, <code>/play/</code>, <code>/lore/</code>) updated, favicon <code>type</code> corrected to <code>image/webp</code>.</li>
+          <li><strong>The canonical hero <code>cosmo-hero-lora.png</code> → WebP</strong> (5MB → 340KB, 14×). It backs Zorp&#039;s plane <em>and</em> every page&#039;s favicon/splash — all entry HTMLs (root, <code>/play/</code>, <code>/lore/</code>) updated, favicon <code>type</code> corrected to <code>image/webp</code>.</li>
           <li>Only substrate-path assets touched. Legacy-only art (the <code>biome-boss</code>/<code>cathedral</code> layer stacks, the old pose sprites, the <code>cosmoV2</code> decal/3D set) is left as PNG — it&#039;s slated for demolition at the substrate cutover, so WebP&#039;ing it would be wasted work.</li>
         </ul>
         </div>
@@ -644,7 +670,7 @@
         </ul>
 <h3>ADDED</h3>
         <ul class="update__highlights">
-          <li><strong>The room-to-room layer — &quot;Cosmo neemt je mee&quot; (depth within a world).</strong> <code>RoomOnwardOverlay</code>: when a room declares an exit, a soft breathing Cormorant pill near Cosmo reads &quot;follow Cosmo · &lt;the next room&gt; ↪&quot;; tapping it travels you deeper (same calm dissolve as the chart). The engine already had universe → area → room + the in-app switch + room exits in <code>rooms.json</code> — this surfaces the affordance. Each room keeps its own backdrop + bed = its own beleving (e.g. dunes: the open <em>Long Dune</em> ⇄ the rippled sand-bowl of <em>The Windless Hollow</em>, each with its own drone). The &quot;Look up.&quot; mote still leads up to the chart; this leads onward within the world.</li>
+          <li><strong>The room-to-room layer — &quot;Zorp neemt je mee&quot; (depth within a world).</strong> <code>RoomOnwardOverlay</code>: when a room declares an exit, a soft breathing Cormorant pill near Zorp reads &quot;follow Zorp · &lt;the next room&gt; ↪&quot;; tapping it travels you deeper (same calm dissolve as the chart). The engine already had universe → area → room + the in-app switch + room exits in <code>rooms.json</code> — this surfaces the affordance. Each room keeps its own backdrop + bed = its own beleving (e.g. dunes: the open <em>Long Dune</em> ⇄ the rippled sand-bowl of <em>The Windless Hollow</em>, each with its own drone). The &quot;Look up.&quot; mote still leads up to the chart; this leads onward within the world.</li>
         </ul>
         </div>
       </div>
@@ -724,13 +750,13 @@
         </div>
         <h3>REMOVED / FIXED</h3>
         <ul class="update__highlights">
-          <li><strong>The Dutch beat-message is gone for good.</strong> The legacy <code>touchOverlay</code> (&quot;Tik Cosmo aan op het beat / Hou ingedrukt voor de schokgolf&quot;) is retired entirely — it described beat-game mechanics the dweller doesn&#039;t have and was the stray start-message on the chart.</li>
+          <li><strong>The Dutch beat-message is gone for good.</strong> The legacy <code>touchOverlay</code> (&quot;Tik Zorp aan op het beat / Hou ingedrukt voor de schokgolf&quot;) is retired entirely — it described beat-game mechanics the dweller doesn&#039;t have and was the stray start-message on the chart.</li>
           <li><strong>No more &quot;tap the trampoline&quot; in dweller-worlds.</strong> That hint (<code>play/index.html</code>) is gated to the legacy forest-runner; it leaked into dunes/ink-ocean/chart where there is no trampoline.</li>
-          <li><em>(The dark shapes flanking Cosmo are his painted suction-cup hand-discs — 1992 DNA, not a bug.)</em></li>
+          <li><em>(The dark shapes flanking Zorp are his painted suction-cup hand-discs — character-DNA, not a bug.)</em></li>
         </ul>
 <h3>HUB — &quot;COSMO NEEMT JE MEE&quot;</h3>
         <ul class="update__highlights">
-          <li><strong>Tidy constellation.</strong> Bloom labels are now the world&#039;s NAME only (e.g. &quot;The Mushroom Forest&quot;, &quot;The Singing Dunes&quot;, &quot;Ink-Ocean&quot;) — the long &quot;— Cosmo&#039;s entry Universe&quot; descriptors and poetic summaries that overlapped near centre are gone (full names/summaries still drive the aria-labels). The poetry lives inside each world, not stacked on the map.</li>
+          <li><strong>Tidy constellation.</strong> Bloom labels are now the world&#039;s NAME only (e.g. &quot;The Mushroom Forest&quot;, &quot;The Singing Dunes&quot;, &quot;Ink-Ocean&quot;) — the long &quot;— Zorp&#039;s entry Universe&quot; descriptors and poetic summaries that overlapped near centre are gone (full names/summaries still drive the aria-labels). The poetry lives inside each world, not stacked on the map.</li>
           <li><strong>A soft first read.</strong> On first wake at the chart, one Cormorant line fades in then dissolves into silence: <em>&quot;You&#039;ve slipped into someone&#039;s daydream. Touch a world — stay as long as you like.&quot;</em> (once per session, on the wake transition, with an ink-aubergine backing so it reads on any sky).</li>
         </ul>
 <h3>NEXT (SOUL PASS 2/2)</h3>
@@ -796,7 +822,7 @@
         </ul>
 <h3>NEXT</h3>
         <ul class="update__highlights">
-          <li>Phase 3 (Cosmo travel-clip), Phase 4 (audio crossfade so beds morph not snap), gate the forest-onboarding out of dweller-universes (the leaked portal-rings), WebP the 4K heroes for mobile payload, then deploy for the phone.</li>
+          <li>Phase 3 (Zorp travel-clip), Phase 4 (audio crossfade so beds morph not snap), gate the forest-onboarding out of dweller-universes (the leaked portal-rings), WebP the 4K heroes for mobile payload, then deploy for the phone.</li>
         </ul>
         </div>
       </div>
@@ -815,7 +841,7 @@
           <span class="tag tag--change">Wijziging</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">The first step toward making the dweller&#039;s journey BETWEEN worlds feel like travel instead of a page reload. Four parallel code explorations found the substrate is ~90% built for in-app travel — Cosmo, the renderer, the parallax scene and the audio bridge all survive a switch — but the orchestration layer that drives it was missing, and universe switches reloaded the whole page. Decided direction (with Richard): a 3-beat <em>depart → between → arrive</em> travel, Cosmo the constant companion threaded through, universal frame first and per-world signatures layered in incrementally. See <code>.claude/brainstorm/wave25/01-fluid-travel-architecture.md</code>.</p>
+          <p class="update__lead-line">The first step toward making the dweller&#039;s journey BETWEEN worlds feel like travel instead of a page reload. Four parallel code explorations found the substrate is ~90% built for in-app travel — Zorp, the renderer, the parallax scene and the audio bridge all survive a switch — but the orchestration layer that drives it was missing, and universe switches reloaded the whole page. Decided direction (with Richard): a 3-beat <em>depart → between → arrive</em> travel, Zorp the constant companion threaded through, universal frame first and per-world signatures layered in incrementally. See <code>.claude/brainstorm/wave25/01-fluid-travel-architecture.md</code>.</p>
         </div>
         <h3>ADDED</h3>
         <ul class="update__highlights">
@@ -824,11 +850,11 @@
         </ul>
 <h3>VERIFIED (LIVE UAT)</h3>
         <ul class="update__highlights">
-          <li>dunes → &quot;Look up.&quot; → chart with <strong>no page reload</strong> (a window marker survived the switch), Cosmo alive across the swap, the chart&#039;s <code>spore-chart-void</code> bed swapped in and playing, the way-mote correctly absent on the chart, and the chart rendering cleanly (nebula-wash + orbit rings + bloom-planets) with no dune residue.</li>
+          <li>dunes → &quot;Look up.&quot; → chart with <strong>no page reload</strong> (a window marker survived the switch), Zorp alive across the swap, the chart&#039;s <code>spore-chart-void</code> bed swapped in and playing, the way-mote correctly absent on the chart, and the chart rendering cleanly (nebula-wash + orbit rings + bloom-planets) with no dune residue.</li>
         </ul>
 <h3>NEXT (WAVE 25 PHASES 2–5)</h3>
         <ul class="update__highlights">
-          <li>Phase 2: run the (currently never-invoked) transition + <code>arrival</code> drivers inside <code>switchTo</code> — the 3-beat ceremony. Phase 3: Cosmo travel-clip continuity (<code>scheduleTransitionClip</code> + <code>slide</code>). Phase 4: audio crossfade + SFX-emit hook. Phase 5: per-world travel signatures.</li>
+          <li>Phase 2: run the (currently never-invoked) transition + <code>arrival</code> drivers inside <code>switchTo</code> — the 3-beat ceremony. Phase 3: Zorp travel-clip continuity (<code>scheduleTransitionClip</code> + <code>slide</code>). Phase 4: audio crossfade + SFX-emit hook. Phase 5: per-world travel signatures.</li>
         </ul>
         </div>
       </div>
@@ -853,7 +879,7 @@
         <ul class="update__highlights">
           <li><strong>Per-room ambient beds now play in every universe</strong> (live-UAT verified): forest → <code>clearing-bloom-loop</code>, dunes → <code>dune-drone-open</code>, ink-ocean → <code>ink-ocean-shafts</code>, chart → <code>spore-chart-void</code>. Removed the no-op <code>audio</code> drivers from forest, dunes, and ink-ocean so they inherit <code>DefaultAudio</code>&#039;s room-keyed bed swap (chart already did).</li>
           <li><strong><code>AudioFFTBridge</code> remembers a pre-gesture track request.</strong> <code>setMusicTrack()</code> now stores a <code>pendingTrackUrl</code> even before the audio graph exists, and <code>init()</code> honors it over the default <code>MUSIC_TRACK</code>. Without it the substrate&#039;s boot-time bed selection was lost to the title theme.</li>
-          <li><strong>&quot;swipe up&quot; hint no longer leaks onto Cosmo&#039;s face</strong> in dweller-universes. The forest-runner swipe glyph is now gated on trampoline presence (<code>trampolineSpots.count() &gt; 0</code>), so it never renders in dunes/ink-ocean/chart.</li>
+          <li><strong>&quot;swipe up&quot; hint no longer leaks onto Zorp&#039;s face</strong> in dweller-universes. The forest-runner swipe glyph is now gated on trampoline presence (<code>trampolineSpots.count() &gt; 0</code>), so it never renders in dunes/ink-ocean/chart.</li>
         </ul>
 <h3>DOCS</h3>
         <ul class="update__highlights">
@@ -861,7 +887,7 @@
         </ul>
 <h3>KNOWN (NEXT — POLISH LOOP)</h3>
         <ul class="update__highlights">
-          <li>Forest-onboarding still partly leaks into dweller-universes: NebulaPortal concentric rings + the obstacle/swipe cadence. Correct fix is to gate the whole <code>OnboardingDirector</code> gameplay layer to forest while keeping the universal &quot;Cosmo awakening&quot; wake.</li>
+          <li>Forest-onboarding still partly leaks into dweller-universes: NebulaPortal concentric rings + the obstacle/swipe cadence. Correct fix is to gate the whole <code>OnboardingDirector</code> gameplay layer to forest while keeping the universal &quot;Zorp awakening&quot; wake.</li>
           <li>Dunes interactables render with bad materials (translucent box + pale blob); additive jellyfish black-box; nebula/dune synthetic-alpha — all pending the polish pass.</li>
         </ul>
         </div>
@@ -1018,7 +1044,7 @@
         </div>
         <h3>ADDED</h3>
         <ul class="update__highlights">
-          <li><strong>Ink-Ocean</strong> (<code>universes/ink-ocean/</code>) — new Universe, <code>biomeKey:null</code> + custom <code>background()</code> on the shared scene (proves the contract isn&#039;t forest-hardcoded). 2 rooms (Light-Shafts, The Trench); weightless Cosmo = procedural hover-drift over <code>idle</code>; cool portal (hue 0.55).</li>
+          <li><strong>Ink-Ocean</strong> (<code>universes/ink-ocean/</code>) — new Universe, <code>biomeKey:null</code> + custom <code>background()</code> on the shared scene (proves the contract isn&#039;t forest-hardcoded). 2 rooms (Light-Shafts, The Trench); weightless Zorp = procedural hover-drift over <code>idle</code>; cool portal (hue 0.55).</li>
           <li><strong>Singing Dunes</strong> (<code>universes/dunes/</code>) — new Universe, <code>biomeKey:null</code> + per-room composition-spec. 2 rooms (Long Dune vista, Windless Hollow); dusk-mirage portal; the Hollow declares deliberate stillness in its README.</li>
           <li><strong>The Spore-Chart</strong> (<code>universes/_chart/</code>) — the open-map hub (reserved <code>_</code>-prefix, auto-skipped by discovery). Renders one bloom per discovered universe + 3 &quot;your world here&quot; becoming-blooms; tapping a bloom drives the existing URL grammar; [Copy the prompt] = README quickstart verbatim.</li>
           <li><strong>READMEs</strong> for the 3 new universes; per-world asset runbooks under <code>.claude/brainstorm/wave24/</code>.</li>
@@ -1121,11 +1147,11 @@
           <span class="tag tag--change">Wijziging</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">Live phone UAT of v2.4.0 — painted Cosmo/world/trampoline confirmed &quot;te gek&quot;. Richard flagged the on-screen &quot;timer-circle&quot; as distracting and questioned the (unnoticeable) music interaction. NORTH-STAR §6 pivot logged: the gamified beat/combo-score model is retired in favour of free movement + builder-authored interactables + world expansion.</p>
+          <p class="update__lead-line">Live phone UAT of v2.4.0 — painted Zorp/world/trampoline confirmed &quot;te gek&quot;. Richard flagged the on-screen &quot;timer-circle&quot; as distracting and questioned the (unnoticeable) music interaction. NORTH-STAR §6 pivot logged: the gamified beat/combo-score model is retired in favour of free movement + builder-authored interactables + world expansion.</p>
         </div>
         <h3>CHANGED</h3>
         <ul class="update__highlights">
-          <li><strong>VibeMeter ring no longer drawn</strong> — the saffron/rose ring around Cosmo (avatar of the combo-score loop) is hidden. Level logic is left intact for now (DeepTripMode still reads <code>fullEdge</code>); the full score-logic teardown follows in the pivot cleanup. Dead ring constants + <code>lerpColor</code> removed.</li>
+          <li><strong>VibeMeter ring no longer drawn</strong> — the saffron/rose ring around Zorp (avatar of the combo-score loop) is hidden. Level logic is left intact for now (DeepTripMode still reads <code>fullEdge</code>); the full score-logic teardown follows in the pivot cleanup. Dead ring constants + <code>lerpColor</code> removed.</li>
         </ul>
         </div>
       </div>
@@ -1144,11 +1170,11 @@
           <span class="tag tag--change">Wijziging</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">Proof slice confirmed by Richard (&quot;ja, dit bewijst het&quot;). Completes the painted-frames Cosmo to the full 12-clip state set on Kling v2 master.</p>
+          <p class="update__lead-line">Proof slice confirmed by Richard (&quot;ja, dit bewijst het&quot;). Completes the painted-frames Zorp to the full 12-clip state set on Kling v2 master.</p>
         </div>
         <h3>ADDED</h3>
         <ul class="update__highlights">
-          <li><strong>8 more clips</strong> generated + shipped (<code>public/assets/cosmo-frames/</code>): duck, dance, wave, wink, stretch, fall, petted, look — joining idle/walk/bounce/jump. All 12 are alpha-cut watercolor atlases (8×8, 61 frames, 12fps) with consistent 1992-DNA.</li>
+          <li><strong>8 more clips</strong> generated + shipped (<code>public/assets/cosmo-frames/</code>): duck, dance, wave, wink, stretch, fall, petted, look — joining idle/walk/bounce/jump. All 12 are alpha-cut watercolor atlases (8×8, 61 frames, 12fps) with consistent character-DNA.</li>
         </ul>
 <h3>CHANGED</h3>
         <ul class="update__highlights">
@@ -1163,7 +1189,7 @@
         <div class="update__header">
           <span class="update__version">v2.3.0</span>
           <span class="update__date">2026-05-31</span>
-          <h2 class="update__title">05-31 — Wave 23: painted-frames Cosmo (proof slice)</h2>
+          <h2 class="update__title">05-31 — Wave 23: painted-frames Zorp (proof slice)</h2>
         </div>
         <div class="update__body">
           <div class="update__tags">
@@ -1177,7 +1203,7 @@
         <ul class="update__highlights">
           <li><strong><code>CosmoFramePlayer</code></strong> (<code>src/three/cosmoFramePlayer.ts</code>) — plays per-state frame-atlas clips on the billboard material. Loop clips ping-pong (the i2v clips aren&#039;t designed seamless loops); one-shots clamp then auto-return to <code>idle</code>. Graceful degrade: if the manifest fails to load, the static hero stays.</li>
           <li><strong>Generation pipeline</strong> (<code>scripts/wave23/</code>): <code>gen_clips.py</code> (fal.ai Kling-v2-master image-to-video from the LoRA hero, config-driven via <code>clips.json</code>), <code>alpha_cut.py</code> (per-frame BiRefNet → clean RGBA, dark eyes preserved), <code>pack_clips.py</code> (ffmpeg extract + tile → one atlas PNG + manifest per clip).</li>
-          <li><strong>4 core clips</strong> generated + shipped (<code>public/assets/cosmo-frames/</code>): idle, walk, bounce, jump. Real expressive watercolor motion — breath, blink, weight-shift — with the 1992-DNA consistent across frames.</li>
+          <li><strong>4 core clips</strong> generated + shipped (<code>public/assets/cosmo-frames/</code>): idle, walk, bounce, jump. Real expressive watercolor motion — breath, blink, weight-shift — with the character-DNA consistent across frames.</li>
         </ul>
 <h3>CHANGED</h3>
         <ul class="update__highlights">
@@ -1193,7 +1219,7 @@
         <div class="update__header">
           <span class="update__version">v2.2.11</span>
           <span class="update__date">2026-05-31</span>
-          <h2 class="update__title">05-31 — Wave 22: Cosmo actually walks (billboard anim layer)</h2>
+          <h2 class="update__title">05-31 — Wave 22: Zorp actually walks (billboard anim layer)</h2>
         </div>
         <div class="update__body">
           <div class="update__tags">
@@ -1201,7 +1227,7 @@
           <span class="tag tag--change">Wijziging</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">Richard&#039;s UAT of v2.2.10 confirmed. Strategic call before chasing trampoline tricks: first make Cosmo <em>read as walking</em>. Root cause found — the walk-sway was silently dead since the Wave 21.2 billboard pivot: the director wrote <code>plane.rotation.z</code>, then <code>rig.update()</code> ran <code>plane.lookAt(camera)</code> at the end of the same tick and overwrote the plane&#039;s entire orientation. Facing (<code>root.scale.x</code>) and squash (<code>root.scale.y</code>) survived only because they live on the root, which lookAt doesn&#039;t touch. Per NORTH-STAR §4 (don&#039;t patch a broken system) the fix is the foundation both walking AND tricks need.</p>
+          <p class="update__lead-line">Richard&#039;s UAT of v2.2.10 confirmed. Strategic call before chasing trampoline tricks: first make Zorp <em>read as walking</em>. Root cause found — the walk-sway was silently dead since the Wave 21.2 billboard pivot: the director wrote <code>plane.rotation.z</code>, then <code>rig.update()</code> ran <code>plane.lookAt(camera)</code> at the end of the same tick and overwrote the plane&#039;s entire orientation. Facing (<code>root.scale.x</code>) and squash (<code>root.scale.y</code>) survived only because they live on the root, which lookAt doesn&#039;t touch. Per NORTH-STAR §4 (don&#039;t patch a broken system) the fix is the foundation both walking AND tricks need.</p>
         </div>
         <h3>ADDED</h3>
         <ul class="update__highlights">
@@ -1228,12 +1254,12 @@
           <span class="tag tag--feat">Feature</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">Live UAT of v2.2.9 (Richard): trampoline good, but the controls were undiscoverable on laptop (&quot;ik snap niet hoe ik iets moet doen&quot;), and we need an &quot;uitleg&quot; that also inspires contributor-devs to build their own Universe + Cosmo + interactables (§3b). Chosen direction (AskUserQuestion): &quot;show, don&#039;t tell&quot;.</p>
+          <p class="update__lead-line">Live UAT of v2.2.9 (Richard): trampoline good, but the controls were undiscoverable on laptop (&quot;ik snap niet hoe ik iets moet doen&quot;), and we need an &quot;uitleg&quot; that also inspires contributor-devs to build their own Universe + Zorp + interactables (§3b). Chosen direction (AskUserQuestion): &quot;show, don&#039;t tell&quot;.</p>
         </div>
         <h3>ADDED</h3>
         <ul class="update__highlights">
-          <li><strong>Autonomous trampoline demo</strong> — Cosmo walks to the trampoline and goes wild on his own ~3s after the visitor wakes him, then every ~16s while idle. So a new visitor immediately SEES the delight loop instead of guessing the controls. Safe by construction: <code>CosmoAgent.applyAI</code> yields position during <code>walking-to</code>/<code>bouncing</code> (<code>ownedByOtherSprint</code>), so the demo never fights companion-mode. New <code>CosmoAgent.isBusy</code> getter guards against interrupting an active state.</li>
-          <li><strong>Fading hint</strong> — an on-brand Cormorant-italic line &quot;tap the trampoline — watch him go&quot; fades in a beat after wake (as Cosmo demos), dismissed by the next tap or after 9s. No nagging.</li>
+          <li><strong>Autonomous trampoline demo</strong> — Zorp walks to the trampoline and goes wild on his own ~3s after the visitor wakes him, then every ~16s while idle. So a new visitor immediately SEES the delight loop instead of guessing the controls. Safe by construction: <code>CosmoAgent.applyAI</code> yields position during <code>walking-to</code>/<code>bouncing</code> (<code>ownedByOtherSprint</code>), so the demo never fights companion-mode. New <code>CosmoAgent.isBusy</code> getter guards against interrupting an active state.</li>
+          <li><strong>Fading hint</strong> — an on-brand Cormorant-italic line &quot;tap the trampoline — watch him go&quot; fades in a beat after wake (as Zorp demos), dismissed by the next tap or after 9s. No nagging.</li>
           <li><strong>Dev-invite link</strong> — &quot;built openly — make your own world →&quot; in the hover-reveal hud (top-left), linking the public repo. Carries the §3b open-substrate pitch quietly, for the contributor-dev audience.</li>
         </ul>
         </div>
@@ -1252,7 +1278,7 @@
           <span class="tag tag--change">Wijziging</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">Live UAT of v2.2.8 (Richard): trampoline looks good, but there were 4 of them and the colors were too muted. Quick fixes; the controls/onboarding (&quot;uitleg&quot;) is the next, larger piece — it also has to inspire contributor-devs to build their own Universe + Cosmo + interactables (the trampoline is example #1).</p>
+          <p class="update__lead-line">Live UAT of v2.2.8 (Richard): trampoline looks good, but there were 4 of them and the colors were too muted. Quick fixes; the controls/onboarding (&quot;uitleg&quot;) is the next, larger piece — it also has to inspire contributor-devs to build their own Universe + Zorp + interactables (the trampoline is example #1).</p>
         </div>
         <h3>CHANGED</h3>
         <ul class="update__highlights">
@@ -1276,16 +1302,16 @@
           <span class="tag tag--change">Wijziging</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">Live UAT of v2.2.7 (Richard, 2026-05-30): the substrate path looked ~identical to legacy (correct — D4 was plumbing; the visible difference is a per-room inhabitant, proving substrate is on), but Cosmo had no smooth movement and there was no real trampoline. This ships the heart of the delight loop (NORTH-STAR §3). Shows on BOTH paths (shared Cosmo stack).</p>
+          <p class="update__lead-line">Live UAT of v2.2.7 (Richard, 2026-05-30): the substrate path looked ~identical to legacy (correct — D4 was plumbing; the visible difference is a per-room inhabitant, proving substrate is on), but Zorp had no smooth movement and there was no real trampoline. This ships the heart of the delight loop (NORTH-STAR §3). Shows on BOTH paths (shared Zorp stack).</p>
         </div>
         <h3>ADDED</h3>
         <ul class="update__highlights">
           <li><strong><code>Trampoline3D</code></strong> (<code>src/three/trampoline3D.ts</code>) — a real trampoline built from primitives: steel frame + blue rim (torus, metallic) + four splayed legs + a <strong>white flexible mat</strong> (subdivided disc) that dips on impact and springs back via a damped spring. A deliberate ≤5% pop-object, shaded soft to sit in the watercolor world. Replaces the retired <code>organic-flesh-trampoline.png</code> billboard.</li>
-          <li><strong>Rebounce combo</strong> — arriving on the trampoline triggers 4 bounces (1 + 3 auto-rebounces), so Cosmo &quot;gaat los&quot; instead of a single hop. Mat flexes + kaleido spikes on each.</li>
+          <li><strong>Rebounce combo</strong> — arriving on the trampoline triggers 4 bounces (1 + 3 auto-rebounces), so Zorp &quot;gaat los&quot; instead of a single hop. Mat flexes + kaleido spikes on each.</li>
         </ul>
 <h3>CHANGED</h3>
         <ul class="update__highlights">
-          <li><strong><code>TrampolineSpots</code></strong> rebuilt to render <code>Trampoline3D</code> (one hero trampoline by default) — same public API (attach / update / pickAtNDC / positions / positionOf), tap→walk→bounce wiring unchanged; new <code>impactNearest()</code> flexes the mat under Cosmo (wired from <code>onBounce</code> in main.ts).</li>
+          <li><strong><code>TrampolineSpots</code></strong> rebuilt to render <code>Trampoline3D</code> (one hero trampoline by default) — same public API (attach / update / pickAtNDC / positions / positionOf), tap→walk→bounce wiring unchanged; new <code>impactNearest()</code> flexes the mat under Zorp (wired from <code>onBounce</code> in main.ts).</li>
           <li><strong>Bounce now has squash-stretch juice</strong> — <code>CosmoAnimDirector</code> runs its 0.8s squash→stretch→settle arc on the <code>bouncing</code> state too (it already matched <code>BOUNCE_DURATION_S</code>); previously only the bare <code>worldY</code> arc played (no squash), which read as flat.</li>
           <li><strong>Idle-breath</strong> raised ±2% → ±3.5% (the old amplitude read as static on the billboard).</li>
         </ul>
@@ -1339,7 +1365,7 @@
           </div>
         <div class="update__lead">
           <p class="update__lead-line">Self-UAT of v2.2.5 the-hollow showed the mouth-pillar still flickered as 4-5 cycling rectangles — even with clean alpha. Diagnosis: Sprint 15C built <code>mouth-pillar-sheet.png</code> as 4 <em>separately-painted</em> frames composited horizontally (per <code>weirdo_objects_v15c.md</code>: &quot;diffusion can not render sequential-states in one image&quot;). The frames are four different illustrations, not animation-coherent poses of one character. Cycling them creates a stack of non-coherent shapes regardless of how clean the alpha is.</p>
-          <p class="update__lead-line">Per NORTH-STAR §4 brave-reconsideration: three patches on the asset (alpha-cut, alphaTest tuning, render-order) didn&#039;t fix the underlying construction. Retire. The-hollow becomes intentionally quiet — Cosmo + parallax forest.</p>
+          <p class="update__lead-line">Per NORTH-STAR §4 brave-reconsideration: three patches on the asset (alpha-cut, alphaTest tuning, render-order) didn&#039;t fix the underlying construction. Retire. The-hollow becomes intentionally quiet — Zorp + parallax forest.</p>
         </div>
         <h3>REMOVED</h3>
         <ul class="update__highlights">
@@ -1408,12 +1434,12 @@
           <span class="tag tag--fix">Fix</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">Live UAT of v2.2.2 showed legacy <code>/play/</code> rendering Cosmo correctly (the canonical 1992-DNA hero painting), but <code>/play/?substrate=v2</code> showed a stack of mushroom-rectangles obscuring Cosmo entirely. Two compounding bugs in <code>universes/forest/behavior.ts</code> and <code>cosmoV2.ts</code>:</p>
+          <p class="update__lead-line">Live UAT of v2.2.2 showed legacy <code>/play/</code> rendering Zorp correctly (the canonical character-DNA hero painting), but <code>/play/?substrate=v2</code> showed a stack of mushroom-rectangles obscuring Zorp entirely. Two compounding bugs in <code>universes/forest/behavior.ts</code> and <code>cosmoV2.ts</code>:</p>
         </div>
         <h3>FIXED</h3>
         <ul class="update__highlights">
           <li><strong>Per-room inhabitant filter</strong>: <code>forestInhabitants(ctx)</code> previously spawned all 4 inhabitants (eyeball-sentry, floating-star, breathing-portal, mouth-pillar) regardless of which room was active. Their fixed anchors stacked them all in front of the camera. Added <code>room: &#039;clearing&#039; | &#039;deep-grove&#039; | &#039;the-hollow&#039;</code> to <code>InhabitantSpec</code>, filter on <code>ctx.room.id</code> before instantiating. Now only the inhabitants belonging to the active room render.</li>
-          <li><strong>Cosmo render-order</strong>: with <code>depthWrite: false</code> on Cosmo&#039;s billboard plane AND on inhabitant planes, draw-order won over Z. Inhabitants drew after Cosmo and painted over him. Set <code>cosmo.plane.renderOrder = 100</code> so Cosmo always draws last, on top of everything.</li>
+          <li><strong>Zorp render-order</strong>: with <code>depthWrite: false</code> on Zorp&#039;s billboard plane AND on inhabitant planes, draw-order won over Z. Inhabitants drew after Zorp and painted over him. Set <code>cosmo.plane.renderOrder = 100</code> so Zorp always draws last, on top of everything.</li>
           <li><strong>Inhabitant alphaTest 0.05 → 0.5</strong>: Sprint 15C weirdo-object PNGs have soft-edge dark borders that registered as visible-but-translucent rectangles instead of being culled. Tighter alphaTest cleans the silhouettes.</li>
         </ul>
         </div>
@@ -1425,7 +1451,7 @@
         <div class="update__header">
           <span class="update__version">v2.2.2</span>
           <span class="update__date">2026-05-05</span>
-          <h2 class="update__title">05-05 — Wave 21.2: skeleton-rig retired, Cosmo becomes a hero-PNG billboard</h2>
+          <h2 class="update__title">05-05 — Wave 21.2: skeleton-rig retired, Zorp becomes a hero-PNG billboard</h2>
         </div>
         <div class="update__body">
           <div class="update__tags">
@@ -1433,20 +1459,20 @@
           </div>
         <div class="update__lead">
           <p class="update__lead-line"><strong>Live UAT of v2.2.1 showed the third decal-attempt also failed.</strong> The regenerated decals were rendered as full-frame paintings with the mushroom-scene baked in, then stacked as rectangles + black ovoids on the capsule. Three attempts did not converge: PIL crops, fal.ai LoRA regen, alpha-isolation tuning — all defeated by the diffusion-model bias toward painting-the-context. NORTH-STAR §4: stop patching, reconsider the system.</p>
-          <p class="update__lead-line">The system is the <strong>decal-on-capsule paradigm</strong>. It&#039;s retired. The canonical <code>cosmo-hero-lora.png</code> (Sprint 16A, 10/10 DNA, already shipped) becomes Cosmo&#039;s geometry directly — a single textured plane that billboards toward camera with Y-axis locked vertical.</p>
+          <p class="update__lead-line">The system is the <strong>decal-on-capsule paradigm</strong>. It&#039;s retired. The canonical <code>cosmo-hero-lora.png</code> (Sprint 16A, 10/10 DNA, already shipped) becomes Zorp&#039;s geometry directly — a single textured plane that billboards toward camera with Y-axis locked vertical.</p>
         </div>
         <h3>CHANGED</h3>
         <ul class="update__highlights">
           <li><strong><code>src/three/cosmoV2.ts</code></strong>: 374 → 133 LOC (−64%). Capsule body, sphere head, headBone, 4 disc-arms, 6 v2-final decal-planes, FaceState compositing — all retired. Replaced with one <code>THREE.Mesh + PlaneGeometry(1.2, 1.8)</code> carrying <code>assets/sprites/cosmo-hero-lora.png</code> as <code>MeshBasicMaterial({ map, transparent: true, alphaTest: 0.1, depthWrite: false, side: DoubleSide })</code>. Plane offset y=0.9 (matches old eye-line). New <code>rig.update(camera)</code> does Y-locked lookAt: <code>plane.lookAt(camera.x, plane.y+root.y, camera.z)</code> — billboards toward camera in XZ, never rolls.</li>
           <li><strong><code>src/three/cosmoAnimDirector.ts</code></strong>: 446 → 224 LOC (−50%). Retired blink, head-track, antenna-bob (all needed bones). Surviving anims: idle-breath (root.scale.y pulse 0.4 Hz ±2%), walk-sway (plane.rotation.z ±0.03 rad — replaces disc oscillation), jump-arc (3-phase root.position.y + scale.y squash-stretch), climb (root.rotation.z = π/2). <code>AnimCtx</code> gains <code>camera: THREE.Camera</code> so the director can call <code>rig.update(camera)</code> at end of each tick.</li>
           <li><strong><code>src/phaser/entities/CosmoAgent.ts</code></strong>: bone fields nulled, <code>FaceState</code> import + setFaceState removed, <code>tickAnimDirector(dt, motion)</code> → <code>tickAnimDirector(dt, motion, camera)</code>. Pet-affect kept as graceful event-hook no-op (host-side particle spew via onPet still works).</li>
-          <li><strong><code>src/main.ts</code></strong>: tickAnimDirector call (line ~373) now passes <code>cosmoStage.camera</code>. Cosmo-finisher&#039;s call placement preserved.</li>
+          <li><strong><code>src/main.ts</code></strong>: tickAnimDirector call (line ~373) now passes <code>cosmoStage.camera</code>. Zorp-finisher&#039;s call placement preserved.</li>
         </ul>
 <h3>NOTES</h3>
         <ul class="update__highlights">
-          <li><strong>The hero PNG is the canonical Cosmo.</strong> It already exists, is already shipped, is already 10/10 DNA. We were trying to <em>recreate</em> it as 6 fragments instead of just <em>using</em> it. Brave reconsideration: sometimes the answer was already there.</li>
+          <li><strong>The hero PNG is the canonical Zorp.</strong> It already exists, is already shipped, is already 10/10 DNA. We were trying to <em>recreate</em> it as 6 fragments instead of just <em>using</em> it. Brave reconsideration: sometimes the answer was already there.</li>
           <li>The 6 v2-final decals stay on disk at <code>public/assets/cosmo/decals/v2-final/</code> for rollback safety; no longer loaded by the rig. Cleanup is a Wave 22 hygiene step.</li>
-          <li><strong>Lost capabilities</strong>: head-track-toward-mouse, antenna-bob spring, blink. These needed bones we no longer have. Recovery options for future waves: (a) UV-parallax for a faint &quot;Cosmo-looks-at-you&quot; effect, (b) eyelid-overlay-plane that fades for blink, (c) pure 3D rebuild via Meshy v6 with proper UV-mapping for texture projection. None of these blocks shipping today.</li>
+          <li><strong>Lost capabilities</strong>: head-track-toward-mouse, antenna-bob spring, blink. These needed bones we no longer have. Recovery options for future waves: (a) UV-parallax for a faint &quot;Zorp-looks-at-you&quot; effect, (b) eyelid-overlay-plane that fades for blink, (c) pure 3D rebuild via Meshy v6 with proper UV-mapping for texture projection. None of these blocks shipping today.</li>
           <li><strong>CosmoAI&#039;s head-yaw / spine-bend directives</strong> are accepted by <code>applyAI()</code> but no longer rendered (no surface). The API stays compatible; the visual effect is a future wave&#039;s job.</li>
           <li><strong>Substrate <code>behavior.ts</code> contracts</strong>: <code>CosmoV2Rig</code> shape is mostly additive (root preserved); third-party authors who referenced dropped fields like <code>cosmo.head</code> need a CONTRIBUTING sweep eventually. Not blocking — substrate boots fine.</li>
         </ul>
@@ -1459,26 +1485,26 @@
         <div class="update__header">
           <span class="update__version">v2.2.1</span>
           <span class="update__date">2026-05-05</span>
-          <h2 class="update__title">05-05 — Wave 21.1: real Cosmo decals + /play/ chrome stripped</h2>
+          <h2 class="update__title">05-05 — Wave 21.1: real Zorp decals + /play/ chrome stripped</h2>
         </div>
         <div class="update__body">
           <div class="update__tags">
           <span class="tag tag--change">Wijziging</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line"><strong>Live UAT of v2.2.0 surfaced two failures programmatic UAT can&#039;t see.</strong> The on-screen Cosmo was a green pill — the deterministic PIL-crop decal-pivot from Wave 21 (a budget-saver that took $0.30 instead of $8-15) produced flat-color regions, not painted decals. And <code>/play/</code> still wore Dutch marketing-chrome (Home / Het Verhaal / Updates) plus a version-pill plus a <code>0m</code> altitude counter, with the canvas pinched into a center column with black bars on the sides. NORTH-STAR §3 says the world breathes; chrome was breathing around it. Wave 21.1 retires both.</p>
+          <p class="update__lead-line"><strong>Live UAT of v2.2.0 surfaced two failures programmatic UAT can&#039;t see.</strong> The on-screen Zorp was a green pill — the deterministic PIL-crop decal-pivot from Wave 21 (a budget-saver that took $0.30 instead of $8-15) produced flat-color regions, not painted decals. And <code>/play/</code> still wore Dutch marketing-chrome (Home / Het Verhaal / Updates) plus a version-pill plus a <code>0m</code> altitude counter, with the canvas pinched into a center column with black bars on the sides. NORTH-STAR §3 says the world breathes; chrome was breathing around it. Wave 21.1 retires both.</p>
         </div>
         <h3>CHANGED</h3>
         <ul class="update__highlights">
-          <li><strong>All 6 Cosmo decals regenerated</strong> via fal.ai Flux Pro + RTcosmo LoRA (Sprint 16A trained) at scale 0.45-0.65, with anatomical-study-sheet framing and 6-fold negative-prompt suppression to defeat the LoRA&#039;s whole-character bleed. Per-decal scores: eyes-l 9.7 / eyes-r 9.7 (PIL mirror) / mouth-neutral 9.5 / body-skin 9.5 / disc-suction 9.5 / antenna-flower 9.5. Total cost $5.11. <strong>The DNA-spec was wrong about saffron-yellow antenna</strong> — actual hero pixel is rose-pink #bc665c; the regen color-anchored from the hero, not the spec, and the antenna now reads rose-pink as in the canonical 1992-DNA painting.</li>
-          <li><strong><code>/play/</code> chrome fully stripped</strong> — <code>&lt;nav class=&quot;hud-nav&quot;&gt;</code> deleted (Dutch nav was an artifact of the marketing era), <code>&lt;span class=&quot;hud-version&quot;&gt;</code> deleted, <code>lang=&quot;nl&quot;</code> → <code>lang=&quot;en&quot;</code>, title rewrite to <code>Cosmo&#039;s Universe — play</code>, all Dutch UI copy translated, ~50 LOC of <code>.hud-nav</code> / <code>.hud-version</code> CSS removed including responsive breakpoints. Defensive <code>width: 100vw; height: 100vh</code> on play-shell + canvases to eliminate the black-bar pinch.</li>
+          <li><strong>All 6 Zorp decals regenerated</strong> via fal.ai Flux Pro + RTcosmo LoRA (Sprint 16A trained) at scale 0.45-0.65, with anatomical-study-sheet framing and 6-fold negative-prompt suppression to defeat the LoRA&#039;s whole-character bleed. Per-decal scores: eyes-l 9.7 / eyes-r 9.7 (PIL mirror) / mouth-neutral 9.5 / body-skin 9.5 / disc-suction 9.5 / antenna-flower 9.5. Total cost $5.11. <strong>The DNA-spec was wrong about saffron-yellow antenna</strong> — actual hero pixel is rose-pink #bc665c; the regen color-anchored from the hero, not the spec, and the antenna now reads rose-pink as in the canonical character-DNA painting.</li>
+          <li><strong><code>/play/</code> chrome fully stripped</strong> — <code>&lt;nav class=&quot;hud-nav&quot;&gt;</code> deleted (Dutch nav was an artifact of the marketing era), <code>&lt;span class=&quot;hud-version&quot;&gt;</code> deleted, <code>lang=&quot;nl&quot;</code> → <code>lang=&quot;en&quot;</code>, title rewrite to <code>Zorp&#039;s Universe — play</code>, all Dutch UI copy translated, ~50 LOC of <code>.hud-nav</code> / <code>.hud-version</code> CSS removed including responsive breakpoints. Defensive <code>width: 100vw; height: 100vh</code> on play-shell + canvases to eliminate the black-bar pinch.</li>
           <li><strong>JS-injected chrome killed at source</strong> — <code>CosmoScene.buildHUD()</code> retired (it injected the <code>0m</code> altitude counter and a 4-second cosmos-version-pill flash on boot via direct DOM <code>appendChild</code>). Both gone. The play surface is now full-viewport game; close the tab to leave.</li>
         </ul>
 <h3>NOTES</h3>
         <ul class="update__highlights">
           <li><strong>Crop-shortcut retired</strong> per NORTH-STAR §6 pivot ledger 2026-05-05. Sunk cost is not an argument; the LoRA whole-character bleed is solvable, not avoidable. Strategy stack documented in <code>cosmo_decals_wave21_1.md</code> for future LoRA-organ-decal sprints.</li>
           <li><strong>The visual-UAT gap</strong> — Wave 21 shipped programmatic-UAT-green and was visually wrong. Programmatic UAT proves bytes arrived; it cannot prove bytes paint correctly. Future visible deliverables end on real visual UAT.</li>
-          <li>Substrate behind <code>?substrate=v2</code> flag still — cutover to default deferred until visual UAT of v2.2.1 confirms the painted Cosmo + clean canvas land.</li>
+          <li>Substrate behind <code>?substrate=v2</code> flag still — cutover to default deferred until visual UAT of v2.2.1 confirms the painted Zorp + clean canvas land.</li>
         </ul>
         </div>
       </div>
@@ -1497,7 +1523,7 @@
           <span class="tag tag--change">Wijziging</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line"><strong>Wave 21 — the substrate is alive.</strong> What was a Universe→Room contract sketch is now a running Universe→Area→Room runtime. The forest is fully implemented as the canonical reference. Cosmo is on his finished decals (DNA-locked from the Sprint 16A canonical hero) with a 7-anim procedural director (idle-breath / blink / head-track / antenna-bob / walk / jump-arc / climb).</p>
+          <p class="update__lead-line"><strong>Wave 21 — the substrate is alive.</strong> What was a Universe→Room contract sketch is now a running Universe→Area→Room runtime. The forest is fully implemented as the canonical reference. Zorp is on his finished decals (DNA-locked from the Sprint 16A canonical hero) with a 7-anim procedural director (idle-breath / blink / head-track / antenna-bob / walk / jump-arc / climb).</p>
           <p class="update__lead-line">The substrate ships <strong>behind a feature-flag</strong> (<code>?substrate=v2</code>) so this release is non-breaking — <code>/play/</code> continues serving the legacy path verbatim. Cutover to substrate-as-default is reserved for a follow-up release after live UAT.</p>
         </div>
         <h3>ADDED</h3>
@@ -1505,8 +1531,8 @@
           <li><strong><code>src/substrate/</code></strong> (1,895 LOC, 21 files) — <code>SubstrateLoader</code> → <code>UniverseHost</code> → <code>AreaHost</code> → <code>RoomHost</code> runtime per the brainstorm <code>wave21/01-substrate-architecture.md</code> design. Three transition tiers: Room↔Room biome-blend (reuses BiomeManager via new <code>startMoodCrossfade()</code> API), Area↔Area gradient-cut shader, Universe↔Universe portal (reuses NebulaPortal). Five default drivers (Background/Arrival/Inhabitants/Interactables/Audio) so a JSON-only Universe ships a working experience without writing <code>behavior.ts</code>. Hand-rolled validators with dev=lenient / prod=strict split.</li>
           <li><strong><code>AREA-AUTHORING.md</code></strong> + <strong><code>ROOM-AUTHORING.md</code></strong> — new authoring docs alongside the rewritten <code>UNIVERSE-AUTHORING.md</code>. Each tier ships with a paste-in-Claude-Code quickstart appendix.</li>
           <li><strong><code>universes/forest/areas.json</code></strong> + <strong><code>behavior.ts</code></strong> (590 LOC) — the forest goes from skeleton to fully working reference. All five optional <code>UniverseBehavior</code> exports implemented: <code>background</code> (extracts ParallaxScene), <code>arrival</code> (saffron portal, hue 0.62), <code>inhabitants</code> (eyeball-sentry, mouth-pillar, breathing-portal, floating-star), <code>interactables</code> (the trampoline, in clearing only, primary delight loop), <code>transitions.roomToRoom</code> (mushroom-path).</li>
-          <li><strong><code>src/three/cosmoAnimDirector.ts</code></strong> (446 LOC, 7 procedural anims) — wired through <code>CosmoAgent.tickAnimDirector()</code> and called per-frame in <code>main.ts</code>. Layers on top of state-machine + <code>applyAI</code> output. Runs in both legacy and substrate paths so Cosmo behaves identically regardless of which boot fired.</li>
-          <li><strong><code>public/assets/cosmo/decals/v2-final/</code></strong> — six finished Cosmo decals (eyes-l, eyes-r, mouth-neutral, body-skin, disc-suction, antenna-flower). DNA-locked via deterministic PIL crop from the Sprint 16A canonical hero (<code>cosmo-hero-lora.png</code>, 10/10 DNA). Eye-region smear from v1.5.2-era is gone. Total fal.ai cost for the decal sprint: $0.30.</li>
+          <li><strong><code>src/three/cosmoAnimDirector.ts</code></strong> (446 LOC, 7 procedural anims) — wired through <code>CosmoAgent.tickAnimDirector()</code> and called per-frame in <code>main.ts</code>. Layers on top of state-machine + <code>applyAI</code> output. Runs in both legacy and substrate paths so Zorp behaves identically regardless of which boot fired.</li>
+          <li><strong><code>public/assets/cosmo/decals/v2-final/</code></strong> — six finished Zorp decals (eyes-l, eyes-r, mouth-neutral, body-skin, disc-suction, antenna-flower). DNA-locked via deterministic PIL crop from the Sprint 16A canonical hero (<code>cosmo-hero-lora.png</code>, 10/10 DNA). Eye-region smear from v1.5.2-era is gone. Total fal.ai cost for the decal sprint: $0.30.</li>
           <li><strong><code>NORTH-STAR.md</code> §6 pivot ledger</strong> entry 2026-05-04 documenting the Area-layer surfacing, hybrid contract, layered transitions, and feature-flag rollout decisions.</li>
         </ul>
 <h3>CHANGED</h3>
@@ -1572,9 +1598,9 @@
         <h3>CHANGED</h3>
         <ul class="update__highlights">
           <li><strong><code>/index.html</code></strong> — full rewrite per <code>.claude/brainstorm/wave20b/01-portal-redesign.md</code>. English-first. Hero with <code>hero-cosmo-in-forest.jpg</code> background + tagline + two CTAs (Play live / View on GitHub). Quickstart panel with copy-button code-block (vanilla JS clipboard write, no deps) — the literal paste-into-Claude-Code prompt as page&#039;s centerpiece. Three-card &quot;What this is&quot; grid. 3-image visual gallery. Three-path &quot;How to join&quot; matrix. Brand contract section with palette swatch. Footer with 11 documented-doc links. Updated JSON-LD to substrate positioning (<code>audience: Claude-paired developers</code>, <code>inLanguage: en</code>, MIT license). ~824 words body copy. Mobile-first.</li>
-          <li><strong><code>public/lore/index.html</code></strong> — Added English <code>&lt;aside lang=&quot;en&quot;&gt;</code> summary block above the Dutch poem (50-70 words, italic-prose, frames the page as a watercolor of a 1992 memory). Dutch poem kept verbatim. Nav aligned to portal (Home / Story / Updates / Support / GitHub).</li>
+          <li><strong><code>public/lore/index.html</code></strong> — Added English <code>&lt;aside lang=&quot;en&quot;&gt;</code> summary block above the Dutch poem (50-70 words, italic-prose, frames the page as a watercolor of a memory). Dutch poem kept verbatim. Nav aligned to portal (Home / Story / Updates / Support / GitHub).</li>
           <li><strong><code>public/support/index.html</code></strong> — Added English intro framing &quot;open-source MIT, support the substrate&quot;. Added GitHub Sponsors slot (<code>aria-disabled</code> placeholder until set up). Renamed <code>Episode Patron</code> → <code>Universe Patron</code> with ROOM/AREA/UNIVERSE vocabulary from NORTH-STAR §3. FAQ first answer rewritten to substrate framing.</li>
-          <li><strong><code>public/thanks/index.html</code></strong> — Added top English line &quot;Thank you. Cosmo wandered a little farther because of you.&quot; Aligned nav.</li>
+          <li><strong><code>public/thanks/index.html</code></strong> — Added top English line &quot;Thank you. Zorp wandered a little farther because of you.&quot; Aligned nav.</li>
         </ul>
 <h3>REMOVED</h3>
         <ul class="update__highlights">
@@ -1601,7 +1627,7 @@
           </div>
         <h3>FIXED</h3>
         <ul class="update__highlights">
-          <li><strong>CosmoV2 proportions</strong>: live UAT showed Cosmo as a tall green capsule pill with disproportionately small head and discs floating behind the body. Tuned <code>cosmoV2.ts</code> geometry constants — body capsule 0.45/0.9 → 0.30/0.45 (shorter + thinner), head sphere 0.5 → 0.55 with Y-squash 0.92 → 0.85 (more pearl-drop), head.position.y 1.15 → 1.05 (overlaps body-top to hide collar seam), antenna shaft thicker (0.022 → 0.025) + longer (0.25 → 0.28), antenna bulb 0.07 → 0.10 with smoother segs + brighter emissive, discs 0.18 → 0.22 repositioned to (-0.55, 0.55, 0.35) and (0.55, 0.55, 0.35) so they read as hand-tip pads in front of the body silhouette, face decal 0.85×0.55 → 0.95×0.65 + slight z-bump to fit larger head. Pure parameter tuning — no architectural change.</li>
+          <li><strong>CosmoV2 proportions</strong>: live UAT showed Zorp as a tall green capsule pill with disproportionately small head and discs floating behind the body. Tuned <code>cosmoV2.ts</code> geometry constants — body capsule 0.45/0.9 → 0.30/0.45 (shorter + thinner), head sphere 0.5 → 0.55 with Y-squash 0.92 → 0.85 (more pearl-drop), head.position.y 1.15 → 1.05 (overlaps body-top to hide collar seam), antenna shaft thicker (0.022 → 0.025) + longer (0.25 → 0.28), antenna bulb 0.07 → 0.10 with smoother segs + brighter emissive, discs 0.18 → 0.22 repositioned to (-0.55, 0.55, 0.35) and (0.55, 0.55, 0.35) so they read as hand-tip pads in front of the body silhouette, face decal 0.85×0.55 → 0.95×0.65 + slight z-bump to fit larger head. Pure parameter tuning — no architectural change.</li>
         </ul>
         </div>
       </div>
@@ -1612,7 +1638,7 @@
         <div class="update__header">
           <span class="update__version">v2.0.0</span>
           <span class="update__date">2026-05-03</span>
-          <h2 class="update__title">05-03 — Wave 20a: Cosmo v2 hybrid rebuild + open substrate</h2>
+          <h2 class="update__title">05-03 — Wave 20a: Zorp v2 hybrid rebuild + open substrate</h2>
         </div>
         <div class="update__body">
           <div class="update__tags">
@@ -1621,18 +1647,18 @@
           <span class="tag tag--fix">Fix</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line"><strong>Major milestone</strong>: the project pivots from &quot;a game&quot; to <strong>a substrate</strong> that any Claude-paired developer can plug a Universe into. <em>Your Cosmo can visit my forest. My Cosmo can visit your world.</em> See <code>NORTH-STAR.md</code> for the full charter.</p>
+          <p class="update__lead-line"><strong>Major milestone</strong>: the project pivots from &quot;a game&quot; to <strong>a substrate</strong> that any Claude-paired developer can plug a Universe into. <em>Your Zorp can visit my forest. My Zorp can visit your world.</em> See <code>NORTH-STAR.md</code> for the full charter.</p>
         </div>
         <h3>ADDED</h3>
         <ul class="update__highlights">
           <li><strong><code>src/three/cosmoV2.ts</code></strong> — primitive-skeleton rig (capsule body + sphere head + antenna + face-decal + free-floating discs) replacing the broken Meshy-imported GLB. 360° rotation, scale, jump-arc, climb all wired. ~270 LOC.</li>
           <li><strong><code>NORTH-STAR.md</code></strong> — project charter (vision, brave-reconsideration principle, pivot ledger, working method). Living document; read first.</li>
-          <li><strong><code>UNIVERSE-AUTHORING.md</code></strong> — technical contract for external Universe authors (4 required artifacts: background renderer, room-list+traversal graph, asset manifest, Cosmo-arrival hook).</li>
+          <li><strong><code>UNIVERSE-AUTHORING.md</code></strong> — technical contract for external Universe authors (4 required artifacts: background renderer, room-list+traversal graph, asset manifest, Zorp-arrival hook).</li>
           <li><strong><code>CONTRIBUTING.md</code></strong> — fitness-check + 4 honest entry-paths for new contributors.</li>
           <li><strong><code>INTEGRATIONS.md</code></strong> — full transparency on every paid service, current pricing, per-sprint costs, reusable scripts.</li>
           <li><strong><code>LICENSE</code></strong> — MIT.</li>
           <li><strong><code>README.md</code></strong> — rewritten in English with paste-in-Claude-Code quickstart, multilingual welcome, three contribution paths.</li>
-          <li><strong>Cosmo v2 decal asset set</strong> in <code>public/assets/3d/v2/</code> — 4 painted face decals (<code>cosmo-face-neutral.png</code>, <code>cosmo-face-coo.png</code>, <code>cosmo-face-blink.png</code>, <code>cosmo-face-wave.png</code>, all 512×512 RGBA), 1 tile-friendly body skin (<code>cosmo-body-skin.png</code> 512×512 RGB, mirror-blended from <code>cosmo-hero-lora.png</code> torso), 1 suction-cup disc (<code>cosmo-disc-suction.png</code> 256×256 RGBA). Faces generated via Flux Dev + LoRA <code>rtcosmo</code> + BiRefNet remove-bg pass; disc via Recraft V3 + BiRefNet; body-skin and blink-eyelids via deterministic Pillow paint (LoRA&#039;s bulging-eye DNA refused to close eyes across 3 retry seeds). Total $0.265 of $1.00 budget. Generation pipeline lives in <code>scripts/wave20a/</code>. Report: <code>.claude/brainstorm/wave20/02-decal-gen-report.md</code>.</li>
+          <li><strong>Zorp v2 decal asset set</strong> in <code>public/assets/3d/v2/</code> — 4 painted face decals (<code>cosmo-face-neutral.png</code>, <code>cosmo-face-coo.png</code>, <code>cosmo-face-blink.png</code>, <code>cosmo-face-wave.png</code>, all 512×512 RGBA), 1 tile-friendly body skin (<code>cosmo-body-skin.png</code> 512×512 RGB, mirror-blended from <code>cosmo-hero-lora.png</code> torso), 1 suction-cup disc (<code>cosmo-disc-suction.png</code> 256×256 RGBA). Faces generated via Flux Dev + LoRA <code>rtcosmo</code> + BiRefNet remove-bg pass; disc via Recraft V3 + BiRefNet; body-skin and blink-eyelids via deterministic Pillow paint (LoRA&#039;s bulging-eye DNA refused to close eyes across 3 retry seeds). Total $0.265 of $1.00 budget. Generation pipeline lives in <code>scripts/wave20a/</code>. Report: <code>.claude/brainstorm/wave20/02-decal-gen-report.md</code>.</li>
         </ul>
 <h3>CHANGED</h3>
         <ul class="update__highlights">
@@ -1647,7 +1673,7 @@
         </ul>
 <h3>KNOWN LIMITATIONS (WAVE 20B WILL FIX)</h3>
         <ul class="update__highlights">
-          <li>No procedural idle-breath / blink / walk yet — Cosmo is a still being who turns his head.</li>
+          <li>No procedural idle-breath / blink / walk yet — Zorp is a still being who turns his head.</li>
           <li>Pet-affect saffron-blush tint disabled (was tied to traversed body materials; v2&#039;s shared <code>skinMaterial</code> needs a different approach).</li>
           <li>Trampoline jump-arc, climb-state, lip-sync via face-state swap are scaffolded in cosmoV2.ts but not yet wired through CosmoAgent.</li>
         </ul>
@@ -1668,7 +1694,7 @@
           </div>
         <h3>FIXED</h3>
         <ul class="update__highlights">
-          <li><strong>Cosmo&#039;s gezicht/ogen verdween na v1.5.0/v1.5.1</strong>: het oorspronkelijke <code>fixSkinWeights()</code> zero&#039;de de <code>bone_head</code>-slot weight en gaf alle weight aan <code>bone_eye_l/_r</code> — maar die eye-bones zitten op armature origin (0,0,0), NIET op gezichtshoogte. Resultaat: face-shell verts werden naar origin getrokken, zwart gat in gezicht + zwarte discs op kin/grond-niveau (zichtbaar in user-screenshot v1.5.1). <strong>Inversie</strong>: zero NU de eye-bone slots, redirect alle eye-weight naar <code>bone_head</code> (die wél op gezichtshoogte zit). Face-shell volgt rigide het hoofd. Eye-bones zijn na deze redirect decoratief (geen weight meer op enige vert). <code>eyeFrameCopyEnabled</code> flag uitgezet (overbodig). Verwacht ~1621 verts gemodificeerd (1519 bleed + 102 clean eye-shell).</li>
+          <li><strong>Zorp&#039;s gezicht/ogen verdween na v1.5.0/v1.5.1</strong>: het oorspronkelijke <code>fixSkinWeights()</code> zero&#039;de de <code>bone_head</code>-slot weight en gaf alle weight aan <code>bone_eye_l/_r</code> — maar die eye-bones zitten op armature origin (0,0,0), NIET op gezichtshoogte. Resultaat: face-shell verts werden naar origin getrokken, zwart gat in gezicht + zwarte discs op kin/grond-niveau (zichtbaar in user-screenshot v1.5.1). <strong>Inversie</strong>: zero NU de eye-bone slots, redirect alle eye-weight naar <code>bone_head</code> (die wél op gezichtshoogte zit). Face-shell volgt rigide het hoofd. Eye-bones zijn na deze redirect decoratief (geen weight meer op enige vert). <code>eyeFrameCopyEnabled</code> flag uitgezet (overbodig). Verwacht ~1621 verts gemodificeerd (1519 bleed + 102 clean eye-shell).</li>
         </ul>
         </div>
       </div>
@@ -1698,7 +1724,7 @@
         <div class="update__header">
           <span class="update__version">v1.5.0</span>
           <span class="update__date">2026-05-03</span>
-          <h2 class="update__title">05-03 — Wave 19a: rig fix + lore-pivot (no more Apogee-spoof)</h2>
+          <h2 class="update__title">05-03 — Wave 19a: rig fix + lore-pivot (no more spoof framing)</h2>
         </div>
         <div class="update__body">
           <div class="update__tags">
@@ -1707,16 +1733,16 @@
           </div>
         <h3>FIXED</h3>
         <ul class="update__highlights">
-          <li><strong>Cosmo&#039;s &quot;melting alien eyes&quot; tijdens head-pan</strong>: weight-bleed tussen <code>bone_head</code> en <code>bone_eye_l/_r</code> op <strong>1 519 face/eye verts</strong> (near-50/50 split, gediagnosticeerd in <code>.claude/brainstorm/wave19/01-rig-diagnosis.md</code>) zorgde voor face-shell shearing wanneer <code>applyMotion</code> + <code>applyAIBoneHints</code> de head-bone yaw&#039;den. De eye-bones zaten bovendien als siblings van <code>bone_root</code> direct onder <code>cosmo_armature</code>, dus head-rotatie propageerde niet naar de ogen. <strong>Fix in <code>CosmoAgent.fixSkinWeights()</code></strong> (post-load helper, GLB asset NIET aangepast): walks <code>geometry.attributes.skinWeight</code> + <code>skinIndex</code>, zero&#039;t de <code>bone_head</code>-slot weight op alle bleed-verts (<code>headW &gt; 0.1 &amp;&amp; eyeLW + eyeRW &gt; 0.3</code>), renormaliseert de overgebleven 3 weights naar sum=1, en reparent <code>bone_eye_l/_r</code> onder <code>bone_head</code> via <code>bone_head.attach()</code>. Frame-copy quaternion fallback (<code>USE_REPARENT = false</code>) ligt klaar voor het geval IBM&#039;s tegen <code>cosmo_armature</code> zijn gebakken (open Q #2 uit diagnosis). Debug yaw-sweep beschikbaar via <code>window.__debugRigYawSweep()</code> in devtools voor visuele QA. (<code>src/phaser/entities/CosmoAgent.ts</code>)</li>
+          <li><strong>Zorp&#039;s &quot;melting alien eyes&quot; tijdens head-pan</strong>: weight-bleed tussen <code>bone_head</code> en <code>bone_eye_l/_r</code> op <strong>1 519 face/eye verts</strong> (near-50/50 split, gediagnosticeerd in <code>.claude/brainstorm/wave19/01-rig-diagnosis.md</code>) zorgde voor face-shell shearing wanneer <code>applyMotion</code> + <code>applyAIBoneHints</code> de head-bone yaw&#039;den. De eye-bones zaten bovendien als siblings van <code>bone_root</code> direct onder <code>cosmo_armature</code>, dus head-rotatie propageerde niet naar de ogen. <strong>Fix in <code>CosmoAgent.fixSkinWeights()</code></strong> (post-load helper, GLB asset NIET aangepast): walks <code>geometry.attributes.skinWeight</code> + <code>skinIndex</code>, zero&#039;t de <code>bone_head</code>-slot weight op alle bleed-verts (<code>headW &gt; 0.1 &amp;&amp; eyeLW + eyeRW &gt; 0.3</code>), renormaliseert de overgebleven 3 weights naar sum=1, en reparent <code>bone_eye_l/_r</code> onder <code>bone_head</code> via <code>bone_head.attach()</code>. Frame-copy quaternion fallback (<code>USE_REPARENT = false</code>) ligt klaar voor het geval IBM&#039;s tegen <code>cosmo_armature</code> zijn gebakken (open Q #2 uit diagnosis). Debug yaw-sweep beschikbaar via <code>window.__debugRigYawSweep()</code> in devtools voor visuele QA. (<code>src/phaser/entities/CosmoAgent.ts</code>)</li>
         </ul>
 <h3>CHANGED (LORE)</h3>
         <ul class="update__highlights">
           <li><strong>Marketing-pages herframed</strong> rond Wave 19 Life System + companion-realiteit. Hero-tagline → &quot;Een aquarel-trip die zichzelf voortzet als jij stilzit.&quot; Pitch-paragraaf vervangen door &quot;Hij ademt. Hij wandelt. Als jij niets doet, blijft hij niet stilstaan.&quot;</li>
-          <li><strong><code>index.html</code></strong>: JSON-LD <code>description</code> + <code>alternateName</code> opgeschoond. Meta-pills &quot;10 Levels — MVP&quot; en &quot;Three.js + Phaser 4&quot; → &quot;Life System (Wave 19)&quot; en &quot;Motion-controlled&quot;. World-grid <code>L1-L10</code> tags weg. Footer Apogee-credit en &quot;Phaser 4&quot; weg (Three.js-only).</li>
-          <li><strong><code>public/lore/index.html</code></strong>: Funplex / Zonk / komeet / motorklep-plot vervangen door 146-woorden backstory snippet (Cormorant-italic). Biome-secties stripped van level-tags en Apogee-mechanics (Hint Globes, scooter, cheeseburger, blob-fight). Cast-grid (Brumberry/Hopper/Eye Plant/Blob) vervangen door Companion-grid (Cosmo / hallucination-particles / trampolines).</li>
+          <li><strong><code>index.html</code></strong>: JSON-LD <code>description</code> + <code>alternateName</code> opgeschoond. Meta-pills &quot;10 Levels — MVP&quot; en &quot;Three.js + Phaser 4&quot; → &quot;Life System (Wave 19)&quot; en &quot;Motion-controlled&quot;. World-grid <code>L1-L10</code> tags weg. Footer-credit voor het oude voorbeeld en &quot;Phaser 4&quot; weg (Three.js-only).</li>
+          <li><strong><code>public/lore/index.html</code></strong>: Oude plot-tekst vervangen door 146-woorden backstory snippet (Cormorant-italic). Biome-secties stripped van level-tags en oude platformer-mechanics. Cast-grid (Brumberry/Hopper/Eye Plant/Blob) vervangen door Companion-grid (Zorp / hallucination-particles / trampolines).</li>
           <li><strong><code>public/press/index.html</code></strong>: complete press-kit vervangen door noindex meta-refresh redirect → <code>/lore/</code>.</li>
-          <li><strong><code>public/support/index.html</code></strong>: tier &quot;Hint Globe Sponsor&quot; → &quot;Vibe Sponsor&quot; (Suno-track of biome-particle-set sponsor). Tier &quot;Bonus Room Builder&quot; → &quot;Hallucination Patron&quot; (seasonal hallucination-event-pack). FAQ-item Apogee/3D Realms → &quot;Is dit een drugsspel?&quot; met eerlijk antwoord. ElevenLabs-where regel &quot;Hint Globe voices&quot; → &quot;Companion-voices&quot;.</li>
-          <li><strong><code>public/thanks/index.html</code></strong>: &quot;uit de grond van Zonk&#039;s mushroom-cream stronken&quot; → &quot;uit de aquarel-grond zelf&quot;. Tier-namen in bevestigings-tekst aangepast.</li>
+          <li><strong><code>public/support/index.html</code></strong>: tier &quot;Hint Globe Sponsor&quot; → &quot;Vibe Sponsor&quot; (Suno-track of biome-particle-set sponsor). Tier &quot;Bonus Room Builder&quot; → &quot;Hallucination Patron&quot; (seasonal hallucination-event-pack). FAQ-item over het oude voorbeeld vervangen. ElevenLabs-where regel &quot;Hint Globe voices&quot; → &quot;Companion-voices&quot;.</li>
+          <li><strong><code>public/thanks/index.html</code></strong>: oude plaatsnaam → &quot;uit de aquarel-grond zelf&quot;. Tier-namen in bevestigings-tekst aangepast.</li>
           <li><strong>Logo/favicon swap</strong>: alle pagina&#039;s wijzen nu naar <code>/assets/sprites/cosmo-hero-lora.png</code> (Sprint 16A canonical, post-LoRA DNA-correct) i.p.v. <code>cosmo-hero-cleaned.png</code>.</li>
         </ul>
         </div>
@@ -1736,7 +1762,7 @@
           <span class="tag tag--fix">Fix</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line"><strong>4-agent parallel pass</strong> op user-feedback &quot;interactie voelt nog niet smooth, Cosmo vervormt de hele tijd terwijl je een raar fluitje hoort&quot;. Audio + post-FX + gameplay + visual-coherence parallel gediagnosticeerd en gefixt.</p>
+          <p class="update__lead-line"><strong>4-agent parallel pass</strong> op user-feedback &quot;interactie voelt nog niet smooth, Zorp vervormt de hele tijd terwijl je een raar fluitje hoort&quot;. Audio + post-FX + gameplay + visual-coherence parallel gediagnosticeerd en gefixt.</p>
         </div>
         <h3>CHANGED</h3>
         <ul class="update__highlights">
@@ -1752,7 +1778,7 @@
         </ul>
 <h3>DOCUMENTATION</h3>
         <ul class="update__highlights">
-          <li><strong><code>cosmoStage.ts</code></strong>: complete render-pipeline trace + invariant comment toegevoegd zodat toekomstige agents niet per ongeluk Cosmo door de post-FX composer pipen (DNA-lock breekt anders). Defensieve <code>setRenderTarget(null)</code> in <code>render()</code> toegevoegd; verifieerd dat post-FX (fluid/kaleido/chroma/bloom) Cosmo niet raakt — perceptie van &quot;Cosmo vervormt&quot; komt van chroma fringe + bloom halo van parallax-pixels rondom hem (post-fx baseline al gekalmeerd).</li>
+          <li><strong><code>cosmoStage.ts</code></strong>: complete render-pipeline trace + invariant comment toegevoegd zodat toekomstige agents niet per ongeluk Zorp door de post-FX composer pipen (DNA-lock breekt anders). Defensieve <code>setRenderTarget(null)</code> in <code>render()</code> toegevoegd; verifieerd dat post-FX (fluid/kaleido/chroma/bloom) Zorp niet raakt — perceptie van &quot;Zorp vervormt&quot; komt van chroma fringe + bloom halo van parallax-pixels rondom hem (post-fx baseline al gekalmeerd).</li>
         </ul>
         </div>
       </div>
@@ -1771,7 +1797,7 @@
           <span class="tag tag--change">Wijziging</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line"><strong>Gameplay-shift</strong>: weg van runner (&quot;ren naar rechts&quot;), naar <strong>motion-controlled world explorer + stoned-watching companion</strong>. Cosmo blijft center, wereld scrollt NIET. Camera pant binnen biome-scene op gyro/mouse. Trampolines op fixed posities zijn enige interactie. 8s no-input → companion-AI neemt over, Cosmo wandelt zelf rond, kijkt, zit, slaapt na 90s met hallucination-particles. Embrace the weirdness.</p>
+          <p class="update__lead-line"><strong>Gameplay-shift</strong>: weg van runner (&quot;ren naar rechts&quot;), naar <strong>motion-controlled world explorer + stoned-watching companion</strong>. Zorp blijft center, wereld scrollt NIET. Camera pant binnen biome-scene op gyro/mouse. Trampolines op fixed posities zijn enige interactie. 8s no-input → companion-AI neemt over, Zorp wandelt zelf rond, kijkt, zit, slaapt na 90s met hallucination-particles. Embrace the weirdness.</p>
         </div>
         <h3>ADDED (17A — COSMO HANDMADE-RIG)</h3>
         <ul class="update__highlights">
@@ -1826,7 +1852,7 @@
         <div class="update__header">
           <span class="update__version">v1.2.0</span>
           <span class="update__date">2026-05-02</span>
-          <h2 class="update__title">05-02 — Sprint 16: DNA-correcte Cosmo via LoRA + 6 polish-fixes</h2>
+          <h2 class="update__title">05-02 — Sprint 16: DNA-correcte Zorp via LoRA + 6 polish-fixes</h2>
         </div>
         <div class="update__body">
           <div class="update__tags">
@@ -1843,7 +1869,7 @@
           <li>Hero gen via <code>fal-ai/flux-lora</code> met LoRA + ESRGAN 4× → <code>cosmo-hero-lora.png</code> 4096² RGBA</li>
           <li>DNA-checklist <strong>10/10</strong>: pearl-drop [x], chameleon bulging eyes [x], geen blozende wangen [x], single antenne+flower [x], <strong>two clean black flat suction-cup discs</strong> [x] (organisch, geen PIL-paint workaround), faded-rose spots [x], no tail [x], no vinger-handen [x], watercolor + paper-grain [x], slight uncute [x]</li>
           <li>Halo fringe 14.3px (Sprint 14A was 24px — verbeterd)</li>
-          <li>Cost ~$3-5 (training + 10 generation attempts + ESRGAN). Recoupt na ~10 toekomstige Cosmo-renders ($0.05 via LoRA vs $0.45 via PIL-painting)</li>
+          <li>Cost ~$3-5 (training + 10 generation attempts + ESRGAN). Recoupt na ~10 toekomstige Zorp-renders ($0.05 via LoRA vs $0.45 via PIL-painting)</li>
         </ul>
 <h3>FIXED (16B — COSMO 3D REBUILD MET CLEAN LORA-INPUT)</h3>
         <ul class="update__highlights">
@@ -1874,7 +1900,7 @@
         <ul class="update__highlights">
           <li>DRACOLoader integratie → swap raw GLB naar 752KB Draco asset (13× kleiner)</li>
           <li>Per-biome obstacle-pool variations (boss-biome krijgt eigen weirdo-set)</li>
-          <li>Cosmo-LoRA pose-variation: 6 walk/jump/cling frames via LoRA + procedural skeletons</li>
+          <li>Zorp-LoRA pose-variation: 6 walk/jump/cling frames via LoRA + procedural skeletons</li>
           <li>ElevenLabs custom voice library: meer cosmo-coo + biome-specific stingers</li>
         </ul>
         </div>
@@ -1886,7 +1912,7 @@
         <div class="update__header">
           <span class="update__version">v1.1.0</span>
           <span class="update__date">2026-05-02</span>
-          <h2 class="update__title">05-02 — Sprint 15: 3D Cosmo + weirdo auto-runner</h2>
+          <h2 class="update__title">05-02 — Sprint 15: 3D Zorp + weirdo auto-runner</h2>
         </div>
         <div class="update__body">
           <div class="update__tags">
@@ -1894,7 +1920,7 @@
           <span class="tag tag--change">Wijziging</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">GROND-UP gameplay-rebuild #2. Pivot van rhythm-trip naar <strong>weird auto-runner met agency</strong> — Cosmo loopt door een 3D-scene op de muziek, speler begeleidt met swipes/taps, Cosmo heeft eigen agenda (negeert input 20% v/d tijd, knipoogt zomaar, loopt achteruit). Geen game-over. WEIRDO-energy expliciet ingebakken: niet een speelervaring waarin de speler de baas is over een schattig wezen, maar één waarin een eigenaardig wezen JOU laat meelopen in zijn dag.</p>
+          <p class="update__lead-line">GROND-UP gameplay-rebuild #2. Pivot van rhythm-trip naar <strong>weird auto-runner met agency</strong> — Zorp loopt door een 3D-scene op de muziek, speler begeleidt met swipes/taps, Zorp heeft eigen agenda (negeert input 20% v/d tijd, knipoogt zomaar, loopt achteruit). Geen game-over. WEIRDO-energy expliciet ingebakken: niet een speelervaring waarin de speler de baas is over een schattig wezen, maar één waarin een eigenaardig wezen JOU laat meelopen in zijn dag.</p>
         </div>
         <h3>ADDED (15A — MESHY 3D COSMO)</h3>
         <ul class="update__highlights">
@@ -1938,7 +1964,7 @@
           <li><code>OnboardingDirector</code> state-machine: AWAIT_TOUCH → PORTAL_OPENING (1.5s) → COSMO_ARRIVING (1.5s) → BONDING (1.0s) → WALKING_FIRST_HINT → COMPLETE</li>
           <li><code>NebulaPortal</code> (Phaser canvas-drawn, 6 concentric rings, ease-out-cubic radial expand, palette saffron→faded-rose→ink-aubergine, per-ring breath + lichte rotation-eccentriciteit)</li>
           <li><code>HintGlyph</code> chevron-arrow + Cormorant-Garamond italic &quot;veeg omhoog&quot;, anchored aan closest live obstacle, 1.6Hz bob → 3Hz intensify-pulse na 5s no-input</li>
-          <li><strong>Wave-uncanny</strong> clip: te-traag, te-lang, te-gelocked. Eyes-locked-on-camera. &quot;Alsof Cosmo JOU ontdekt&quot;</li>
+          <li><strong>Wave-uncanny</strong> clip: te-traag, te-lang, te-gelocked. Eyes-locked-on-camera. &quot;Alsof Zorp JOU ontdekt&quot;</li>
           <li>Audio-stinger: bestaande <code>globe-l1-1.mp3</code> (3-syllable Hint Globe voice — kid-alien babble)</li>
           <li>localStorage <code>cosmosOnboardingComplete</code> skip portal+arrival voor return-users</li>
           <li>Geen text-instruction in stappen 0-2.5s</li>
@@ -1951,11 +1977,11 @@
         </ul>
 <h3>OPEN VOOR SPRINT 16</h3>
         <ul class="update__highlights">
-          <li><strong>Cosmo-LoRA fine-tune</strong> ($10-15) voor permanente DNA-fix in 4K renders + procedural-anim variants</li>
+          <li><strong>Zorp-LoRA fine-tune</strong> ($10-15) voor permanente DNA-fix in 4K renders + procedural-anim variants</li>
           <li>Draco compress cosmo.glb (8MB → 2MB) in build-pipeline</li>
           <li>2 extra weirdo objects: levitating-tongue-bridge + antenna-flower-rain</li>
           <li>Per-biome obstacle-pool variations</li>
-          <li>ElevenLabs custom Cosmo gibberish-voice library (3 varianten)</li>
+          <li>ElevenLabs custom Zorp gibberish-voice library (3 varianten)</li>
         </ul>
         </div>
       </div>
@@ -1973,11 +1999,11 @@
           <span class="tag tag--change">Wijziging</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">v1.0.0&#039;s eerste live demo had drie zichtbare gebreken: kawaii Cosmo, dubbele blended backgrounds, en HUD-clutter. Sprint 14 fixt alle drie + voegt drift-loose default mode toe (geen rhythm-druk, hypnose first).</p>
+          <p class="update__lead-line">v1.0.0&#039;s eerste live demo had drie zichtbare gebreken: kawaii Zorp, dubbele blended backgrounds, en HUD-clutter. Sprint 14 fixt alle drie + voegt drift-loose default mode toe (geen rhythm-druk, hypnose first).</p>
         </div>
         <h3>OPEN VOOR SPRINT 15+</h3>
         <ul class="update__highlights">
-          <li>Cosmo-LoRA fine-tune ($10-15, permanente DNA-fix)</li>
+          <li>Zorp-LoRA fine-tune ($10-15, permanente DNA-fix)</li>
           <li>Alpha-lerp crossfade tussen biomes (visuele transitie ipv hard-swap)</li>
           <li>Asset-cleanup: legacy slow-bloom-v2/, tile/enemy assets uit dist</li>
           <li>Bubble-textures + hallucination-particles wiren in BeatTarget/TrippyEventDirector</li>
@@ -1999,8 +2025,8 @@
           </div>
         <div class="update__lead">
           <p class="update__lead-line">GROND-UP REBUILD. Pivot van platformer-experiment naar mobile-first hypnotische rhythm-trip. <em>&quot;Geen game. Geen score. De track is de game.&quot;</em></p>
-          <p class="update__lead-line">5 sprints (13A-13E) parallel: foundation strip + BeatScene + CosmoRig 8-band FFT-rig + AutoVJ + 5 mobile gestures (13A); JSON-DSL beatmap-loader + onset-detector Python + 4 base-track beatmaps (13B); BiomeManager 4-state crossfade + share-stack 60s clip + screenshot peak-detector + daily-streak + friend-seed (13C); premium $1.75/$10 asset-gen — Cosmo 4K hero, 4 biome-4K backgrounds (inkpool + boss 10/10 first-pass), 8 cosmic-bubbles, 6 hallucination-particles, splash-hero (13D); deploy v1.0.0 (13E).</p>
-          <p class="update__lead-line">Verwijderd: alle platformer-entities (L1Scene, Cosmo, Bomb, BreakableWall, HintGlobe, Star, Trampoline, alle enemies, HudOverlay, levelL1, oude biomes). Herzien: InputController gesture-bus, TouchOverlay simplified, audioFFTBridge.musicCurrentTime + setMusicTrack getters.</p>
+          <p class="update__lead-line">5 sprints (13A-13E) parallel: foundation strip + BeatScene + CosmoRig 8-band FFT-rig + AutoVJ + 5 mobile gestures (13A); JSON-DSL beatmap-loader + onset-detector Python + 4 base-track beatmaps (13B); BiomeManager 4-state crossfade + share-stack 60s clip + screenshot peak-detector + daily-streak + friend-seed (13C); premium $1.75/$10 asset-gen — Zorp 4K hero, 4 biome-4K backgrounds (inkpool + boss 10/10 first-pass), 8 cosmic-bubbles, 6 hallucination-particles, splash-hero (13D); deploy v1.0.0 (13E).</p>
+          <p class="update__lead-line">Verwijderd: alle platformer-entities (L1Scene, Zorp, Bomb, BreakableWall, HintGlobe, Star, Trampoline, alle enemies, HudOverlay, levelL1, oude biomes). Herzien: InputController gesture-bus, TouchOverlay simplified, audioFFTBridge.musicCurrentTime + setMusicTrack getters.</p>
         </div>
         
         </div>
@@ -2029,7 +2055,7 @@
         <ul class="update__highlights">
           <li><strong><code>src/three/biomeManager.ts</code></strong> — 4-biome state-machine (slow-bloom → inkpool → cathedral → boss). 4s linear crossfade van <code>biomeIntensity</code> uniforms; track-end auto-cycle; long-hold-3s player-trigger via <code>requestPlayerSwitch()</code>. Hooks voor track-swap zodat de AudioFFTBridge de eigenaar blijft van <code>&lt;audio&gt;</code>-elementen.</li>
           <li><strong><code>src/share/peakDetector.ts</code></strong> — vuurt op (<code>lows &gt; 0.7</code> 0.5s sustained) AND (combo &gt; 5 OR boss-biome). 30s cooldown zodat de auto-screenshot zeldzaam voelt. Callback-based — geen extra deps.</li>
-          <li><strong><code>src/share/captureScreen.ts</code></strong> — composiet 1080×1920 portret van de Three+Phaser canvases met glassmorph card (track-naam, biome, combo, taps, watermerk + URL) en optionele Cosmo-cirkel.</li>
+          <li><strong><code>src/share/captureScreen.ts</code></strong> — composiet 1080×1920 portret van de Three+Phaser canvases met glassmorph card (track-naam, biome, combo, taps, watermerk + URL) en optionele Zorp-cirkel.</li>
           <li><strong><code>src/share/captureClip.ts</code></strong> — <code>ClipRecorder</code> met <code>MediaRecorder</code> (vp9/opus → mp4/avc1 fallback), eigen rAF tikt offscreen-canvas op 30fps, audio-tap via <code>AudioFFTBridge.captureStream()</code>. 60s default, manual stop ondersteund.</li>
           <li><strong><code>src/share/shareCardOverlay.ts</code></strong> — DOM-modal met preview, &quot;Save to Photos&quot;, &quot;Copy share link&quot;, auto-dismiss na 8s. Plus <code>showStreakPill()</code> voor de &quot;Dag X in de trip&quot;-toast.</li>
           <li><strong><code>src/share/dailyStreak.ts</code></strong> — localStorage streak counter (<code>cosmosLastVisit</code>, <code>cosmosStreak</code>, <code>cosmosLongest</code>), milestones day-7 / day-30. Local-date YYYYMMDD, idempotent intra-session.</li>
@@ -2060,7 +2086,7 @@
           <span class="tag tag--change">Wijziging</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">Op live playtest van v0.7.3 viel direct op dat de online versie er als 1992 uit zag — Cosmo was een stick-puppet, HUD was clipart, tiles waren patroon-tegels, en muziek speelde <strong>helemaal niet</strong>. Sprint 11 pakt alles in één klap aan: 4 parallelle teams (Cosmo HD-rerender, HUD volledige redesign, tile-set redesign, audio-debug) en deploy.</p>
+          <p class="update__lead-line">Op live playtest van v0.7.3 viel direct op dat de online versie er gedateerd uit zag — Zorp was een stick-puppet, HUD was clipart, tiles waren patroon-tegels, en muziek speelde <strong>helemaal niet</strong>. Sprint 11 pakt alles in één klap aan: 4 parallelle teams (Zorp HD-rerender, HUD volledige redesign, tile-set redesign, audio-debug) en deploy.</p>
         </div>
         <h3>ADDED (11A — COSMO POSES HD-RERENDER)</h3>
         <ul class="update__highlights">
@@ -2099,7 +2125,7 @@
         </ul>
 <h3>NIET GEDAAN (SPRINT 12+)</h3>
         <ul class="update__highlights">
-          <li>Cosmo-LoRA fine-tune of Meshy 3D rig (echte pose-variation, niet via img2img)</li>
+          <li>Zorp-LoRA fine-tune of Meshy 3D rig (echte pose-variation, niet via img2img)</li>
           <li>Walk-1/walk-2 eye-drift fix (per-frame seed-lock pass, $0.18)</li>
           <li>Spike-strip wiring (decodeLevel refactor om contiguous <code>^</code> runs te detecteren)</li>
           <li>Ladder + grass-strip in L-grid (nieuwe legend-char <code>L</code> voor klimroutes)</li>
@@ -2198,7 +2224,7 @@
         <div class="update__header">
           <span class="update__version">v0.7.1</span>
           <span class="update__date">2026-05-01</span>
-          <h2 class="update__title">05-01 — Sprint 8: hot-fix — asset paths, Cosmo polish, Suno-prep</h2>
+          <h2 class="update__title">05-01 — Sprint 8: hot-fix — asset paths, Zorp polish, Suno-prep</h2>
         </div>
         <div class="update__body">
           <div class="update__tags">
@@ -2207,7 +2233,7 @@
           <span class="tag tag--feat">Feature</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">Live playtest van v0.7.0 toonde alleen Phaser fallback-rectangles in plaats van sprites — alle 31 asset-loads gingen naar <code>theuws.com/assets/...</code> ipv <code>theuws.com/games/cosmos-2026/assets/...</code>. Sprint 8 patcht het, plus build-pipeline veiligheid, Cosmo state-machine polish, en Suno-API integratie (klaar voor music-swap zodra credits getopt zijn).</p>
+          <p class="update__lead-line">Live playtest van v0.7.0 toonde alleen Phaser fallback-rectangles in plaats van sprites — alle 31 asset-loads gingen naar <code>theuws.com/assets/...</code> ipv <code>theuws.com/games/cosmos-2026/assets/...</code>. Sprint 8 patcht het, plus build-pipeline veiligheid, Zorp state-machine polish, en Suno-API integratie (klaar voor music-swap zodra credits getopt zijn).</p>
         </div>
         <h3>FIXED (8A — ASSET BASE_URL PATHS, KRITIEK)</h3>
         <ul class="update__highlights">
@@ -2247,7 +2273,7 @@
         <ul class="update__highlights">
           <li>4 Suno tracks renderen (blocked op credit top-up — single python-script-run zodra opgelost)</li>
           <li>Walk-1/walk-2 eye-drift fix (per-frame seed-lock, $0.18) — TODO-comment in Cosmo.ts</li>
-          <li>Bomb pickup → Cosmo invuln-frames bij death state (edge-case)</li>
+          <li>Bomb pickup → Zorp invuln-frames bij death state (edge-case)</li>
           <li>L2/L3/L4 levels</li>
           <li>Save-state / progressie tracking</li>
         </ul>
@@ -2268,14 +2294,14 @@
           <span class="tag tag--change">Wijziging</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">Vier agents tegelijk: multi-frame Cosmo anim (7A), mobile/touch-controls (7B), bundle-size optimalisatie (7C), enemy + bomb sprite-generation pass (7D). Resultaat: Cosmo loopt en springt nu echt anders, mobile is speelbaar, main bundle is van 2.2MB naar 48KB en alle 12 enemies + bomb-stack hebben definitieve assets.</p>
+          <p class="update__lead-line">Vier agents tegelijk: multi-frame Zorp anim (7A), mobile/touch-controls (7B), bundle-size optimalisatie (7C), enemy + bomb sprite-generation pass (7D). Resultaat: Zorp loopt en springt nu echt anders, mobile is speelbaar, main bundle is van 2.2MB naar 48KB en alle 12 enemies + bomb-stack hebben definitieve assets.</p>
         </div>
         <h3>ADDED (7A — MULTI-FRAME COSMO ANIM)</h3>
         <ul class="update__highlights">
           <li><strong>6 pose-frames</strong> in <code>public/assets/sprites/v3/</code>: cosmo-walk-1, cosmo-walk-2, cosmo-jump-up, cosmo-jump-fall, cosmo-cling-right, cosmo-hurt — alle BiRefNet&#039;d transparant</li>
           <li><strong>Pipeline-doorbraak</strong>: <code>fal-ai/flux-control-lora-canny</code> met <strong>programmatische stick-figure skeletons</strong> (PIL-rendered, geen handgetekende sketches nodig). Recipe: skeleton-only + control_lora_strength 1.2 + style-first prompt</li>
           <li><strong>Sprint 5B/6A failure-modes definitief opgelost</strong>: image-to-image als pose-anchor (nee), text-only suction-cups (nee), inpaint-refinement (nee). ControlNet/canny met skeletons geeft hard pose-constraint.</li>
-          <li>Cosmo state-machine: <code>playStateAnim()</code> vervangen door <code>updateAnim(dt)</code> texture-swap. Walk-cycle alterneert walk-1/walk-2 elke 133ms via <code>walkPhase</code> accumulator. Cling: <code>setFlipX(clingSide &lt; 0)</code> voor left-wall mirror. Damage + death gebruiken cosmo-hurt.</li>
+          <li>Zorp state-machine: <code>playStateAnim()</code> vervangen door <code>updateAnim(dt)</code> texture-swap. Walk-cycle alterneert walk-1/walk-2 elke 133ms via <code>walkPhase</code> accumulator. Cling: <code>setFlipX(clingSide &lt; 0)</code> voor left-wall mirror. Damage + death gebruiken cosmo-hurt.</li>
         </ul>
         <figure class="update__figure update__figure--grid update__figure--cols-4">
             <div class="update__grid">
@@ -2301,9 +2327,9 @@
         <ul class="update__highlights">
           <li><strong><code>src/ui/touchOverlay.ts</code></strong> (nieuw): 4 canvas-drawn knoppen (LEFT/RIGHT 80px d-pad bottom-left + BOMB 80px / JUMP 100px bottom-right). Canvas-glyphs (chevron-arrows + ink-aubergine bomb-disk + saffron pressed-state). <strong>Geen emoji&#039;s, geen unicode-icons</strong> — pure canvas-primitives volgens project-regel.</li>
           <li><strong><code>src/core/deviceDetect.ts</code></strong> (nieuw): <code>isTouchDevice = (touch-capable) &amp;&amp; (innerWidth &lt; 1024)</code>. iPad Air landscape blijft desktop UX, iPad Mini portrait krijgt overlay, hybride laptops ≥1280 ook geen overlay.</li>
-          <li><strong><code>InputController.setVirtualInput()</code></strong>: rising-edge merge van virt + kb signals voor jump/bombJustPressed. Cosmo state-machine en fysica niet aangeraakt — alleen input-mapping.</li>
+          <li><strong><code>InputController.setVirtualInput()</code></strong>: rising-edge merge van virt + kb signals voor jump/bombJustPressed. Zorp state-machine en fysica niet aangeraakt — alleen input-mapping.</li>
           <li><strong>Responsive HUD</strong>: pills 16/14/12px (desktop / &lt;1024 / &lt;600), safe-area paddings rond HUD én overlay-root, viewport-fit=cover voor iPhone notch.</li>
-          <li><strong>Cosmo display-size</strong>: 120px desktop, 80px mobile via Phaser scale. Body geometry pixel-identiek (180×380 op 1024px source) → collision invariant.</li>
+          <li><strong>Zorp display-size</strong>: 120px desktop, 80px mobile via Phaser scale. Body geometry pixel-identiek (180×380 op 1024px source) → collision invariant.</li>
           <li><strong>&quot;Best on desktop&quot; disclaimer-pill</strong> met 6s auto-dismiss + close-button.</li>
           <li><strong>Playwright-tests</strong> op iPhone 14 Pro / iPad Mini / desktop allen groen.</li>
         </ul>
@@ -2345,7 +2371,7 @@
 <h3>SPRINT 7 ARCHITECTUUR-LERINGEN</h3>
         <ul class="update__highlights">
           <li><strong>Programmatische stick-figure skeletons + Flux Control LoRA Canny</strong> geeft hard pose-constraint. Skeleton-only (geen image_url als style-ref) op control_lora_strength 1.2 + style-first prompt is de werkende recipe. Geen handsketch nodig.</li>
-          <li><strong>Suction-cup-pads werkten one-shot op 4-legged crawler</strong> waar 12/12 op biped Cosmo faalden. Patroon: matching style-association + non-biped anatomy omzeilt training-bias. Toekomstige Cosmo-DNA NPCs kunnen hierop bouwen.</li>
+          <li><strong>Suction-cup-pads werkten one-shot op 4-legged crawler</strong> waar 12/12 op biped Zorp faalden. Patroon: matching style-association + non-biped anatomy omzeilt training-bias. Toekomstige Zorp-DNA NPCs kunnen hierop bouwen.</li>
           <li><strong>BiRefNet polling</strong>: <code>response_url</code> is HTTP 400 tijdens IN_QUEUE — poll <code>status_url</code> tot COMPLETED, dan response_url fetchen. Algemene fal.ai gotcha — gefixed in Sprint 7D <code>generate.py</code>.</li>
           <li><strong>Tile-trap fix-recipe</strong>: drop &quot;psychedelic illustration&quot; + &quot;cosmic-adventure mood&quot; termen (scene-magnets) en gebruik stripped close-up macro prompt + stacked anti-landscape negatives.</li>
           <li><strong>Spark-hazard fix</strong>: lead met &quot;ONE tiny X hazard, NOT a creature NOT a body NOT fur&quot; upfront — voorkomt body-growth rond abstract concept.</li>
@@ -2376,7 +2402,7 @@
           <span class="tag tag--change">Wijziging</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">Vier agents tegelijk: Cosmo canonical inpaint-fix (6A), enemies + damage-systeem (6B), bombs + VFX + breekbare walls (6C), audio-FFT bridge (6D). Resultaat: L1 is van een speel-loop met items + parallax naar een <strong>echte gameplay-sandbox</strong> met vijanden, kills, bombs, walls, en muziek-reactieve post-FX.</p>
+          <p class="update__lead-line">Vier agents tegelijk: Zorp canonical inpaint-fix (6A), enemies + damage-systeem (6B), bombs + VFX + breekbare walls (6C), audio-FFT bridge (6D). Resultaat: L1 is van een speel-loop met items + parallax naar een <strong>echte gameplay-sandbox</strong> met vijanden, kills, bombs, walls, en muziek-reactieve post-FX.</p>
         </div>
         <h3>ADDED (6A — COSMO CANONICAL V2)</h3>
         <ul class="update__highlights">
@@ -2408,7 +2434,7 @@
 <h3>ADDED (6C — BOMBS + EXPLOSION VFX + BREEKBARE WALLS)</h3>
         <ul class="update__highlights">
           <li><strong>Bomb entity</strong> (<code>src/phaser/entities/Bomb.ts</code>): throw-arc ±320X / -450Y, 1.5s fuse met red/cream blink-tween in laatste 0.6s, 64px explosion-radius, 0.4s throw-cooldown</li>
-          <li><strong>Cosmo throw-action</strong>: <code>bombJustPressed</code> AND <code>bombs &gt; 0</code> → squash-tween + spawn (bestaande <code>bombs</code> counter wordt nu echt gebruikt)</li>
+          <li><strong>Zorp throw-action</strong>: <code>bombJustPressed</code> AND <code>bombs &gt; 0</code> → squash-tween + spawn (bestaande <code>bombs</code> counter wordt nu echt gebruikt)</li>
           <li><strong>BreakableWall entity</strong> (<code>src/phaser/entities/BreakableWall.ts</code>): legend <code>B</code>, ink-crack overlay (Graphics, 3 lijnen + saffron tip-dot), 280ms scale/alpha tween-out bij explosion-overlap</li>
           <li><strong>Bomb-pickup</strong> (legend <code>Q</code>): overlap-only sprite, <code>cosmo.pickupBomb(1)</code>, scale-up + fade-tween</li>
           <li><strong>BombTarget contract</strong> afgestemd met 6B: enemies registreren in <code>bombTargets[]</code>, <code>vulnerableToBomb</code> flag wordt gerespecteerd</li>
@@ -2434,12 +2460,12 @@
         <ul class="update__highlights">
           <li><strong>Flux Fill werkt voor ADD-geometry</strong> in lege canvas-zones, <strong>niet voor REMOVE met semantic anti-prompt</strong> (sample-bias wint). Voor REMOVE: PIL alpha-erase deterministisch, $0.</li>
           <li><strong>Refinement-passes zijn risk-prone</strong> (Flux interpreteerde gemaskeerde claw-zone als &quot;small entity attached to disc&quot; → mini-extra-head op v4). Stop bij eerste werkbare result.</li>
-          <li><strong>Injection-pattern voor scene→entity hooks</strong>: <code>cosmo.attachBombHooks({ throwBomb })</code> voorkomt circular import (Cosmo zou anders L1Scene moeten importeren).</li>
+          <li><strong>Injection-pattern voor scene→entity hooks</strong>: <code>cosmo.attachBombHooks({ throwBomb })</code> voorkomt circular import (Zorp zou anders L1Scene moeten importeren).</li>
           <li><strong>BombTarget interface</strong> als runtime-contract laat 6B en 6C parallel werken zonder file-conflicts. Pattern voor toekomstige cross-system features (e.g. damage-modifiers, status-effects).</li>
         </ul>
 <h3>NIET GEDAAN (SPRINT 7)</h3>
         <ul class="update__highlights">
-          <li>Multi-frame Cosmo anim (ControlNet of sketch-to-img — image-to-image bewezen niet)</li>
+          <li>Multi-frame Zorp anim (ControlNet of sketch-to-img — image-to-image bewezen niet)</li>
           <li>Suno-tracks genereren (handmatig via suno.com — niet binnen agent scope)</li>
           <li>Mobile/touch-controls</li>
           <li>Bundle-size optimalisatie (<code>manualChunks</code> voor Three.js + Phaser zou de 2.2MB main chunk halveren)</li>
@@ -2461,7 +2487,7 @@
           <span class="tag tag--feat">Feature</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">Vier agents tegelijk: trampolines (5A), Cosmo multi-frame anim test (5B), production deploy (5C), visual polish (5D). Resultaat: cosmos-2026 is <strong>live</strong>.</p>
+          <p class="update__lead-line">Vier agents tegelijk: trampolines (5A), Zorp multi-frame anim test (5B), production deploy (5C), visual polish (5D). Resultaat: cosmos-2026 is <strong>live</strong>.</p>
         </div>
         <h3>🚀 LIVE OP PRODUCTIE</h3>
         <ul class="update__highlights">
@@ -2516,7 +2542,7 @@
         <div class="update__header">
           <span class="update__version">v0.5.1</span>
           <span class="update__date">2026-05-01</span>
-          <h2 class="update__title">05-01 — Sprint 4.5 Fase C: Cosmo canonical case study</h2>
+          <h2 class="update__title">05-01 — Sprint 4.5 Fase C: Zorp canonical case study</h2>
         </div>
         <div class="update__body">
           <div class="update__tags">
@@ -2524,8 +2550,7 @@
           <span class="tag tag--feat">Feature</span>
           </div>
         <div class="update__lead">
-          <p class="update__lead-line">Cosmo&#039;s huidige verschijning was technisch bruikbaar maar miste karakter. De gebruiker speelde Cosmo&#039;s Cosmic Adventure in 1992 onder invloed van psychedelica — Cosmo werd onderdeel van die persoonlijke trip-herinnering. Cosmos 2026 is dus geen aesthetic homage maar een herontwerp van een eigen acid-droom. Cosmo moest TE GEK worden + prominenter.</p>
-          <blockquote class="update__quote">Die moet echt wel heel duidelijk de 2026 versie van de &#039;oude&#039; zijn, dat was ook al zo&#039;n trippy ventje met zuignaphanden — Richard, 2026-05-01</blockquote>
+          <p class="update__lead-line">Zorp&#039;s huidige verschijning was technisch bruikbaar maar miste karakter. Hij moest TE GEK worden + prominenter.</p>
         </div>
         <h3>STAP 1 — 6 REDESIGN VARIANTEN</h3>
         <figure class="update__figure update__figure--grid update__figure--cols-6">
@@ -2553,19 +2578,19 @@
         <blockquote class="update__quote">H3 is te gek! — Richard</blockquote>
 <h3>STAP 3 — LOCKED CANONICAL</h3>
         <figure class="update__figure">
-            <img src="/assets/case-study/_LOCKED-REFERENCE.webp" alt="Locked canonical Cosmo — Hayao×Moebius+chameleon hybride (H3)" loading="lazy">
-            <figcaption>Locked canonical Cosmo — Hayao×Moebius+chameleon hybride (H3)</figcaption>
+            <img src="/assets/case-study/_LOCKED-REFERENCE.webp" alt="Locked canonical Zorp — Hayao×Moebius+chameleon hybride (H3)" loading="lazy">
+            <figcaption>Locked canonical Zorp — Hayao×Moebius+chameleon hybride (H3)</figcaption>
           </figure>
 <h3>ADDED</h3>
         <ul class="update__highlights">
-          <li><code>research/visual-references/_COSMO-CANONICAL.png</code> — Cosmo H3 locked</li>
+          <li><code>research/visual-references/_COSMO-CANONICAL.png</code> — Zorp H3 locked</li>
           <li><code>public/assets/sprites/v3/cosmo-canonical-cleaned.png</code> — BiRefNet-cleaned version voor in-game gebruik</li>
-          <li><code>cosmo_dna.md</code> memory-file met de complete 1992-DNA-tabel + Fase C learnings</li>
-          <li>L1Scene laadt nu canonical Cosmo voor alle 6 states (multi-frame anim komt via image-to-image in Sprint 5+)</li>
+          <li><code>cosmo_dna.md</code> memory-file met de complete character-DNA-tabel + Fase C learnings</li>
+          <li>L1Scene laadt nu canonical Zorp voor alle 6 states (multi-frame anim komt via image-to-image in Sprint 5+)</li>
         </ul>
 <h3>CHANGED</h3>
         <ul class="update__highlights">
-          <li>Cosmo display-size 80 → 120px voor &quot;TE GEK + prominenter&quot; eis</li>
+          <li>Zorp display-size 80 → 120px voor &quot;TE GEK + prominenter&quot; eis</li>
           <li>Tail wegcrop nog niet gedaan (text-prompt-bias) — kunnen we negeren door body-crop in Phaser</li>
         </ul>
 <h3>KNOWN ISSUES</h3>
@@ -2602,22 +2627,22 @@
             <figcaption>v1 Pixar-children-book (kawaii drift) · v2 Moebius woodcut (te abstract) · v3 Tenniel woodcut (te dark) · v4 cosmic+Moebius hybrid (LOCKED)</figcaption>
           </figure>
           <blockquote class="update__quote">Kies B-hybride (Cosmic Watercolor + kaleidoscope/fluo-pop/datamosh hallucinatie-pieken) — visie-document, locked</blockquote>
-          <p class="update__lead-line">Met het v4 keyframe als visuele waarheid genereerden we 22 nieuwe in-game assets allemaal met letterlijk dezelfde style-stem-prefix. Resultaat: ~80% coherentie tussen Cosmo, enemies, tiles, pickups en backgrounds.</p>
+          <p class="update__lead-line">Met het v4 keyframe als visuele waarheid genereerden we 22 nieuwe in-game assets allemaal met letterlijk dezelfde style-stem-prefix. Resultaat: ~80% coherentie tussen Zorp, enemies, tiles, pickups en backgrounds.</p>
         </div>
         <h3>ADDED</h3>
         <ul class="update__highlights">
           <li><strong>TrippyEventDirector</strong> — autonome event-scheduler die elke 8-15s een diëgetisch trippy event vuurt: cosmic-eclipse / spore-cloud / synesthesia-flash / reality-tear / gravity-wobble / star-rain / mushroom-pulse. Weighted-random, 4s cooldown</li>
           <li><strong>Canonical style-stem</strong> locked in <code>research/visual-references/_STYLE-STEM.md</code> op basis van keyframe v4 (hybrid Moebius woodcut + cosmic-saturated palette)</li>
-          <li><strong>22 nieuwe in-game assets</strong> allemaal met letterlijk dezelfde style-stem: 6 Cosmo frames + 3 enemies + 5 painted tiles + 4 painted pickups + 4 parallax-layers</li>
+          <li><strong>22 nieuwe in-game assets</strong> allemaal met letterlijk dezelfde style-stem: 6 Zorp frames + 3 enemies + 5 painted tiles + 4 painted pickups + 4 parallax-layers</li>
           <li><strong>4-laagse parallax</strong> (sky / far / mid / near) ipv 3 — biome-config supports optional sky-layer voor extreem diepe cosmic backdrop</li>
-          <li><code>cosmo_dna.md</code> memory voor 1992→2026 character-bridge eis</li>
+          <li><code>cosmo_dna.md</code> memory voor de character-DNA-eis</li>
         </ul>
 <h3>CHANGED</h3>
         <ul class="update__highlights">
           <li>L1Scene preload + populateLevel switcht van procedural Graphics-tiles naar painted PNG tiles</li>
           <li>Star + HintGlobe entities accepteren textureKey parameter — gebruiken painted pickup-art ipv canvas-graphics</li>
           <li>Slow Bloom biome wijst nu naar <code>slow-bloom-v2/</code> met de nieuwe 4 layers (cosmic moon-nebula sky, ink-aubergine mountains, glowing magenta-mushroom mid, foreground vines)</li>
-          <li>Cosmo display-size 80x80 met aangepaste body-offset voor de painted 1024 sprite</li>
+          <li>Zorp display-size 80x80 met aangepaste body-offset voor de painted 1024 sprite</li>
         </ul>
 <h3>MEMORY</h3>
         <ul class="update__highlights">
@@ -2628,7 +2653,7 @@
 <h3>KNOWN ISSUES (VOLGENDE SPRINT)</h3>
         <ul class="update__highlights">
           <li>tile-wall + tile-mushroom v1 werden full landscapes ondanks rider — v2-retry-pattern gevalideerd</li>
-          <li>Cosmo&#039;s suction-cups landden op voet ipv hands — Fase C (Cosmo case study) gaat dit fixen</li>
+          <li>Zorp&#039;s suction-cups landden op voet ipv hands — Fase C (Zorp case study) gaat dit fixen</li>
           <li>3/4 backgrounds hebben tiny human-figures ondanks <code>NO characters</code> — bekend Flux-bias</li>
           <li>HUD pill version-string nog v0.3.0 — fix volgende sprint</li>
         </ul>
@@ -2712,7 +2737,7 @@
           <li><code>src/data/biomes.ts</code> — 3 biome configs (Slow Bloom / Inkpool Hollow / Cloud Cathedral) met per-layer parallax-multipliers en LEVEL_TO_BIOME mapping</li>
           <li>3 nieuwe Slow Bloom backgrounds via Flux Pro: <code>bg-far.png</code> (sky + mountains), <code>bg-mid-cleaned.png</code> (cream mushroom canopy met BiRefNet alpha), <code>bg-near-cleaned.png</code> (faded-rose foreground frame met BiRefNet alpha)</li>
           <li>3 nieuwe Inkpool Hollow backgrounds (bonus generation) — staan klaar voor S5 wanneer L4-L6 levels landen</li>
-          <li>L1Scene gebruikt nu de echte FalSprite Cosmo-frames (walk-1/walk-2/walk-3 + jump-up + jump-fall + cling) met per-state texture-swap</li>
+          <li>L1Scene gebruikt nu de echte FalSprite Zorp-frames (walk-1/walk-2/walk-3 + jump-up + jump-fall + cling) met per-state texture-swap</li>
         </ul>
 <h3>CHANGED</h3>
         <ul class="update__highlights">
@@ -2754,7 +2779,7 @@
 <h3>CHANGED</h3>
         <ul class="update__highlights">
           <li>SandboxScene verwijderd — vervangen door L1Scene als hoofd-scene</li>
-          <li>Cosmo controller wired naar sfx-bus: cling-pop / jump / hurt vuren via Howler</li>
+          <li>Zorp controller wired naar sfx-bus: cling-pop / jump / hurt vuren via Howler</li>
           <li>play/index.html HUD-pill nu <code>v0.3.0 · L1 First Steps</code></li>
         </ul>
 <h3>FIXED</h3>
@@ -2763,7 +2788,7 @@
         </ul>
 <h3>PIPELINE</h3>
         <ul class="update__highlights">
-          <li>6 Cosmo animation-frames staan klaar in <code>public/assets/sprites/</code> voor S4 atlas-pack</li>
+          <li>6 Zorp animation-frames staan klaar in <code>public/assets/sprites/</code> voor S4 atlas-pack</li>
           <li>Star + HintGlobe entities gebruiken procedural Graphics-textures (geen externe assets nodig)</li>
         </ul>
         </div>
@@ -2775,7 +2800,7 @@
         <div class="update__header">
           <span class="update__version">v0.2.0</span>
           <span class="update__date">2026-05-01</span>
-          <h2 class="update__title">05-01 — Sprint 2: Cosmo controller + dual-canvas</h2>
+          <h2 class="update__title">05-01 — Sprint 2: Zorp controller + dual-canvas</h2>
         </div>
         <div class="update__body">
           <div class="update__tags">
@@ -2790,7 +2815,7 @@
           <li><code>src/core/canvasManager.ts</code> — single-rAF orchestrator met decay-uniform-helper</li>
           <li><code>src/core/inputController.ts</code> — keyboard met just-pressed-edge-detection voor jump en bomb</li>
           <li><code>src/three/parallaxScene.ts</code> — Three.js OrthographicCamera + 3 textured planes met parallax-multipliers (0.18 / 0.42 / 0.78)</li>
-          <li><code>src/phaser/entities/Cosmo.ts</code> — Cosmo controller met state-machine (idle/run/jump/fall/cling/damage/death), suction-cup wallcling, coyote-time, stomp-bounce, i-frames</li>
+          <li><code>src/phaser/entities/Cosmo.ts</code> — Zorp controller met state-machine (idle/run/jump/fall/cling/damage/death), suction-cup wallcling, coyote-time, stomp-bounce, i-frames</li>
           <li><code>src/phaser/scenes/SandboxScene.ts</code> — test-arena met procedural tile-textures, ground/walls/stair-steps/high-platform, debug-HUD overlay</li>
           <li><code>src/main.ts</code> — boot-flow met dev-mode <code>window.cosmos</code> exposure</li>
         </ul>
@@ -2802,7 +2827,7 @@
         </ul>
 <h3>VISUAL</h3>
         <ul class="update__highlights">
-          <li>Procedurele Cosmo placeholder (moss-sage met saffron eye-glow + faded-rose antenna-tip) — 1:1 body-texture match</li>
+          <li>Procedurele Zorp placeholder (moss-sage met saffron eye-glow + faded-rose antenna-tip) — 1:1 body-texture match</li>
           <li>Procedurele tile-set (ground sage / walls aubergine / stairs faded-rose / high-platforms saffron)</li>
           <li>Three.js parallax laadt automatisch 3 showcase-backgrounds (cathedral / jungle / cave)</li>
         </ul>
@@ -2814,7 +2839,7 @@
         </ul>
 <h3>PIPELINE</h3>
         <ul class="update__highlights">
-          <li>6 nieuwe Cosmo animation-frames gegenereerd via fal.ai (<code>public/assets/sprites/cosmo-walk-1/2/3</code>, <code>cosmo-jump-up</code>, <code>cosmo-jump-fall</code>, <code>cosmo-cling</code>) — staan klaar voor Sprint 3 atlas-pack</li>
+          <li>6 nieuwe Zorp animation-frames gegenereerd via fal.ai (<code>public/assets/sprites/cosmo-walk-1/2/3</code>, <code>cosmo-jump-up</code>, <code>cosmo-jump-fall</code>, <code>cosmo-cling</code>) — staan klaar voor Sprint 3 atlas-pack</li>
           <li>FalSprite gebleken niet als hosted fal.ai endpoint te bestaan; teruggevallen op individuele Flux Dev frames met BiRefNet remove-bg</li>
           <li>4 nieuwe lessen genoteerd in <code>shared/reference_asset_gen.md</code> (FalSprite-status, anti-blur prefix, profile-side-view-wint, tekst-only pose-limits)</li>
         </ul>
@@ -2843,7 +2868,7 @@
           <li>Sticky-nav component met paper-grain overlay en vignette</li>
           <li>Reveal-on-scroll IntersectionObserver in <code>public/assets/js/site.js</code></li>
           <li>Auto-generator <code>scripts/changelog-to-html.mjs</code> parseert dit bestand naar de updates-page</li>
-          <li>Homepage met hero (Cosmo bobbing tegen Cloud Cathedral background), 3-world showcase, numbers grid, about-strip, CTA banner</li>
+          <li>Homepage met hero (Zorp bobbing tegen Cloud Cathedral background), 3-world showcase, numbers grid, about-strip, CTA banner</li>
           <li>Play-launcher placeholder met sprint-progress-bar (Sprint 1/8 = 13%)</li>
           <li>Updates-page met auto-generated timeline-template + first entry (deze release)</li>
           <li>Support-page met &quot;stardust&quot; gamified counter, 4 tiers (Star Spotter / Hint Globe Sponsor / Bonus Room Builder / Episode Patron), 7-vraag FAQ</li>
@@ -2863,7 +2888,7 @@
         </ul>
 <h3>PIPELINE</h3>
         <ul class="update__highlights">
-          <li>8 fal.ai showcase-assets (Cosmo + 4 enemies + 3 backgrounds + logo) — verplaatst naar <code>public/showcase-assets/</code></li>
+          <li>8 fal.ai showcase-assets (Zorp + 4 enemies + 3 backgrounds + logo) — verplaatst naar <code>public/showcase-assets/</code></li>
           <li>gitignore-whitelist toegevoegd voor <code>cosmos-cosmic-adventure-2026/</code></li>
           <li>Eerste push naar <code>github.com/RichardTheuws/game-master.git</code></li>
         </ul>
@@ -2873,12 +2898,12 @@
       <!-- TIMELINE:END -->
 
   <div class="timeline-end">
-    Eerder werk staat in de volledige <a href="https://github.com/RichardTheuws/game-master/blob/main/cosmos-cosmic-adventure-2026/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG.md op GitHub</a>.
+    Eerder werk staat in de volledige <a href="https://github.com/RichardTheuws/cosmos-2026/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG.md op GitHub</a>.
   </div>
 </main>
 
 <footer class="site-footer">
-  <h4>Cosmos Cosmic Adventure 2026</h4>
+  <h4>Zorp's Universe</h4>
   <div class="site-footer__links">
     <a href="/">Home</a>
     <a href="/play/">Speel</a>

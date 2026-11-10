@@ -1490,7 +1490,7 @@
         "lora_path_param": "https://v3b.fal.media/files/b/0a98931e/10m_xs8iJYAfgyWc7fVbr_pytorch_lora_weights.safetensors",
         "lora_scale_default": 1.0,
         "trigger_word": "rtcosmo",
-        "recommended_prompt_template": "rtcosmo, [POSE], hayao moebius watercolor, NOT kawaii NOT chibi NOT Disney, chameleon bulging eye spheres, single antenna with faded rose flower bulb, two black flat suction cup discs at hand tips, no tail, faded rose spots on green moss-sage body, slim kid-frame, slightly uncute proportions",
+        "recommended_prompt_template": "rtcosmo, [POSE], hayao moebius watercolor, NOT kawaii NOT chibi NOT Disney, chameleon bulging eye spheres, single antenna with faded rose flower bulb, soft fingerless mitten hands with faintly saffron-glowing palms, no suction cups, no tail, faded rose spots on green moss-sage body, slim kid-frame, slightly uncute proportions",
         "use_cases": [
           "Future hero re-renders at any size",
           "Animation frame generation (walk/jump/cling) \u2014 no longer needs canonical-img2img which was architecturally blocked",

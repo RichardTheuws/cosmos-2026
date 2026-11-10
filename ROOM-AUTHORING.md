@@ -1,14 +1,14 @@
 # Room Authoring
 
-A **Room** is the focused scene Cosmo inhabits right now. One screen, fully alive.
+A **Room** is the focused scene Zorp inhabits right now. One screen, fully alive.
 
 Read [`NORTH-STAR.md`](./NORTH-STAR.md) first, then [`UNIVERSE-AUTHORING.md`](./UNIVERSE-AUTHORING.md) and [`AREA-AUTHORING.md`](./AREA-AUTHORING.md) — Rooms live inside Areas, which live inside Universes. This document is the technical contract for the Room tier.
 
 ## What a Room is
 
-NORTH-STAR §3 defines it directly: *"the focused scene Cosmo inhabits right now. One screen, fully alive. Sims-like density: a single room is packed with little side-quests, side-activities, things to discover. Cosmo can be at full presence here, walking, jumping on a trampoline, exploring small interactables."*
+NORTH-STAR §3 defines it directly: *"the focused scene Zorp inhabits right now. One screen, fully alive. Sims-like density: a single room is packed with little side-quests, side-activities, things to discover. Zorp can be at full presence here, walking, jumping on a trampoline, exploring small interactables."*
 
-A Room is where Cosmo lives — not a level, not a stage, not a screen between menus. It's a place. Cosmo walks around it, looks at things, picks things up, sits in glowing flowers, jumps on trampolines, watches eyeball-sentries blink at him. The user watches *him* live there. The Room is the unit of presence.
+A Room is where Zorp lives — not a level, not a stage, not a screen between menus. It's a place. Zorp walks around it, looks at things, picks things up, sits in glowing flowers, jumps on trampolines, watches eyeball-sentries blink at him. The user watches *him* live there. The Room is the unit of presence.
 
 Mechanically: a Room is an entry in `rooms.json` plus optional driver overrides in `behavior.ts`. The substrate handles loading, transitions, and lifecycle; you describe what's in the Room and (optionally) how it behaves richer than the defaults.
 
@@ -20,26 +20,26 @@ What density looks like in practice:
 
 - **Inhabitants** that breathe and react: an eyeball-sentry that blinks on event-peaks, a mouth-pillar that breathes in time with whatever music plays, a breathing-portal at the far edge of the Room that pulses softly.
 - **Background life** that's not directly interactive but creates a sense of liveness: spore-motes drifting at hip height, nectar dripping from the mushroom canopy, a floating star arcing slowly across the sky.
-- **Interactables** Cosmo can walk to and use: the trampoline, a fruit Cosmo can pick, a glowing flower he can sit in, a button that makes the world hum.
-- **Composition density**: 5–7 parallax layers in the composition-spec, not 2. Foreground decorations Cosmo can move past. A horizon that doesn't feel flat.
+- **Interactables** Zorp can walk to and use: the trampoline, a fruit Zorp can pick, a glowing flower he can sit in, a button that makes the world hum.
+- **Composition density**: 5–7 parallax layers in the composition-spec, not 2. Foreground decorations Zorp can move past. A horizon that doesn't feel flat.
 
-The forest's three Rooms (`clearing`, `deep-grove`, `the-hollow`) each have at least three of these. That's the bar. A Room with one tree and a Cosmo standing next to it is a wallpaper, not a Room.
+The forest's three Rooms (`clearing`, `deep-grove`, `the-hollow`) each have at least three of these. That's the bar. A Room with one tree and a Zorp standing next to it is a wallpaper, not a Room.
 
 Reviewers will not hard-block a sparse Room at PR time, but they will engage. If you ship a sparse Room deliberately — as a moment of stillness, a beat between busier Rooms — say so in your README. Stillness is valid; absence is not.
 
 ## The trampoline-analog principle
 
-NORTH-STAR §3 says it directly: *"The trampoline. A regular trampoline, in the room. Cosmo can walk to it and jump on it. He loves it. The user loves watching him love it. They keep coming back. This is the canonical 'delight loop' — every Room should have at least one of these (not always literally a trampoline, but its analog: a small, juicy, repeatable joy)."*
+NORTH-STAR §3 says it directly: *"The trampoline. A regular trampoline, in the room. Zorp can walk to it and jump on it. He loves it. The user loves watching him love it. They keep coming back. This is the canonical 'delight loop' — every Room should have at least one of these (not always literally a trampoline, but its analog: a small, juicy, repeatable joy)."*
 
-A delight-loop is something Cosmo can return to repeatedly that feels good every time. It is small, mechanical, and self-contained. Examples of trampoline-analogs you might author:
+A delight-loop is something Zorp can return to repeatedly that feels good every time. It is small, mechanical, and self-contained. Examples of trampoline-analogs you might author:
 
-- A fruit Cosmo can pick from a tree (it grows back after a beat).
+- A fruit Zorp can pick from a tree (it grows back after a beat).
 - A glowing flower he can sit in (it blooms brighter while he's there).
 - A button that makes the world hum (the hum's pitch shifts each press).
 - A puddle of nectar he can drink (he wags-equivalent — antenna-bob).
 - A pebble he can pat (the pebble sighs).
 
-The principle: it loops, it rewards watching, it doesn't require player skill. Cosmo loves it. The user loves watching him love it. That is the canonical Cosmo-game gesture.
+The principle: it loops, it rewards watching, it doesn't require player skill. Zorp loves it. The user loves watching him love it. That is the canonical Zorp-game gesture.
 
 Author at least one per Room. If you skip it, say why in your README.
 
@@ -53,7 +53,7 @@ Rooms live flat at the Universe level (`rooms.json`) so the substrate can do `ge
   "area": "the-mushroom-stand",
   "displayName": "The Clearing",
   "displayNameEn": "The Clearing",
-  "description": "A soft mushroom-cream open space where Cosmo arrives. The trampoline lives here.",
+  "description": "A soft mushroom-cream open space where Zorp arrives. The trampoline lives here.",
   "anchor": { "x": 0, "y": 0, "z": 0 },
   "cameraBounds": { "panRangeX": 1.6, "panRangeY": 0.6 },
   "biomeKey": "slow-bloom",
@@ -68,7 +68,7 @@ Rooms live flat at the Universe level (`rooms.json`) so the substrate can do `ge
 - **`area`** — area id this room belongs to. Must reference an entry in `areas.json`. Required from schema v1.1; missing values default to `manifest.defaultArea` for backwards-compat with Wave-20a Universes.
 - **`displayName`** / **`displayNameEn`** — same convention as Areas. Any language for the first; English ≤100 chars for the second.
 - **`description`** — one-sentence room summary. Reviewers and forks read this.
-- **`anchor`** — world-space `{ x, y, z }` where Cosmo is placed when he enters this Room. Set deliberately; the camera centres on it.
+- **`anchor`** — world-space `{ x, y, z }` where Zorp is placed when he enters this Room. Set deliberately; the camera centres on it.
 - **`cameraBounds`** — passed to `CosmoStage.setCameraBounds()` on enter. Optional; falls back to default pan ranges. See "Camera bounds" below.
 - **`biomeKey`** — optional reference to a key in the existing `BIOMES` registry. If present, the default background driver routes through `BiomeManager` for a known curve (matches forest rendering quality bar). Omit (or set `null`) for fully custom rooms whose background is defined entirely by `assets/backgrounds/<room-id>/composition-spec.json`.
 - **`exits[]`** — the room-graph edges. Each exit has `to` (target room id), `via` (the path's flavour string used by `behavior.transitions.roomToRoom` if you override), and `distance` (informational, used by the AI for traversal-cost heuristics).
@@ -77,7 +77,7 @@ Rooms live flat at the Universe level (`rooms.json`) so the substrate can do `ge
 
 The two are different by intent:
 
-**Inhabitants** are autonomous lives sharing Cosmo's space that he doesn't directly use. Eyeball-sentries that blink at him. Mouth-pillars that breathe. Breathing-portals that pulse. Floating-stars that drift. They make the Room feel populated. Cosmo notices them; he doesn't activate them.
+**Inhabitants** are autonomous lives sharing Zorp's space that he doesn't directly use. Eyeball-sentries that blink at him. Mouth-pillars that breathe. Breathing-portals that pulse. Floating-stars that drift. They make the Room feel populated. Zorp notices them; he doesn't activate them.
 
 ```ts
 export interface InhabitantHandle {
@@ -89,7 +89,7 @@ export interface InhabitantHandle {
 
 Authored via `behavior.inhabitants(ctx)` returning an `InhabitantHandle[]`. Default: empty array.
 
-**Interactables** are things Cosmo walks to and uses. The trampoline. A fruit. A door. A button. They have an `anchor` (where Cosmo walks to, in absolute stage space — Cosmo's home is the origin), a `range` (how close his AI considers him "at" them), and an `onUse(cosmo, api)` hook the substrate's InteractionDirector fires when he reaches the anchor. He gets there two ways: the visitor taps the interactable, or — after ~14 s without input — Cosmo picks one himself and wanders over. He stays for the clip's hold, then walks home.
+**Interactables** are things Zorp walks to and uses. The trampoline. A fruit. A door. A button. They have an `anchor` (where Zorp walks to, in absolute stage space — Zorp's home is the origin), a `range` (how close his AI considers him "at" them), and an `onUse(cosmo, api)` hook the substrate's InteractionDirector fires when he reaches the anchor. He gets there two ways: the visitor taps the interactable, or — after ~14 s without input — Zorp picks one himself and wanders over. He stays for the clip's hold, then walks home.
 
 ```ts
 export interface UseApi {
@@ -104,7 +104,7 @@ export interface InteractableHandle {
   range: number;
   /** 'bounce' runs the trampoline combo on arrival; default 'use'. */
   arrival?: 'use' | 'bounce';
-  /** What it is to Cosmo's inner life (Wave 28): wild spends a lot of energy,
+  /** What it is to Zorp's inner life (Wave 28): wild spends a lot of energy,
    *  play some, calm gives a little back, rest is where he sleeps. Drives what
    *  he picks on his own and how he reacts to a tap. Default 'play'. */
   nature?: 'wild' | 'play' | 'calm' | 'rest';
@@ -114,13 +114,13 @@ export interface InteractableHandle {
 }
 ```
 
-Cosmo has an inner life (`src/substrate/innerLife.ts`): energy, appetite for something new, and how he feels about you. Wild play tires him; tired he trudges; sleepy he goes to the room's `rest` interactable (or sleeps where he stands if there is none) and wakes rested. Give every room one `rest` and one `calm` thing, or he has nowhere to come down.
+Zorp has an inner life (`src/substrate/innerLife.ts`): energy, appetite for something new, and how he feels about you. Wild play tires him; tired he trudges; sleepy he goes to the room's `rest` interactable (or sleeps where he stands if there is none) and wakes rested. Give every room one `rest` and one `calm` thing, or he has nowhere to come down.
 
 A room can remember. `readMemory(key, fallback)` / `writeMemory(key, value)` from `src/substrate/StatePersistence.ts` give you a namespaced slot in the visitor's persisted state (`'forest.clearing.counts'`, `'forest.clearing.garden'`). Use it for what should still be true tomorrow — what they raised, what grew. `src/substrate/clock.ts` gives you the local hour (`currentHour()`, `?hour=` override), a dawn/day/dusk/night blend (`phaseFor`), and a calendar day-key, so a room can wash with real time and notice a new day.
 
 Authored via `behavior.interactables(ctx)` returning an `InteractableHandle[]`. Default: empty array. A complete interaction is two lines: `api.playClip('stretch', { holdS: 4 }); api.sfx('cling');`. The Clearing (`universes/forest/behavior.ts`) is the reference: trampoline, spore-puddle, sunbeam-patch, nap-cap — from wild to slow.
 
-The distinction matters because the companion-AI treats them differently. Inhabitants are *seen*; Interactables are *targeted*. A trampoline is an Interactable. The eyeball-sentry watching Cosmo bounce is an Inhabitant.
+The distinction matters because the companion-AI treats them differently. Inhabitants are *seen*; Interactables are *targeted*. A trampoline is an Interactable. The eyeball-sentry watching Zorp bounce is an Inhabitant.
 
 ## Camera bounds
 
@@ -130,7 +130,7 @@ The distinction matters because the companion-AI treats them differently. Inhabi
 "cameraBounds": { "panRangeX": 1.6, "panRangeY": 0.6 }
 ```
 
-Tighten for **small intimate Rooms** — a hollow under the ground, a spore-cellar, anywhere claustrophobic feels right. Smaller pan ranges focus the user's attention on Cosmo.
+Tighten for **small intimate Rooms** — a hollow under the ground, a spore-cellar, anywhere claustrophobic feels right. Smaller pan ranges focus the user's attention on Zorp.
 
 Widen for **vista Rooms** — a clearing with a wide horizon, a canopy room with sky in three directions. Larger pan ranges let the user explore the space with their gaze (or gyro on mobile).
 
@@ -138,7 +138,7 @@ If you omit `cameraBounds`, the substrate uses default pan ranges that work for 
 
 ## Linking Rooms with `exits[]`
 
-The room-graph is a directed graph. Each Room's `exits[]` lists the edges going *out* of it. The substrate doesn't auto-create back-edges; if you want bi-directional traversal (almost always — Cosmo should be able to walk back), declare both directions:
+The room-graph is a directed graph. Each Room's `exits[]` lists the edges going *out* of it. The substrate doesn't auto-create back-edges; if you want bi-directional traversal (almost always — Zorp should be able to walk back), declare both directions:
 
 ```json
 {
@@ -151,7 +151,7 @@ The room-graph is a directed graph. Each Room's `exits[]` lists the edges going 
 }
 ```
 
-Symmetric back-edges are convention; they are not enforced by the schema. Asymmetric exits (a one-way burrow Cosmo can fall down but not climb up) are valid — design intent, not a bug.
+Symmetric back-edges are convention; they are not enforced by the schema. Asymmetric exits (a one-way burrow Zorp can fall down but not climb up) are valid — design intent, not a bug.
 
 Cross-Area exits are valid (a Room in Area A exits to a Room in Area B). The substrate detects the Area transition and runs the gradient-cut instead of biome-blend automatically — you don't declare which transition fires; the spatial scope determines it.
 
@@ -159,7 +159,7 @@ Cross-Area exits are valid (a Room in Area A exits to a Room in Area B). The sub
 
 Default: biome-blend (architect doc §4.1) — 1.5–3.0s, mood lerps continuously between the two Rooms' resolved moods. The `pathExperience` you declared in `areas.json` colours the default biome-blend's flavour (its `ambient` tints the path, its `kind` selects the default driver variant).
 
-If your Room-to-Room walk needs more character than biome-blend provides — a literal mushroom-path with spore-motes drifting at hip height, a burrow-down where the camera tilts as Cosmo descends — override `behavior.transitions.roomToRoom`:
+If your Room-to-Room walk needs more character than biome-blend provides — a literal mushroom-path with spore-motes drifting at hip height, a burrow-down where the camera tilts as Zorp descends — override `behavior.transitions.roomToRoom`:
 
 ```ts
 transitions: {
@@ -167,7 +167,7 @@ transitions: {
 }
 ```
 
-Your driver returns a `TransitionDriver` with `run(): Promise<void>` and `dispose(): void`. The substrate awaits `run()` then disposes. Cosmo's position is set at transition midpoint (t=0.5) so he "lands" with the new mood — see architect doc §3.3.
+Your driver returns a `TransitionDriver` with `run(): Promise<void>` and `dispose(): void`. The substrate awaits `run()` then disposes. Zorp's position is set at transition midpoint (t=0.5) so he "lands" with the new mood — see architect doc §3.3.
 
 Authoring tip: most Rooms don't need a custom transition. Default biome-blend is the calm baseline; override only when the path between two specific Rooms wants to be its own moment. Overriding everything makes the world shake; overriding nothing flattens it. The forest overrides one path (mushroom-path) and uses defaults for the rest. Match that ratio.
 
@@ -184,7 +184,7 @@ Authoring tip: most Rooms don't need a custom transition. Default biome-blend is
 Open Claude Code in this repository, paste the block below to add a new Room to an existing Area.
 
 ````markdown
-You are helping me add a new Room to an existing Cosmo Universe Area. Read NORTH-STAR.md, UNIVERSE-AUTHORING.md, AREA-AUTHORING.md, and ROOM-AUTHORING.md first.
+You are helping me add a new Room to an existing Zorp Universe Area. Read NORTH-STAR.md, UNIVERSE-AUTHORING.md, AREA-AUTHORING.md, and ROOM-AUTHORING.md first.
 
 Then for universes/<UNIVERSE>/:
 1. Read existing rooms.json and areas.json.
@@ -193,7 +193,7 @@ Then for universes/<UNIVERSE>/:
    - area: "<AREA-ID>" (must reference an entry in areas.json)
    - displayName + displayNameEn
    - description: one sentence on what's in the Room
-   - anchor: { x, y, z } where Cosmo lands when he enters
+   - anchor: { x, y, z } where Zorp lands when he enters
    - cameraBounds: tighten for intimate Rooms, widen for vista Rooms (default ~1.6/0.6)
    - biomeKey: existing BIOMES key OR null for fully-custom background
    - exits[]: at least one edge connecting to an existing Room (with symmetric back-edge added to that Room)

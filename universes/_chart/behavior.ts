@@ -275,7 +275,7 @@ function openInvitationCard(): void {
 
   const body = document.createElement('p');
   body.textContent =
-    'Cosmos is an open world built by people who pair with Claude. Bring your own Universe — your room, your sound, your vibe — and your Cosmo can visit mine while mine visits yours.';
+    "Zorp's Universe is an open world built by people who pair with Claude. Bring your own Universe — your room, your sound, your vibe — and your Zorp can visit mine while mine visits yours.";
   Object.assign(body.style, {
     fontFamily: "'Inter', system-ui, sans-serif",
     fontSize: '1rem',

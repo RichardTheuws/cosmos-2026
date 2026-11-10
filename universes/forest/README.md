@@ -1,8 +1,8 @@
-# The Mushroom Forest — Cosmo's entry Universe
+# The Mushroom Forest — Zorp's entry Universe
 
-> *The first place Cosmo learned to wander.*
+> *The first place Zorp learned to wander.*
 
-This is the **canonical reference Universe** for the Cosmos-2026 substrate. It implements the full hybrid authoring contract — JSON spine + optional `behavior.ts` — and ships every optional behavior export so that any Claude-paired contributor copying this folder lands a working starting point for their own Universe.
+This is the **canonical reference Universe** for the Zorp's Universe substrate. It implements the full hybrid authoring contract — JSON spine + optional `behavior.ts` — and ships every optional behavior export so that any Claude-paired contributor copying this folder lands a working starting point for their own Universe.
 
 The forest's quality bar IS the substrate's quality bar. Read it side-by-side with the [`UNIVERSE-AUTHORING.md`](../../UNIVERSE-AUTHORING.md) contract and the architect's full design doc at [`.claude/brainstorm/wave21/01-substrate-architecture.md`](../../.claude/brainstorm/wave21/01-substrate-architecture.md).
 
@@ -12,7 +12,7 @@ The forest's quality bar IS the substrate's quality bar. Read it side-by-side wi
 
 A watercolor cosmic-mushroom forest in the Hayao×Moebius idiom. Slow-bloom mushrooms drip nectar from the canopy under a soft-pastel cosmic horizon. A single trampoline lives in the Clearing — the canonical delight-loop ([NORTH-STAR §3](../../NORTH-STAR.md)).
 
-This is the **entry Universe** for every Cosmo. It's where a new player arrives, where any cross-universe traveler returns to (Cosmo always knows the way home), and where contributors first learn the substrate by reading code instead of docs.
+This is the **entry Universe** for every Zorp. It's where a new player arrives, where any cross-universe traveler returns to (Zorp always knows the way home), and where contributors first learn the substrate by reading code instead of docs.
 
 ---
 
@@ -44,7 +44,7 @@ The architect contract ([`01-substrate-architecture.md`](../../.claude/brainstor
 
 ### Clearing — the entry Room
 
-A soft mushroom-cream open space. **The trampoline lives here.** This is where Cosmo arrives via the universe-arrival portal (saffron→ink-aubergine, 1.4s). The trampoline is wired through `behavior.ts::interactables` — the canonical delight-loop. Cosmo walks to it and jumps; the user watches him love it.
+A soft mushroom-cream open space. **The trampoline lives here.** This is where Zorp arrives via the universe-arrival portal (saffron→ink-aubergine, 1.4s). The trampoline is wired through `behavior.ts::interactables` — the canonical delight-loop. Zorp walks to it and jumps; the user watches him love it.
 
 ### Deep Grove — the slow wander
 
@@ -58,14 +58,14 @@ A burrow under the ground. Mouth-pillars breathe in time with the music (sprite-
 
 ## The trampoline-as-delight-loop
 
-> *"The trampoline. A regular trampoline, in the room. Cosmo can walk to it and jump on it. He loves it. The user loves watching him love it. They keep coming back. This is the canonical 'delight loop' — every Room should have at least one of these (not always literally a trampoline, but its analog: a small, juicy, repeatable joy)."* — [NORTH-STAR §3](../../NORTH-STAR.md)
+> *"The trampoline. A regular trampoline, in the room. Zorp can walk to it and jump on it. He loves it. The user loves watching him love it. They keep coming back. This is the canonical 'delight loop' — every Room should have at least one of these (not always literally a trampoline, but its analog: a small, juicy, repeatable joy)."* — [NORTH-STAR §3](../../NORTH-STAR.md)
 
 The trampoline is wired through `behavior.ts::interactables` as an `InteractableHandle`:
 
 - **id**: `'trampoline'`
 - **anchor**: at the Clearing's room-anchor, slightly forward in z
-- **range**: `2.0` world-units — Cosmo's idle-AI may target it from this radius
-- **onUse(cosmo)**: triggers a jump-arc on Cosmo's root (anticipation → launch → settle)
+- **range**: `2.0` world-units — Zorp's idle-AI may target it from this radius
+- **onUse(cosmo)**: triggers a jump-arc on Zorp's root (anticipation → launch → settle)
 
 Per `forestInteractables(ctx)` the trampoline is **only spawned in the Clearing**. Other Rooms get an empty array, which the substrate's default (no interactables) honors. This pattern — per-Room interactable-list — is how a fork puts different delight-loops in different Rooms.
 
@@ -116,7 +116,7 @@ The forest's visual language is locked by [NORTH-STAR §3](../../NORTH-STAR.md):
 - **Locked palette**: mushroom-cream / moss-sage / sky-wash / faded-rose / ink-aubergine / saffron-glow / forest-deep
 - **Pop-accents** ≤5%: pop-magenta / pop-lime / pop-cyan
 - **Calm baseline + event-driven peaks** — the world breathes, doesn't shake
-- **1992-DNA**: pearl-drop head, chameleon-bulging eyes, saffron-crescent catchlight, antenna with bulb, suction-cup discs, faded-rose-spotted green skin, NO tail, slightly uncute proportions, slightly menacing-uncanny
+- **Character DNA**: pearl-drop head, chameleon-bulging eyes, saffron-crescent catchlight, antenna with bulb, soft fingerless mitten-hands with faintly saffron-glowing palms, faded-rose-spotted green skin, NO tail, slightly uncute proportions, slightly menacing-uncanny
 
 A fork that intentionally deviates documents it in `manifest.brandDeviation` (a short rationale string). Forks that silently violate the brand contract are returned for revision in PR review, not policed at runtime.
 

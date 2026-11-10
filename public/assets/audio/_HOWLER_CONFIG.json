@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
-  "$comment": "Howler.js sound mapping for Cosmos Cosmic Adventure 2026. Logical-name → Howl options. Import in TS as: import audioConfig from '@/assets/audio/_HOWLER_CONFIG.json'.",
+  "$comment": "Howler.js sound mapping for Zorp's Universe. Logical-name → Howl options. Import in TS as: import audioConfig from '@/assets/audio/_HOWLER_CONFIG.json'.",
   "basePath": "/assets/audio",
   "globalVolume": 0.85,
   "fadeMs": {

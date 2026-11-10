@@ -1,4 +1,4 @@
-/* Cosmos site — shared interactivity (reveal-on-scroll, footer year) */
+/* Zorp's Universe site — shared interactivity (reveal-on-scroll, footer year) */
 (function () {
   'use strict';
 

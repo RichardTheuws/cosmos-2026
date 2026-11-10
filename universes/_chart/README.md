@@ -11,7 +11,7 @@ The hub of the dweller experience (Wave 24). The **leading underscore is intenti
 - `behavior.ts::background(ctx)` paints an ink-aubergine cosmic void + drifting faded-rose/sky-wash nebula wash on the **shared** scene.
 - `behavior.ts::inhabitants(ctx)` renders **one drifting spore-bloom per discovered Universe** — via the same `import.meta.glob('/universes/*/manifest.json')` the loader uses (skipping `_`-prefixed). Each bloom is painted in that Universe's signature palette and labelled (Cormorant Italic) from its `displayNameEn` + first `summaryEn` sentence. **Author a conformant Universe folder → you appear on the chart automatically.** The breadth is always current; it can never lie about what exists.
 - Tapping a lit bloom writes the existing `?substrate=v2&universe=<u>&area=<defaultArea>&room=<entryRoom>` triple — no router is invented; a share-link to a bloom IS a deep-link to that Universe's entry.
-- Cosmo drifts on the chart and autonomously `look`s/`wave`s at the blooms (shipped clips only; a no-op if no rig is parked).
+- Zorp drifts on the chart and autonomously `look`s/`wave`s at the blooms (shipped clips only; a no-op if no rig is parked).
 
 ## The build invitation
 Around the lit blooms sit exactly **3 "becoming-blooms"** — faint dotted ink-circles labelled *"your world here"*, each with a ghost spore-trail already drawn toward it. Tapping one opens an on-brand, non-gatekeepy invitation card; **[ Copy the prompt ]** copies the README quickstart block **verbatim** (single source — the invite can never drift from the real on-ramp). This puts the participation surface in the same frame as the breadth: *visiting seeds building.*

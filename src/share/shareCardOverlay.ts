@@ -76,7 +76,7 @@ export function showShareCard(data: ShareCardData): void {
   // Preview image
   const img = document.createElement('img');
   img.src = data.capture.url;
-  img.alt = `Cosmos peak — ${data.trackName}`;
+  img.alt = `Zorp's Universe peak — ${data.trackName}`;
   applyStyles(img, {
     width: '100%',
     aspectRatio: '9 / 16',

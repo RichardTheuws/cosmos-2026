@@ -1,4 +1,4 @@
-# Cosmos Cosmic Adventure 2026 — Asset Generation Report
+# Zorp's Universe — Asset Generation Report
 
 **Generated**: 2026-04-30
 **Visual Direction**: B-hybride "Cosmic Watercolor" (Ghibli x Moebius x Tenniel-Alice)
@@ -9,7 +9,7 @@
 
 | # | Asset | File | Status | Note |
 |---|-------|------|--------|------|
-| 1 | Cosmo (hero) | cosmo-hero.png + cosmo-hero-cleaned.png | ok | Kleurpalet OK (moss-sage, faded-rose, saffron). Kawaii drift — minder Tenniel, meer chibi-airbrush dan beoogd. Acceptable v1. |
+| 1 | Zorp (hero) | cosmo-hero.png + cosmo-hero-cleaned.png | ok | Kleurpalet OK (moss-sage, faded-rose, saffron). Kawaii drift — minder Tenniel, meer chibi-airbrush dan beoogd. Acceptable v1. |
 | 2 | Brumberry | enemy-brumberry.png + enemy-brumberry-cleaned.png | ok | Sterk Tenniel-Moebius mood, ink linework + wet-edge bleeds zichtbaar. Op palette. |
 | 3 | Hopper Cabbage | enemy-hopper-cabbage.png + enemy-hopper-cabbage-cleaned.png | ok | Te kawaii (blush + sparkle eye). Moss-sage palette OK, maar mist Moebius-grit. Acceptable v1, eventueel her-genereren met sterkere "NO kawaii NO blush" negatives. |
 | 4 | Eye Plant | enemy-eye-plant.png + enemy-eye-plant-cleaned.png | ok | Beste sprite — Moebius linework, faded-rose iris, saffron pupil, dripping aubergine sap on-spec. |
@@ -33,6 +33,6 @@
 
 ## Aanbevelingen voor v2 (optioneel)
 
-1. **Cosmo + Hopper**: regenerate met "NO kawaii NO blush NO sparkle eye NO chibi NO mascot" sterk vooraan in negatives + voeg "Tenniel woodcut", "spiky proportions", "uncute" expliciet toe
+1. **Zorp + Hopper**: regenerate met "NO kawaii NO blush NO sparkle eye NO chibi NO mascot" sterk vooraan in negatives + voeg "Tenniel woodcut", "spiky proportions", "uncute" expliciet toe
 2. **Logo**: regenerate met "ink-aubergine letters PRIMARY COLOR" + "moss-sage 5-point spore-stars" + "sky-wash-blue ribbon swirls" — kleurinstructies werken beter als positieve toewijzing dan generieke palette-noemers
 3. **Cave BG**: regenerate met "cool dark forest-deep + aubergine palette ONLY, NO orange NO warm tones" voor strakkere kleur-lock

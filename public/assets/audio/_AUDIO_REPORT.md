@@ -1,4 +1,4 @@
-# Sprint 3 Audio Report — Cosmos Cosmic Adventure 2026
+# Sprint 3 Audio Report — Zorp's Universe
 
 **Date**: 2026-04-30
 **Sprint**: 3 — L1 + Asset Pipeline (target v0.3.0)

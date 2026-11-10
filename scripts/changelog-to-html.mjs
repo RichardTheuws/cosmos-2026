@@ -47,10 +47,45 @@ const escapeHtml = (s) =>
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 
+/**
+ * Public naming. The character was called "Cosmo" until v2.10.6; the project
+ * is now "Zorp's Universe". CHANGELOG history keeps the old name (it is a
+ * historical record), but the public updates page shows the current name.
+ * The project titles are renamed everywhere. The bare word "Cosmo" is renamed
+ * only outside code spans (`CosmoAgent`, `cosmo.glb`): those are file and
+ * symbol names, not prose.
+ */
+const PROJECT_NAMES = [
+  [/Cosmos'? Cosmic Adventure 2026/g, "Zorp's Universe"],
+  [/Cosmo's Universe/g, "Zorp's Universe"],
+];
+const CHARACTER_NAME = [/(?<![\w/.\-])Cosmo(?![\w(]|\.\w)/g, 'Zorp'];
+const applyAll = (s, pairs) => pairs.reduce((acc, [rx, rep]) => acc.replace(rx, rep), s);
+
+/** Rename prose; inside `code spans` only the project titles. */
+const publicProse = (s) =>
+  applyAll(String(s), PROJECT_NAMES)
+    .split(/(`[^`]+`)/)
+    .map((part, i) => (i % 2 ? part : part.replace(...CHARACTER_NAME)))
+    .join('');
+
+/**
+ * Names that must never reach the public page (IP check 2026-11-10). If one
+ * of these turns up in a new CHANGELOG entry, the build stops instead of
+ * publishing it.
+ */
+const FORBIDDEN_PUBLIC = [
+  /cosmos?'?s? cosmic adventure/i,
+  /apogee/i,
+  /3d\s*realms/i,
+  /psychedelica/i,
+  /\b1992\b/,
+];
+
 /** Inline-format a single line of markdown:
  *  `code`, **bold**, *italic*, [link](url). Order matters. */
 function inlineMd(text) {
-  let out = escapeHtml(text);
+  let out = escapeHtml(publicProse(text));
   // `code`
   out = out.replace(/`([^`]+)`/g, '<code>$1</code>');
   // **bold**
@@ -203,7 +238,7 @@ function renderBlock(block) {
       return `<li>${inlineMd(block.text)}</li>`;
     case 'image':
       return `<figure class="update__figure">
-            <img src="${escapeHtml(block.src)}" alt="${escapeHtml(block.caption || '')}" loading="lazy">
+            <img src="${escapeHtml(block.src)}" alt="${escapeHtml(publicProse(block.caption || ''))}" loading="lazy">
             ${block.caption ? `<figcaption>${inlineMd(block.caption)}</figcaption>` : ''}
           </figure>`;
     case 'grid': {
@@ -277,7 +312,7 @@ function renderEntry(entry) {
         <div class="update__header">
           <span class="update__version">v${escapeHtml(entry.version)}</span>
           <span class="update__date">${escapeHtml(dateClean)}</span>
-          <h2 class="update__title">${escapeHtml(title)}</h2>
+          <h2 class="update__title">${escapeHtml(publicProse(title))}</h2>
         </div>
         <div class="update__body">
           <div class="update__tags">
@@ -304,6 +339,12 @@ async function main() {
     /<!--\s*TIMELINE:START\s*-->[\s\S]*?<!--\s*TIMELINE:END\s*-->/,
     `<!-- TIMELINE:START -->\n${timeline}\n      <!-- TIMELINE:END -->`,
   );
+
+  const hits = FORBIDDEN_PUBLIC.filter((rx) => rx.test(next)).map(String);
+  if (hits.length) {
+    console.error(`[changelog-to-html] Forbidden public name(s) on the updates page: ${hits.join(', ')}. Rewrite the CHANGELOG line.`);
+    process.exit(1);
+  }
 
   if (next === html) {
     console.warn('[changelog-to-html] Timeline markers not found — nothing replaced.');

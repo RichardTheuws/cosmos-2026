@@ -8,7 +8,7 @@ Read [`NORTH-STAR.md`](./NORTH-STAR.md) first, then [`UNIVERSE-AUTHORING.md`](./
 
 NORTH-STAR §3 defines it: *"a cluster of Rooms connected by a psychedelic path. The path itself is its own experience (not a loading screen). Walking the path is a thing you do, with its own feel, lighting, sounds. An Area has a coherent mood; its Rooms vary that mood."*
 
-In authoring terms: an Area is the **mood-bucket** between Universe (the whole world) and Room (the focused scene). It says "these Rooms feel like the same place, and the path between them is part of the experience". The substrate uses Areas to scope mood-overrides and path-experiences, and to drive the gradient-cut transition that fires when Cosmo crosses an Area boundary inside the same Universe.
+In authoring terms: an Area is the **mood-bucket** between Universe (the whole world) and Room (the focused scene). It says "these Rooms feel like the same place, and the path between them is part of the experience". The substrate uses Areas to scope mood-overrides and path-experiences, and to drive the gradient-cut transition that fires when Zorp crosses an Area boundary inside the same Universe.
 
 The forest Universe is a single Area called `the-mushroom-stand` containing three Rooms (`clearing`, `deep-grove`, `the-hollow`). Single-Area Universes are valid and common. Multi-Area Universes earn their second Area when the second mood truly needs its own palette tweak, its own path-experience, and its own boundary moment.
 
@@ -74,7 +74,7 @@ If you're not sure: **start with one Area**. Split when the second mood actually
 
   Keys are partial — anything absent inherits. You override only what's actually different.
 
-- **`pathExperience`** — describes the Room-to-Room walk *inside this Area*. This is **not** a loading screen — quote NORTH-STAR §3: *"the path itself is its own experience"*. Walking the path is a thing Cosmo does. Fields:
+- **`pathExperience`** — describes the Room-to-Room walk *inside this Area*. This is **not** a loading screen — quote NORTH-STAR §3: *"the path itself is its own experience"*. Walking the path is a thing Zorp does. Fields:
   - `kind` — `"mushroom-path" | "burrow-down" | "drift" | "fade"`. The substrate maps this to a default driver. Unknown kinds fall back to the default biome-blend transition.
   - `duration` — seconds.
   - `ambient` — a hex color used as the path's clear-color tint while traversing.
@@ -85,11 +85,11 @@ The `kind` field is one place where the architect doc leaves the door open: any 
 
 ## The Area-to-Area transition: gradient-cut
 
-When Cosmo crosses an Area boundary inside a Universe, the substrate runs a **gradient-cut** transition by default. From [`.claude/brainstorm/wave21/01-substrate-architecture.md`](./.claude/brainstorm/wave21/01-substrate-architecture.md) §4.2:
+When Zorp crosses an Area boundary inside a Universe, the substrate runs a **gradient-cut** transition by default. From [`.claude/brainstorm/wave21/01-substrate-architecture.md`](./.claude/brainstorm/wave21/01-substrate-architecture.md) §4.2:
 
 - Duration: 0.6–1.2s (default 0.9s).
 - Visual: a single-pass shader sweeps from the source Area's `primary` color to the target Area's `primary`, diagonally so the cut feels directional rather than a dip-to-black.
-- Cosmo continues rendering on top — the gradient-cut sits between the parallax background and Cosmo's rig.
+- Zorp continues rendering on top — the gradient-cut sits between the parallax background and Zorp's rig.
 
 The substrate picks the colors automatically: source Area's `moodOverrides.primary` (or the Universe's primary if `moodOverrides` is null), to target Area's primary. You don't manage the lerp.
 
@@ -132,7 +132,7 @@ The locked palette is in NORTH-STAR §3. Stay inside it for mood-overrides; cros
 Open Claude Code in this repository, paste the block below to add a new Area to an existing Universe.
 
 ````markdown
-You are helping me add a new Area to an existing Cosmo Universe. Read NORTH-STAR.md, UNIVERSE-AUTHORING.md, and AREA-AUTHORING.md first.
+You are helping me add a new Area to an existing Zorp Universe. Read NORTH-STAR.md, UNIVERSE-AUTHORING.md, and AREA-AUTHORING.md first.
 
 Then for universes/<UNIVERSE>/:
 1. Read existing areas.json and rooms.json.

@@ -34,7 +34,7 @@ These never bend without a NORTH-STAR §6 pivot entry (`.claude/CLAUDE.md` brand
 - [ ] No pivot to bolder-pop / anime / graphic-novel. Visual questions must be implementation-concrete (which crop / dimension / decal-region), never "which mood."
 
 **Cosmo 1992 DNA** (any Cosmo gen uses the `rtcosmo` LoRA trigger word)
-- [ ] pearl-drop head · chameleon-bulging eyes · saffron-crescent catchlight · single antenna with flower-bulb · suction-cup discs at hand-tips · faded-rose spots on green body · **NO tail** · slightly uncute / slightly menacing-uncanny proportions.
+- [ ] pearl-drop head · chameleon-bulging eyes · saffron-crescent catchlight · single antenna with flower-bulb · soft fingerless mitten-hands with faintly saffron-glowing palms (no suction cups) · faded-rose spots on green body · **NO tail** · slightly uncute / slightly menacing-uncanny proportions.
 
 **Language**
 - [ ] **ALL in-game text is ENGLISH** — every UI label, hint, room name shown to player, button, tooltip, invite copy. A Dutch in-game string is a bug. (We converse in Dutch; the game is English.) Dutch is permitted only in `displayName` (the non-`En` field) and internal docs — never in anything the player reads as instruction/UI.

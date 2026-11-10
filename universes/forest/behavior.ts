@@ -1011,8 +1011,8 @@ class SunbeamPatch implements InteractableHandle {
  * Deep Grove's delight-loop — the contemplative trampoline-analog. A cluster of
  * painted glow-cap mushrooms (moss-sage caps, luminous undersides). Calm
  * baseline = each cap pulses its underglow on a slow offset sine (the breathing
- * world). Event-peak = Cosmo `duck`s to press a hand-disc to the nearest cap's
- * underside (suction-cup DNA), then `look`s up as the light blooms: the touched
+ * world). Event-peak = Zorp `duck`s to press a glowing palm to the nearest
+ * cap's underside, then `look`s up as the light blooms: the touched
  * cap flares pop-cyan and a soft cascade lights its neighbours in sequence,
  * settling over ~3s. Repeatable; each touch re-lights. Never scored, never a
  * combo — a gentle call-and-response.
@@ -1103,13 +1103,13 @@ class EchoCap implements InteractableHandle {
   }
 
   /**
-   * Event-peak. Intended clip: `duck` (crouch + hand-disc press) → `look` (up as
+   * Event-peak. Intended clip: `duck` (crouch + palm press) → `look` (up as
    * the light blooms). The touched cap flares, then neighbours cascade. The
    * CosmoV2Rig clip scheduler lands later (see trampoline note); bridge through
    * the procedural channels for now.
    */
   onUse(_cosmo: CosmoV2Rig, api?: UseApi): void {
-    // Wave 27 — crouch + press the hand-disc to the cap (real `duck` clip),
+    // Wave 27 — crouch + press the glowing palm to the cap (real `duck` clip),
     // the caps answer in cascade, a soft cling rings.
     api?.playClip('duck', { holdS: 3.6 });
     api?.sfx('cling');

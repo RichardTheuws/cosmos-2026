@@ -1,11 +1,11 @@
-# Suno Prompts — Cosmos Cosmic Adventure 2026 OST
+# Suno Prompts — Zorp's Universe OST
 
 **Sprint 3 deliverable** — 12 tracks, all in **D-minor** zodat boss-stingers en damage-stingers naadloos invallen.
 
 ## Toon-DNA
 
 - **Genre**: Folktronica × ambient-koto met flarden vintage video-game funk
-- **Influences**: Joe Hisaishi (Studio Ghibli warmth) × Boards of Canada (analog tape decay) × subtiele Bobby Prince zany-funk-spirit (geen ZZ Top, geen covers)
+- **Influences**: Joe Hisaishi (Studio Ghibli warmth) × Boards of Canada (analog tape decay) (geen covers)
 - **Hoofdpalet**: Wooden flute high register, koto pluck, granular pad, field-recording crickets, analog tape hiss, soft fretless bass
 - **Spectrum-bandbreedte**: warm low-mids, gefilterde air, geen harsh top-end — past binnen het music-reactive 512-FFT analyzer-budget
 - **Eigen-DNA**: melodieën NOOIT direct citeren uit bekend werk; eigen motieven die als "narrator van Zonk" voelen

@@ -1,8 +1,18 @@
-# Changelog — Cosmos Cosmic Adventure 2026
+# Changelog — Zorp's Universe
 
 Alle wijzigingen volgen [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) en [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 De `/updates/` pagina wordt automatisch uit dit bestand gegenereerd via `npm run updates:build`.
+
+## [2.10.6] — 2026-11-10 — Cosmo heet nu Zorp
+
+### Changed
+- **Het personage heet Zorp, het project Zorp's Universe.** Titels, meta/OG, JSON-LD, README, de site, de lore-pagina, de universe-manifests en de spelerteksten in de game (follow-hint, share-kaart, onboarding) gebruiken de nieuwe naam. Interne namen (`CosmoAgent`, `cosmo.glb`), localStorage-keys en het URL-pad `/games/cosmos-2026/` blijven, zodat saves en links werken.
+- **Zorp's handen**: zachte vingerloze wanthanden met handpalmen die zacht saffraan gloeien, in plaats van de oude zuignappen. Aangepast in de beschrijving, de stijlgids (design bible), de forest-README en de prompt-template. De beelden en de LoRA hebben nog de oude look; die worden apart opnieuw gemaakt.
+- **Updates-pagina**: de generator toont de nieuwe naam (buiten code-spans) en stopt de build als er een verboden naam of jaartal op de pagina belandt. Oude regels die het oude voorbeeld noemden zijn in deze changelog herschreven.
+
+### Removed
+- `research/01-original-game.md` uit de repo (staat nog in de git-historie).
 
 ## [2.10.5] — 2026-09-05 — No music on iPhone: the root cause, found and fixed
 
@@ -205,7 +215,7 @@ After the phone-UAT ("a lot of improvement needed — messy hub, no leiding, a D
 ### Removed / Fixed
 - **The Dutch beat-message is gone for good.** The legacy `touchOverlay` ("Tik Cosmo aan op het beat / Hou ingedrukt voor de schokgolf") is retired entirely — it described beat-game mechanics the dweller doesn't have and was the stray start-message on the chart.
 - **No more "tap the trampoline" in dweller-worlds.** That hint (`play/index.html`) is gated to the legacy forest-runner; it leaked into dunes/ink-ocean/chart where there is no trampoline.
-- *(The dark shapes flanking Cosmo are his painted suction-cup hand-discs — 1992 DNA, not a bug.)*
+- *(The dark shapes flanking Cosmo are his painted suction-cup hand-discs — character-DNA, not a bug.)*
 
 ### Hub — "Cosmo neemt je mee"
 - **Tidy constellation.** Bloom labels are now the world's NAME only (e.g. "The Mushroom Forest", "The Singing Dunes", "Ink-Ocean") — the long "— Cosmo's entry Universe" descriptors and poetic summaries that overlapped near centre are gone (full names/summaries still drive the aria-labels). The poetry lives inside each world, not stacked on the map.
@@ -387,7 +397,7 @@ _NORTH-STAR §6 (2026-05-31) records the larger direction: drop "do-something-on
 Proof slice confirmed by Richard ("ja, dit bewijst het"). Completes the painted-frames Cosmo to the full 12-clip state set on Kling v2 master.
 
 ### Added
-- **8 more clips** generated + shipped (`public/assets/cosmo-frames/`): duck, dance, wave, wink, stretch, fall, petted, look — joining idle/walk/bounce/jump. All 12 are alpha-cut watercolor atlases (8×8, 61 frames, 12fps) with consistent 1992-DNA.
+- **8 more clips** generated + shipped (`public/assets/cosmo-frames/`): duck, dance, wave, wink, stretch, fall, petted, look — joining idle/walk/bounce/jump. All 12 are alpha-cut watercolor atlases (8×8, 61 frames, 12fps) with consistent character-DNA.
 
 ### Changed
 - **3 states wired to clips** — `forceFall` → `fall`, pet → `petted` (loop), petal-spew look-up → `look`. The other clips (duck/dance/wave/wink/stretch) were already called via `playClip`. Now the whole state machine drives painted frames.
@@ -401,7 +411,7 @@ The pivot that came out of "ik heb er geen gevoel bij dat we progressie maken" (
 ### Added
 - **`CosmoFramePlayer`** (`src/three/cosmoFramePlayer.ts`) — plays per-state frame-atlas clips on the billboard material. Loop clips ping-pong (the i2v clips aren't designed seamless loops); one-shots clamp then auto-return to `idle`. Graceful degrade: if the manifest fails to load, the static hero stays.
 - **Generation pipeline** (`scripts/wave23/`): `gen_clips.py` (fal.ai Kling-v2-master image-to-video from the LoRA hero, config-driven via `clips.json`), `alpha_cut.py` (per-frame BiRefNet → clean RGBA, dark eyes preserved), `pack_clips.py` (ffmpeg extract + tile → one atlas PNG + manifest per clip).
-- **4 core clips** generated + shipped (`public/assets/cosmo-frames/`): idle, walk, bounce, jump. Real expressive watercolor motion — breath, blink, weight-shift — with the 1992-DNA consistent across frames.
+- **4 core clips** generated + shipped (`public/assets/cosmo-frames/`): idle, walk, bounce, jump. Real expressive watercolor motion — breath, blink, weight-shift — with the character-DNA consistent across frames.
 
 ### Changed
 - **`playClip()` revived** — it drove a dead `AnimationMixer` (null since the 21.2 billboard pivot); it now drives the frame-player. The state machine was already calling it at the right moments. The `walkTo` clip gate now consults the frame-player too.
@@ -497,7 +507,7 @@ Live UAT after v2.2.3 (this time done by me with Playwright, not surfaced to Ric
 
 ## [2.2.3] — 2026-05-05 — Wave 21.2 finish: per-room inhabitants + render-order
 
-Live UAT of v2.2.2 showed legacy `/play/` rendering Cosmo correctly (the canonical 1992-DNA hero painting), but `/play/?substrate=v2` showed a stack of mushroom-rectangles obscuring Cosmo entirely. Two compounding bugs in `universes/forest/behavior.ts` and `cosmoV2.ts`:
+Live UAT of v2.2.2 showed legacy `/play/` rendering Cosmo correctly (the canonical character-DNA hero painting), but `/play/?substrate=v2` showed a stack of mushroom-rectangles obscuring Cosmo entirely. Two compounding bugs in `universes/forest/behavior.ts` and `cosmoV2.ts`:
 
 ### Fixed
 - **Per-room inhabitant filter**: `forestInhabitants(ctx)` previously spawned all 4 inhabitants (eyeball-sentry, floating-star, breathing-portal, mouth-pillar) regardless of which room was active. Their fixed anchors stacked them all in front of the camera. Added `room: 'clearing' | 'deep-grove' | 'the-hollow'` to `InhabitantSpec`, filter on `ctx.room.id` before instantiating. Now only the inhabitants belonging to the active room render.
@@ -528,7 +538,7 @@ The system is the **decal-on-capsule paradigm**. It's retired. The canonical `co
 **Live UAT of v2.2.0 surfaced two failures programmatic UAT can't see.** The on-screen Cosmo was a green pill — the deterministic PIL-crop decal-pivot from Wave 21 (a budget-saver that took $0.30 instead of $8-15) produced flat-color regions, not painted decals. And `/play/` still wore Dutch marketing-chrome (Home / Het Verhaal / Updates) plus a version-pill plus a `0m` altitude counter, with the canvas pinched into a center column with black bars on the sides. NORTH-STAR §3 says the world breathes; chrome was breathing around it. Wave 21.1 retires both.
 
 ### Changed
-- **All 6 Cosmo decals regenerated** via fal.ai Flux Pro + RTcosmo LoRA (Sprint 16A trained) at scale 0.45-0.65, with anatomical-study-sheet framing and 6-fold negative-prompt suppression to defeat the LoRA's whole-character bleed. Per-decal scores: eyes-l 9.7 / eyes-r 9.7 (PIL mirror) / mouth-neutral 9.5 / body-skin 9.5 / disc-suction 9.5 / antenna-flower 9.5. Total cost $5.11. **The DNA-spec was wrong about saffron-yellow antenna** — actual hero pixel is rose-pink #bc665c; the regen color-anchored from the hero, not the spec, and the antenna now reads rose-pink as in the canonical 1992-DNA painting.
+- **All 6 Cosmo decals regenerated** via fal.ai Flux Pro + RTcosmo LoRA (Sprint 16A trained) at scale 0.45-0.65, with anatomical-study-sheet framing and 6-fold negative-prompt suppression to defeat the LoRA's whole-character bleed. Per-decal scores: eyes-l 9.7 / eyes-r 9.7 (PIL mirror) / mouth-neutral 9.5 / body-skin 9.5 / disc-suction 9.5 / antenna-flower 9.5. Total cost $5.11. **The DNA-spec was wrong about saffron-yellow antenna** — actual hero pixel is rose-pink #bc665c; the regen color-anchored from the hero, not the spec, and the antenna now reads rose-pink as in the canonical character-DNA painting.
 - **`/play/` chrome fully stripped** — `<nav class="hud-nav">` deleted (Dutch nav was an artifact of the marketing era), `<span class="hud-version">` deleted, `lang="nl"` → `lang="en"`, title rewrite to `Cosmo's Universe — play`, all Dutch UI copy translated, ~50 LOC of `.hud-nav` / `.hud-version` CSS removed including responsive breakpoints. Defensive `width: 100vw; height: 100vh` on play-shell + canvases to eliminate the black-bar pinch.
 - **JS-injected chrome killed at source** — `CosmoScene.buildHUD()` retired (it injected the `0m` altitude counter and a 4-second cosmos-version-pill flash on boot via direct DOM `appendChild`). Both gone. The play surface is now full-viewport game; close the tab to leave.
 
@@ -582,7 +592,7 @@ Contributions happen via GitHub PRs, not patronage. INTEGRATIONS.md already docu
 
 ### Changed
 - **`/index.html`** — full rewrite per `.claude/brainstorm/wave20b/01-portal-redesign.md`. English-first. Hero with `hero-cosmo-in-forest.jpg` background + tagline + two CTAs (Play live / View on GitHub). Quickstart panel with copy-button code-block (vanilla JS clipboard write, no deps) — the literal paste-into-Claude-Code prompt as page's centerpiece. Three-card "What this is" grid. 3-image visual gallery. Three-path "How to join" matrix. Brand contract section with palette swatch. Footer with 11 documented-doc links. Updated JSON-LD to substrate positioning (`audience: Claude-paired developers`, `inLanguage: en`, MIT license). ~824 words body copy. Mobile-first.
-- **`public/lore/index.html`** — Added English `<aside lang="en">` summary block above the Dutch poem (50-70 words, italic-prose, frames the page as a watercolor of a 1992 memory). Dutch poem kept verbatim. Nav aligned to portal (Home / Story / Updates / Support / GitHub).
+- **`public/lore/index.html`** — Added English `<aside lang="en">` summary block above the Dutch poem (50-70 words, italic-prose, frames the page as a watercolor of a memory). Dutch poem kept verbatim. Nav aligned to portal (Home / Story / Updates / Support / GitHub).
 - **`public/support/index.html`** — Added English intro framing "open-source MIT, support the substrate". Added GitHub Sponsors slot (`aria-disabled` placeholder until set up). Renamed `Episode Patron` → `Universe Patron` with ROOM/AREA/UNIVERSE vocabulary from NORTH-STAR §3. FAQ first answer rewritten to substrate framing.
 - **`public/thanks/index.html`** — Added top English line "Thank you. Cosmo wandered a little farther because of you." Aligned nav.
 
@@ -635,18 +645,18 @@ Contributions happen via GitHub PRs, not patronage. INTEGRATIONS.md already docu
 ### Fixed
 - **Eye-spheres geplaatst op chin-level na reparent**: live UAT v1.5.0 toonde dat `bone_head.attach(eye_l/_r)` de eye-bones fysiek verplaatste naar verkeerde positie omdat de inverse-bind matrices tegen `cosmo_armature` waren gebakken (open Q #2 uit `01-rig-diagnosis.md` bevestigd). Resultaat: zwarte druppels onder gezicht. **Fix**: `USE_REPARENT = false` in `CosmoAgent.fixSkinWeights()` activeert de frame-copy fallback — eye-bones blijven op armature-space rest-pose, hun quaternion wordt elke frame gekopieerd van `bone_head` in `applyAIBoneHints()`. Weight-bleed (1519 verts → head-slot zeroed) blijft actief.
 
-## [1.5.0] — 2026-05-03 — Wave 19a: rig fix + lore-pivot (no more Apogee-spoof)
+## [1.5.0] — 2026-05-03 — Wave 19a: rig fix + lore-pivot (no more spoof framing)
 
 ### Fixed
 - **Cosmo's "melting alien eyes" tijdens head-pan**: weight-bleed tussen `bone_head` en `bone_eye_l/_r` op **1 519 face/eye verts** (near-50/50 split, gediagnosticeerd in `.claude/brainstorm/wave19/01-rig-diagnosis.md`) zorgde voor face-shell shearing wanneer `applyMotion` + `applyAIBoneHints` de head-bone yaw'den. De eye-bones zaten bovendien als siblings van `bone_root` direct onder `cosmo_armature`, dus head-rotatie propageerde niet naar de ogen. **Fix in `CosmoAgent.fixSkinWeights()`** (post-load helper, GLB asset NIET aangepast): walks `geometry.attributes.skinWeight` + `skinIndex`, zero't de `bone_head`-slot weight op alle bleed-verts (`headW > 0.1 && eyeLW + eyeRW > 0.3`), renormaliseert de overgebleven 3 weights naar sum=1, en reparent `bone_eye_l/_r` onder `bone_head` via `bone_head.attach()`. Frame-copy quaternion fallback (`USE_REPARENT = false`) ligt klaar voor het geval IBM's tegen `cosmo_armature` zijn gebakken (open Q #2 uit diagnosis). Debug yaw-sweep beschikbaar via `window.__debugRigYawSweep()` in devtools voor visuele QA. (`src/phaser/entities/CosmoAgent.ts`)
 
 ### Changed (lore)
 - **Marketing-pages herframed** rond Wave 19 Life System + companion-realiteit. Hero-tagline → "Een aquarel-trip die zichzelf voortzet als jij stilzit." Pitch-paragraaf vervangen door "Hij ademt. Hij wandelt. Als jij niets doet, blijft hij niet stilstaan."
-- **`index.html`**: JSON-LD `description` + `alternateName` opgeschoond. Meta-pills "10 Levels — MVP" en "Three.js + Phaser 4" → "Life System (Wave 19)" en "Motion-controlled". World-grid `L1-L10` tags weg. Footer Apogee-credit en "Phaser 4" weg (Three.js-only).
-- **`public/lore/index.html`**: Funplex / Zonk / komeet / motorklep-plot vervangen door 146-woorden backstory snippet (Cormorant-italic). Biome-secties stripped van level-tags en Apogee-mechanics (Hint Globes, scooter, cheeseburger, blob-fight). Cast-grid (Brumberry/Hopper/Eye Plant/Blob) vervangen door Companion-grid (Cosmo / hallucination-particles / trampolines).
+- **`index.html`**: JSON-LD `description` + `alternateName` opgeschoond. Meta-pills "10 Levels — MVP" en "Three.js + Phaser 4" → "Life System (Wave 19)" en "Motion-controlled". World-grid `L1-L10` tags weg. Footer-credit voor het oude voorbeeld en "Phaser 4" weg (Three.js-only).
+- **`public/lore/index.html`**: Oude plot-tekst vervangen door 146-woorden backstory snippet (Cormorant-italic). Biome-secties stripped van level-tags en oude platformer-mechanics. Cast-grid (Brumberry/Hopper/Eye Plant/Blob) vervangen door Companion-grid (Cosmo / hallucination-particles / trampolines).
 - **`public/press/index.html`**: complete press-kit vervangen door noindex meta-refresh redirect → `/lore/`.
-- **`public/support/index.html`**: tier "Hint Globe Sponsor" → "Vibe Sponsor" (Suno-track of biome-particle-set sponsor). Tier "Bonus Room Builder" → "Hallucination Patron" (seasonal hallucination-event-pack). FAQ-item Apogee/3D Realms → "Is dit een drugsspel?" met eerlijk antwoord. ElevenLabs-where regel "Hint Globe voices" → "Companion-voices".
-- **`public/thanks/index.html`**: "uit de grond van Zonk's mushroom-cream stronken" → "uit de aquarel-grond zelf". Tier-namen in bevestigings-tekst aangepast.
+- **`public/support/index.html`**: tier "Hint Globe Sponsor" → "Vibe Sponsor" (Suno-track of biome-particle-set sponsor). Tier "Bonus Room Builder" → "Hallucination Patron" (seasonal hallucination-event-pack). FAQ-item over het oude voorbeeld vervangen. ElevenLabs-where regel "Hint Globe voices" → "Companion-voices".
+- **`public/thanks/index.html`**: oude plaatsnaam → "uit de aquarel-grond zelf". Tier-namen in bevestigings-tekst aangepast.
 - **Logo/favicon swap**: alle pagina's wijzen nu naar `/assets/sprites/cosmo-hero-lora.png` (Sprint 16A canonical, post-LoRA DNA-correct) i.p.v. `cosmo-hero-cleaned.png`.
 
 ## [1.4.0] — 2026-05-02 — Sprint 18: smoothness + calm-baseline pass
@@ -1013,7 +1023,7 @@ audio-tap, glassmorph-overlay en daily-streak counter.
 
 ## [0.8.0] — 2026-05-01 — Sprint 11: visual + audio overhaul
 
-Op live playtest van v0.7.3 viel direct op dat de online versie er als 1992 uit zag — Cosmo was een stick-puppet, HUD was clipart, tiles waren patroon-tegels, en muziek speelde **helemaal niet**. Sprint 11 pakt alles in één klap aan: 4 parallelle teams (Cosmo HD-rerender, HUD volledige redesign, tile-set redesign, audio-debug) en deploy.
+Op live playtest van v0.7.3 viel direct op dat de online versie er gedateerd uit zag — Cosmo was een stick-puppet, HUD was clipart, tiles waren patroon-tegels, en muziek speelde **helemaal niet**. Sprint 11 pakt alles in één klap aan: 4 parallelle teams (Cosmo HD-rerender, HUD volledige redesign, tile-set redesign, audio-debug) en deploy.
 
 ### Fixed (11D — audio bug)
 
@@ -1394,13 +1404,11 @@ Vier agents tegelijk: trampolines (5A), Cosmo multi-frame anim test (5B), produc
 
 ## [0.5.1] — 2026-05-01 — Sprint 4.5 Fase C: Cosmo canonical case study
 
-Cosmo's huidige verschijning was technisch bruikbaar maar miste karakter. De gebruiker speelde Cosmo's Cosmic Adventure in 1992 onder invloed van psychedelica — Cosmo werd onderdeel van die persoonlijke trip-herinnering. Cosmos 2026 is dus geen aesthetic homage maar een herontwerp van een eigen acid-droom. Cosmo moest TE GEK worden + prominenter.
-
-> Die moet echt wel heel duidelijk de 2026 versie van de 'oude' zijn, dat was ook al zo'n trippy ventje met zuignaphanden — Richard, 2026-05-01
+Cosmo's huidige verschijning was technisch bruikbaar maar miste karakter. Hij moest TE GEK worden + prominenter.
 
 ### Stap 1 — 6 redesign varianten
 
-We genereerden 6 expliciete bridge-interpretaties van het 1992-DNA naar 2026 cosmic-Moebius. Elk met identieke standing-pose voor 1-op-1-vergelijking.
+We genereerden 6 expliciete interpretaties van het character-DNA in cosmic-Moebius. Elk met identieke standing-pose voor 1-op-1-vergelijking.
 
 [grid: /assets/case-study/cosmo-redesigns/cosmo-v1-acid-tenniel.webp /assets/case-study/cosmo-redesigns/cosmo-v2-cosmic-hayao.webp /assets/case-study/cosmo-redesigns/cosmo-v3-moebius-mainline.webp /assets/case-study/cosmo-redesigns/cosmo-v4-pulse-trip.webp /assets/case-study/cosmo-redesigns/cosmo-v5-bart-mushroom.webp /assets/case-study/cosmo-redesigns/cosmo-v6-wide-eye-astronaut.webp "V1 Acid Tenniel · V2 Cosmic Hayao · V3 Moebius Mainline · V4 Pulse-Trip · V5 Bart Mushroom · V6 Wide-eye Astronaut"]
 
@@ -1425,7 +1433,7 @@ H3 werd canonical: pear-drop Hayao-head + single antenna met faded-rose flower-b
 ### Added
 - `research/visual-references/_COSMO-CANONICAL.png` — Cosmo H3 locked
 - `public/assets/sprites/v3/cosmo-canonical-cleaned.png` — BiRefNet-cleaned version voor in-game gebruik
-- `cosmo_dna.md` memory-file met de complete 1992-DNA-tabel + Fase C learnings
+- `cosmo_dna.md` memory-file met de complete character-DNA-tabel + Fase C learnings
 - L1Scene laadt nu canonical Cosmo voor alle 6 states (multi-frame anim komt via image-to-image in Sprint 5+)
 
 ### Changed
@@ -1455,7 +1463,7 @@ Met het v4 keyframe als visuele waarheid genereerden we 22 nieuwe in-game assets
 - **Canonical style-stem** locked in `research/visual-references/_STYLE-STEM.md` op basis van keyframe v4 (hybrid Moebius woodcut + cosmic-saturated palette)
 - **22 nieuwe in-game assets** allemaal met letterlijk dezelfde style-stem: 6 Cosmo frames + 3 enemies + 5 painted tiles + 4 painted pickups + 4 parallax-layers
 - **4-laagse parallax** (sky / far / mid / near) ipv 3 — biome-config supports optional sky-layer voor extreem diepe cosmic backdrop
-- `cosmo_dna.md` memory voor 1992→2026 character-bridge eis
+- `cosmo_dna.md` memory voor de character-DNA-eis
 
 ### Changed
 - L1Scene preload + populateLevel switcht van procedural Graphics-tiles naar painted PNG tiles
@@ -1464,7 +1472,7 @@ Met het v4 keyframe als visuele waarheid genereerden we 22 nieuwe in-game assets
 - Cosmo display-size 80x80 met aangepaste body-offset voor de painted 1024 sprite
 
 ### Visuele richting
-v4 keyframe locked: Moebius/Tenniel/Miyazaki linework + cosmic-luminous saturated watercolor palette + paper grain. NIET dusk, NIET kawaii. Het 1992 origineel komt door Cosmo's design heen (moss-sage groen + faded-rose vlekken + antenne met flower-tip + suction-cup-feet).
+v4 keyframe locked: Moebius/Tenniel/Miyazaki linework + cosmic-luminous saturated watercolor palette + paper grain. NIET dusk, NIET kawaii. Cosmo's design: moss-sage groen + faded-rose vlekken + antenne met flower-tip.
 
 ### Memory
 - `visual_coherence.md` uitgebreid met diepte-eis (4 parallax-lagen) + onverwachte-events-eis (TrippyEventDirector)

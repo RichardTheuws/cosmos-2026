@@ -37,7 +37,7 @@ export class RoomOnwardOverlay {
     const el = document.createElement('div');
     el.id = 'room-onward';
     el.setAttribute('role', 'button');
-    el.setAttribute('aria-label', `Follow Cosmo onward to ${this.opts.label}`);
+    el.setAttribute('aria-label', `Follow Zorp onward to ${this.opts.label}`);
     el.tabIndex = 0;
     Object.assign(el.style, {
       position: 'fixed',
@@ -63,7 +63,7 @@ export class RoomOnwardOverlay {
       borderRadius: '14px',
       textShadow: '0 1px 6px rgba(0,0,0,0.5)',
     } as Partial<CSSStyleDeclaration>);
-    el.textContent = `follow Cosmo to ${this.opts.label}`;
+    el.textContent = `follow Zorp to ${this.opts.label}`;
 
     // Breathe (the world breathes, it does not shake): a slow opacity sine.
     if (!document.getElementById('room-onward-style')) {
@@ -111,7 +111,7 @@ export class RoomOnwardOverlay {
     const el = this.el;
     if (!el) return;
     el.classList.remove('is-mote');
-    el.setAttribute('aria-label', `Follow Cosmo onward to ${this.opts.label}`);
+    el.setAttribute('aria-label', `Follow Zorp onward to ${this.opts.label}`);
     if (this.recedeTimer !== null) window.clearTimeout(this.recedeTimer);
     this.recedeTimer = window.setTimeout(() => {
       el.classList.add('is-mote');

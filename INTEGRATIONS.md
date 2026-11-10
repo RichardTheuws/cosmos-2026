@@ -1,6 +1,6 @@
 # Integrations & Costs
 
-A radically transparent inventory of every external service this project uses, what it costs, and where the entry-points live. Forks are encouraged to **improve and replace these integrations**, then upstream the improvements so every Cosmo's-Universe contributor benefits.
+A radically transparent inventory of every external service this project uses, what it costs, and where the entry-points live. Forks are encouraged to **improve and replace these integrations**, then upstream the improvements so every Zorp's-Universe contributor benefits.
 
 If you find a cheaper, faster, or higher-quality alternative for any service below, that is a **welcome PR**. The asset-gen pipeline scripts in `scripts/` are first-class artifacts of this project — they're as shareable and improvable as the runtime code.
 
@@ -34,7 +34,7 @@ If you find a cheaper, faster, or higher-quality alternative for any service bel
 - **Improvement opportunities**: free alternatives (Web Audio synthesized SFX, freesound.org licensed library), batch consolidation, sample-pack reuse system so multiple Universes share an SFX library.
 
 ### Meshy v6 — 3D model generation (currently retired)
-- **What we used it for**: Sprint 15A first 3D Cosmo via image-to-3D. The result had a broken auto-rig (alien anatomy too non-humanoid) which led to v1.5.x rig-melt → Wave 20 hybrid rebuild.
+- **What we used it for**: Sprint 15A first 3D Zorp via image-to-3D. The result had a broken auto-rig (alien anatomy too non-humanoid) which led to v1.5.x rig-melt → Wave 20 hybrid rebuild.
 - **Pricing model**: per-task, ~$0.20/image-to-3D run.
 - **Status**: not currently in active use. CosmoV2 (Wave 20) replaced the GLB approach with primitive skeleton + decals.
 - **API key**: `MESHY_API_KEY` in `~/Documents/games/.env` — kept for future Universe authors who want to use it.
@@ -68,7 +68,7 @@ If you find a cheaper, faster, or higher-quality alternative for any service bel
 | Library | What | Why |
 |---|---|---|
 | Three.js | 3D scene, primitive rig, post-FX | Industry-standard, mature, well-documented |
-| Phaser 4 | HUD overlay, scene management | Cosmo started as a 2D platformer; Phaser still owns the HUD layer |
+| Phaser 4 | HUD overlay, scene management | Zorp started as a 2D platformer; Phaser still owns the HUD layer |
 | Tone.js + GrainPlayer | Procedural audio morphs | DMT-peak grain effects, FFT bridge |
 | Howler.js | Audio playback engine | Robust cross-browser audio for SFX |
 | Vite 6 | Build tooling | Fast dev server + multi-entry production builds |
@@ -101,9 +101,9 @@ Sample of what specific asset-gen sprints cost:
 |---|---|---|
 | 7D | 9 enemies + 2 bombs + cracked-wall + 2 SFX | ~$0.84 |
 | 11C | 9 painted tiles + ladder + grass-strip | ~$0.68 |
-| 15A | 3D Cosmo via Meshy image-to-3D | ~$0.20 |
+| 15A | 3D Zorp via Meshy image-to-3D | ~$0.20 |
 | 15C | 8 weirdo objects | ~$1.85 |
-| 16A | Cosmo LoRA training (2000 steps, 10 images) | ~$3–5 |
+| 16A | Zorp LoRA training (2000 steps, 10 images) | ~$3–5 |
 | 16D | 3 cosmo-coo SFX (ElevenLabs) | ~$0.20 |
 | Wave 20a | 4 face-decals + 1 disc + body-skin (crop) | $0.265 |
 

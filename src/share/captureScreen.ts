@@ -202,7 +202,7 @@ function drawWatermark(ctx: CanvasRenderingContext2D, shareUrl: string): void {
   ctx.font = '500 28px "Inter", system-ui, sans-serif';
   ctx.fillStyle = 'rgba(245, 237, 216, 0.88)';
   ctx.textBaseline = 'bottom';
-  ctx.fillText('cosmos', 60, EXPORT_H - 72);
+  ctx.fillText("zorp's universe", 60, EXPORT_H - 72);
   ctx.fillStyle = 'rgba(245, 237, 216, 0.62)';
   ctx.font = '400 24px "JetBrains Mono", monospace';
   ctx.textAlign = 'right';

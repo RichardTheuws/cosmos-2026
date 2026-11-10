@@ -1,6 +1,6 @@
 # Universe Authoring
 
-A **Universe** is a self-contained module that Cosmo can travel into.
+A **Universe** is a self-contained module that Zorp can travel into.
 
 Read [`NORTH-STAR.md`](./NORTH-STAR.md) first — it is the *why*. This document is the **technical contract**: the JSON shapes, the optional TypeScript escape-hatch, the URL grammar, and the defaults that make a JSON-only Universe playable. Everything here implements [`.claude/brainstorm/wave21/01-substrate-architecture.md`](./.claude/brainstorm/wave21/01-substrate-architecture.md), which is the source of truth for the substrate.
 
@@ -12,7 +12,7 @@ Universe                   ← top-level container (you are here)
     └── Room               ← a single screen, fully alive
 ```
 
-A **Universe** holds one or more Areas. An **Area** holds one or more Rooms connected by a path-experience (the path itself is content, not a loading screen). A **Room** is the focused scene Cosmo inhabits right now — Sims-dense, packed with little things to notice.
+A **Universe** holds one or more Areas. An **Area** holds one or more Rooms connected by a path-experience (the path itself is content, not a loading screen). A **Room** is the focused scene Zorp inhabits right now — Sims-dense, packed with little things to notice.
 
 When you author a Universe you also author its Areas and Rooms. The schemas for those tiers live in two companion docs you should read in order: [`AREA-AUTHORING.md`](./AREA-AUTHORING.md), then [`ROOM-AUTHORING.md`](./ROOM-AUTHORING.md). Together the three files form a tree.
 
@@ -103,7 +103,7 @@ Required. The room-graph is flat at the Universe level so the substrate can do `
       "area": "entry",
       "displayName": "Start",
       "displayNameEn": "Start",
-      "description": "Where Cosmo arrives. One sentence describing what's in the room.",
+      "description": "Where Zorp arrives. One sentence describing what's in the room.",
       "anchor": { "x": 0, "y": 0, "z": 0 },
       "cameraBounds": { "panRangeX": 1.6, "panRangeY": 0.6 },
       "biomeKey": null,
@@ -128,7 +128,7 @@ The substrate ships a **declarative spine** (the four files above) and an **opti
 - **Background**: composition-spec parallax wrapped by `DefaultBackground`.
 - **Arrival**: 1.4s portal, hue derived from `manifest.post.preset`.
 - **Inhabitants**: empty (a Room with no inhabitants is valid; the world still breathes).
-- **Interactables**: empty (your reviewers will ask about delight-loops at PR time, but the substrate doesn't enforce). When you do author them, the substrate's InteractionDirector walks Cosmo there on a tap — and on his own when the visitor goes quiet — and calls `onUse(cosmo, api)`; `api.playClip('stretch')` + `api.sfx('cling')` is a complete interaction.
+- **Interactables**: empty (your reviewers will ask about delight-loops at PR time, but the substrate doesn't enforce). When you do author them, the substrate's InteractionDirector walks Zorp there on a tap — and on his own when the visitor goes quiet — and calls `onUse(cosmo, api)`; `api.playClip('stretch')` + `api.sfx('cling')` is a complete interaction.
 - **Transitions**: biome-blend (Room↔Room) / gradient-cut (Area↔Area) / portal (Universe↔Universe).
 - **Audio**: silence, unless `manifest.assets[]` declares an audio entry with `preload: true`, in which case it loops at 0.45 volume.
 
@@ -173,12 +173,12 @@ export interface UseApi {
 }
 export interface InteractableHandle {
   id: string;
-  anchor: { x: number; y: number; z: number }; // absolute stage space (Cosmo's home is the origin)
+  anchor: { x: number; y: number; z: number }; // absolute stage space (Zorp's home is the origin)
   range: number;
   arrival?: 'use' | 'bounce';                  // default 'use'
-  nature?: 'wild' | 'play' | 'calm' | 'rest';  // Cosmo's inner life (Wave 28); default 'play'
+  nature?: 'wild' | 'play' | 'calm' | 'rest';  // Zorp's inner life (Wave 28); default 'play'
   update(dt: number, u: GlobalUniforms): void;
-  onUse(cosmo: CosmoV2Rig, api?: UseApi): void; // tap or curiosity walks Cosmo here, then this fires
+  onUse(cosmo: CosmoV2Rig, api?: UseApi): void; // tap or curiosity walks Zorp here, then this fires
   dispose(): void;
 }
 export interface AudioHandle { enter(): void; exit(fadeMs: number): void; update(dt: number): void; dispose(): void; }
@@ -214,7 +214,7 @@ After Wave 21 cutover, `?substrate=v2` is dropped — substrate becomes the defa
 
 **Invalid-id fallback**: resolution is left-to-right with logged warnings, never silent errors. An invalid universe falls back to `forest`. An invalid area falls back to the universe's `defaultArea`. An invalid room falls back to the area's `entryRoom`. Each fallback updates `history.replaceState` so the URL shown to the user reflects what actually loaded — share-links self-heal.
 
-**Cosmo state survives URL changes**. Mood, energy, memory, inventory, and traversal-history live in `localStorage["cosmos.state.v1"]` and persist across rooms, areas, universes, and full reloads. The URL specifies *where*; localStorage carries *who Cosmo is when he gets there*.
+**Zorp state survives URL changes**. Mood, energy, memory, inventory, and traversal-history live in `localStorage["cosmos.state.v1"]` and persist across rooms, areas, universes, and full reloads. The URL specifies *where*; localStorage carries *who Zorp is when he gets there*.
 
 ## Asset preloading
 
@@ -240,7 +240,7 @@ npm run dev
 # http://localhost:5174/play/?substrate=v2&universe=<your-name>
 ```
 
-The substrate hot-reloads `universes/<your-name>/` on file change. Editing `behavior.ts` swaps drivers in place; editing JSON re-enters the affected scope. Cosmo's position is preserved across reloads in dev.
+The substrate hot-reloads `universes/<your-name>/` on file change. Editing `behavior.ts` swaps drivers in place; editing JSON re-enters the affected scope. Zorp's position is preserved across reloads in dev.
 
 ## Submit a PR
 
@@ -257,7 +257,7 @@ The submission flow is in [`CONTRIBUTING.md`](./CONTRIBUTING.md). The short form
 Open Claude Code in this repository, paste the block below, and let Claude scaffold a new Universe.
 
 ````markdown
-You are helping me create a new Cosmo Universe. Read NORTH-STAR.md and UNIVERSE-AUTHORING.md first.
+You are helping me create a new Zorp Universe. Read NORTH-STAR.md and UNIVERSE-AUTHORING.md first.
 
 Then create universes/<NAME>/ with:
 - manifest.json with name="<NAME>", displayName="...", author="...", license="MIT", behaviorModule=false, defaultArea="entry", brandDeviation=null
